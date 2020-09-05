@@ -1,0 +1,24 @@
+{
+    "name": "GioHang",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "nguoiDung",
+            "otherEntityRelationshipName": "gioHang",
+            "relationshipName": "nguoiDung",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20200905095825",
+    "entityTableName": "gio_hang",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -1,0 +1,69 @@
+{
+    "name": "NguoiDung",
+    "fields": [
+        {
+            "fieldName": "hoTen",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "sdt",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "ngaySinh",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "thangSinh",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "namSinh",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "gioiTinh",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "diaChi",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "soDu",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "trangThai",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "ngayTao",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "ngaySua",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "user",
+            "otherEntityRelationshipName": "nguoiDung",
+            "relationshipName": "user",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20200905095820",
+    "entityTableName": "nguoi_dung",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -42,6 +42,12 @@ public class CacheConfiguration {
             createCache(cm, com.datngo.domain.User.class.getName());
             createCache(cm, com.datngo.domain.Authority.class.getName());
             createCache(cm, com.datngo.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.datngo.domain.NguoiDung.class.getName());
+            createCache(cm, com.datngo.domain.DiaBan.class.getName());
+            createCache(cm, com.datngo.domain.QuanLyGiaoDich.class.getName());
+            createCache(cm, com.datngo.domain.SanPham.class.getName());
+            createCache(cm, com.datngo.domain.ChiTietSanPham.class.getName());
+            createCache(cm, com.datngo.domain.GioHang.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

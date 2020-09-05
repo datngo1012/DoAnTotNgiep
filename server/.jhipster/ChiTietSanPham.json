@@ -1,0 +1,33 @@
+{
+    "name": "ChiTietSanPham",
+    "fields": [
+        {
+            "fieldName": "soLuong",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "propetiesName",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "sanPham",
+            "otherEntityRelationshipName": "chiTietSanPham",
+            "relationshipName": "sanPham",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20200905095824",
+    "entityTableName": "chi_tiet_san_pham",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}
