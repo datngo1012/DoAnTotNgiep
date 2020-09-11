@@ -1,9 +1,6 @@
 <template>
   <div calss="app">
-    <div
-      class="wrapper fadeInDown"
-      
-    >
+    <div class="wrapper fadeInDown">
       <div id="formContent">
         <!-- Tabs Titles -->
         <h2 class="inactive underlineHover cursor" v-on:click="moveLogin">Đăng Nhập</h2>
@@ -20,23 +17,32 @@
           id="login"
           class="fadeIn second"
           name="login"
-          placeholder="Nhập email"
-          v-model="email"
+          placeholder="Tên đăng nhập"
+          v-model="login"
         />
         <input
           type="text"
           id="login"
           class="fadeIn third"
           name="login"
-          placeholder="Nhập tên của bạn"
-          v-model="fullName"
+          placeholder="Họ tên"
+          v-model="hoTen"
         />
+        <input
+          type="text"
+          id="login"
+          class="fadeIn second"
+          name="login"
+          placeholder="Email"
+          v-model="email"
+        />
+
         <input
           type="text"
           id="password"
           class="fadeIn third"
           name="login"
-          placeholder="Nhập mật khẩu"
+          placeholder="Mật khẩu"
           v-model="password"
         />
         <button @click="submit" class="fadeIn fourth btn-submit">ĐĂNG KÝ</button>
@@ -48,27 +54,36 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { REGISTER } from "@/store/actions.type";
+
 export default {
   name: "signup",
   data() {
     return {
-      email: "",
-      fullName: "",
-      password: ""
+      email: null,
+      hoTen: null,
+      password: null,
+      login: null
     };
+  },
+  computed: {
+    ...mapState({
+      errors: state => state.auth.errors
+    })
   },
   methods: {
     moveLogin() {
       this.$router.push("/signin");
     },
-    submit() {
-      this.$store.dispatch("auth/signup", {
-        infoSignup: {
+    onSubmit() {
+      this.$store
+        .dispatch(REGISTER, {
           email: this.email,
-          fullName: this.fullName,
-          password: this.password
-        }
-      });
+          password: this.password,
+          username: this.username
+        })
+        .then(() => this.$router.push("/signin"));
     }
   }
 };

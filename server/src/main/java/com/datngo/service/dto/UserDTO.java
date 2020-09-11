@@ -7,6 +7,7 @@ import com.datngo.domain.User;
 
 import javax.validation.constraints.*;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -38,6 +39,117 @@ public class UserDTO {
     private boolean activated = false;
 
     @Size(min = 2, max = 10)
+
+    private String hoTen;
+
+    private String sdt;
+
+    private Integer ngaySinh;
+
+    private Integer thangSinh;
+
+    private Integer namSinh;
+
+    private String gioiTinh;
+
+    private String diaChi;
+
+    private Long soDu;
+
+    private Integer trangThai;
+
+    private LocalDate ngayTao;
+
+    public String getHoTen() {
+        return hoTen;
+    }
+
+    public void setHoTen(String hoTen) {
+        this.hoTen = hoTen;
+    }
+
+    public String getSdt() {
+        return sdt;
+    }
+
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
+    }
+
+    public Integer getNgaySinh() {
+        return ngaySinh;
+    }
+
+    public void setNgaySinh(Integer ngaySinh) {
+        this.ngaySinh = ngaySinh;
+    }
+
+    public Integer getThangSinh() {
+        return thangSinh;
+    }
+
+    public void setThangSinh(Integer thangSinh) {
+        this.thangSinh = thangSinh;
+    }
+
+    public Integer getNamSinh() {
+        return namSinh;
+    }
+
+    public void setNamSinh(Integer namSinh) {
+        this.namSinh = namSinh;
+    }
+
+    public String getGioiTinh() {
+        return gioiTinh;
+    }
+
+    public void setGioiTinh(String gioiTinh) {
+        this.gioiTinh = gioiTinh;
+    }
+
+    public String getDiaChi() {
+        return diaChi;
+    }
+
+    public void setDiaChi(String diaChi) {
+        this.diaChi = diaChi;
+    }
+
+    public Long getSoDu() {
+        return soDu;
+    }
+
+    public void setSoDu(Long soDu) {
+        this.soDu = soDu;
+    }
+
+    public Integer getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(Integer trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    public LocalDate getNgayTao() {
+        return ngayTao;
+    }
+
+    public void setNgayTao(LocalDate ngayTao) {
+        this.ngayTao = ngayTao;
+    }
+
+    public LocalDate getNgaySua() {
+        return ngaySua;
+    }
+
+    public void setNgaySua(LocalDate ngaySua) {
+        this.ngaySua = ngaySua;
+    }
+
+    private LocalDate ngaySua;
+
     private String langKey;
 
     private String createdBy;

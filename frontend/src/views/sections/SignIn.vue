@@ -18,13 +18,14 @@
         </div>
 
         <!-- Login Form -->
+
         <input
           type="text"
           id="login"
           class="fadeIn second"
           name="login"
-          placeholder="Nhập email"
-          v-model="email"
+          placeholder="Nhập tên đăng nhập"
+          v-model="username"
         />
         <input
           type="text"
@@ -34,8 +35,11 @@
           placeholder="Nhập mật khẩu"
           v-model="password"
         />
+        <h4 v-if="errors" class="error-messages">
+          <strong style="color:red; ">{{ errors != {} ? errors: ""}}</strong>
+        </h4>
         <!-- @click="submit" -->
-        <button @click="submit" class="fadeIn fourth btn-submit">ĐĂNG NHẬP</button>
+        <button @click="submit(username,password)" class="fadeIn fourth btn-submit">ĐĂNG NHẬP</button>
 
         <!-- Remind Passowrd -->
         <div id="formFooter">
@@ -47,24 +51,33 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { LOGIN } from "@/store/actions.type";
+
 export default {
   name: "login",
   data() {
-    return {};
+    return {
+      username: null,
+      password: null
+    };
   },
   methods: {
     moveSignup() {
       this.$router.push("/signup");
     },
-    submit() {
-      this.$router.push("/backend/thongkechung");
-      // this.$store.dispatch("auth/login", {
-      //   infoLogin: {
-      //     email: this.email,
-      //     password: this.password
-      //   }
-      // });
+    submit(username, password) {
+      this.$store.dispatch(LOGIN, { username, password }).then(() => {
+        console.log("fddffddf");
+        this.$router.push("/backend/thongkechung");
+      });
     }
+  },
+
+  computed: {
+    ...mapState({
+      errors: state => state.auth.errors
+    })
   }
 };
 </script>

@@ -1,15 +1,17 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import vuetify from './plugins/vuetify';
-import './plugins'
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+import vuetify from "./plugins/vuetify";
+import "./plugins";
+import ApiService from "./common/api.service";
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+ApiService.init();
 
 new Vue({
   router,
   store,
   vuetify,
-  render: h => h(App)
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount("#app");

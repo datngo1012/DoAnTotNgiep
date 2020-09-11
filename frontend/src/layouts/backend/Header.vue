@@ -22,7 +22,7 @@
 
           <v-list-item link to="/backend/thongkechung">
             <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
+              <v-icon class="fas fa-home"></v-icon>
             </v-list-item-icon>
 
             <v-list-item-title>
@@ -39,7 +39,7 @@
           >
             <v-list-tile slot="activator">
               <v-list-item-content>
-                <v-list-item-action>
+                <v-list-item-action class="mt-1">
                   <h5>{{ item.title }}</h5>
                 </v-list-item-action>
               </v-list-item-content>
@@ -59,7 +59,7 @@
           </v-list-group>
           <v-list-item link>
             <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
+              <v-icon>fas fa-phone</v-icon>
             </v-list-item-icon>
 
             <v-list-item-content>
@@ -236,7 +236,7 @@ export default {
     amount: 1,
     items: [
       {
-        action: "mdi-email",
+        action: "fas fa-file-import",
         title: "Quản lý nhập hàng",
         active: false,
         items: [
@@ -249,7 +249,7 @@ export default {
         ]
       },
       {
-        action: "mdi-email",
+        action: "fas fa-file-export",
         title: "Quản lý giao hàng",
         active: false,
         items: [
@@ -258,7 +258,7 @@ export default {
         ]
       },
       {
-        action: "mdi-email",
+        action: "fas fa-coins",
         title: "Quản lý ví tiền",
         active: false,
         items: [
@@ -269,7 +269,7 @@ export default {
         ]
       },
       {
-        action: "mdi-email",
+        action: "fas fa-user",
         title: "Quản lý cá nhân",
         active: false,
         items: [
@@ -279,7 +279,7 @@ export default {
         ]
       },
       {
-        action: "mdi-email",
+        action: "fas fa-info-circle",
         title: "Góc thông tin shop",
         active: false,
         items: [
