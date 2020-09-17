@@ -30,6 +30,7 @@ public class UserDTO {
     private String lastName;
 
     @Email
+    @NotNull
     @Size(min = 5, max = 254)
     private String email;
 
@@ -40,8 +41,10 @@ public class UserDTO {
 
     @Size(min = 2, max = 10)
 
+    @NotNull
     private String hoTen;
 
+    @NotNull
     private String sdt;
 
     private Integer ngaySinh;

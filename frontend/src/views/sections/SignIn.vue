@@ -1,52 +1,54 @@
 <template>
   <div calss="app">
-    <div
-      class="wrapper fadeInDown"
-      :style="{
-        'background-image':
-          'url(' + require('../../assets/zero-logo-dark.svg') + ')',
-      }"
-    >
-      <div id="formContent">
-        <!-- Tabs Titles -->
-        <h2 class="active cursor">Đăng Nhập</h2>
-        <h2 class="inactive underlineHover cursor" v-on:click="moveSignup">Đăng Ký</h2>
+    <v-container fluid>
+      <v-row>
+        <v-col sm="8">
+          <img
+            class="background-login"
+            src="https://img.ltwebstatic.com/images3_ach/2020/09/04/1599182837429c97947f3f5ad71b6e4038b1ece14a.webp"
+            alt="Girl in a jacket"
+          />
+        </v-col>
+        <v-col sm="4">
+          <div class="form">
+            <h4 class="heading">Đăng nhập</h4>
+            <div class="spacer"></div>
 
-        <!-- Icon -->
-        <div class="fadeIn first">
-          <!-- <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" /> -->
-        </div>
+            <div class="form-group">
+              <label for="username" class="form-label">Tên người dùng</label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                v-model="username"
+                placeholder="Nhập tên người dùng"
+                class="form-control"
+              />
+              <span class="form-message"></span>
+            </div>
 
-        <!-- Login Form -->
+            <div class="form-group">
+              <label for="password" class="form-label">Mật khẩu</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                v-model="password"
+                placeholder="Nhập mật khẩu"
+                class="form-control"
+              />
+              <span class="form-message"></span>
+              <span class="trick" v-on:click="moveSignup">Bạn chưa có tài khoản?</span>
+            </div>
+            <h4 v-if="errors" class="error-messages">
+              <strong style="color:red; ">{{ errors != null ? errors: ""}}</strong>
+            </h4>
 
-        <input
-          type="text"
-          id="login"
-          class="fadeIn second"
-          name="login"
-          placeholder="Nhập tên đăng nhập"
-          v-model="username"
-        />
-        <input
-          type="text"
-          id="password"
-          class="fadeIn third"
-          name="login"
-          placeholder="Nhập mật khẩu"
-          v-model="password"
-        />
-        <h4 v-if="errors" class="error-messages">
-          <strong style="color:red; ">{{ errors != {} ? errors: ""}}</strong>
-        </h4>
-        <!-- @click="submit" -->
-        <button @click="submit(username,password)" class="fadeIn fourth btn-submit">ĐĂNG NHẬP</button>
-
-        <!-- Remind Passowrd -->
-        <div id="formFooter">
-          <a class="underlineHover" href="#">Quên mật khẩu?</a>
-        </div>
-      </div>
-    </div>
+            <button @click="submit(username,password)" class="form-submit">Đăng nhập</button>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -68,7 +70,6 @@ export default {
     },
     submit(username, password) {
       this.$store.dispatch(LOGIN, { username, password }).then(() => {
-        console.log("fddffddf");
         this.$router.push("/backend/thongkechung");
       });
     }
@@ -83,324 +84,120 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Poppins");
-
-html {
-  background-color: #56baed;
-}
-
-.cursor:hover {
+.trick {
   cursor: pointer;
 }
 
-body {
-  font-family: "Poppins", sans-serif;
-  height: 100vh;
+.background-login {
+  width: 100%;
+  max-height: 100vh;
 }
-
-a {
-  color: #92badd;
-  display: inline-block;
-  text-decoration: none;
-  font-weight: 400;
+html {
+  color: #333;
+  font-size: 42.5%;
+  font-family: "Open Sans", sans-serif;
 }
-
-h2 {
-  text-align: center;
-  font-size: 16px;
-  font-weight: 600;
-  text-transform: uppercase;
-  display: inline-block;
-  margin: 40px 8px 10px 8px;
-  color: #cccccc;
-}
-
-/* STRUCTURE */
-
-.wrapper {
+.main {
+  background: #f1f1f1;
+  min-height: 100vh;
   display: flex;
-  align-items: center;
-  flex-direction: column;
   justify-content: center;
-  width: 100%;
-  height: 100vh;
-  padding: 20px;
 }
-
-#formContent {
-  -webkit-border-radius: 10px 10px 10px 10px;
-  border-radius: 10px 10px 10px 10px;
+.form {
+  width: 360px;
+  min-height: 100px;
+  padding: 32px 24px;
+  text-align: center;
   background: #fff;
-  padding: 30px;
-  width: 90%;
-  max-width: 450px;
-  position: relative;
-  padding: 0px;
-  -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
-  box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  margin: 12px;
+  align-self: center;
+  box-shadow: 0 2px 5px 0 rgba(51, 62, 73, 0.1);
+}
+.form .heading {
+  font-size: 2rem;
+}
+.form .desc {
   text-align: center;
+  color: #636d77;
+  font-size: 1.6rem;
+  font-weight: lighter;
+  line-height: 2.4rem;
+  margin-top: 16px;
+  font-weight: 300;
 }
 
-#formFooter {
-  background-color: #f6f6f6;
-  border-top: 1px solid #dce8f1;
-  padding: 25px;
-  text-align: center;
-  -webkit-border-radius: 0 0 10px 10px;
-  border-radius: 0 0 10px 10px;
+.form-group {
+  display: flex;
+  margin-bottom: 16px;
+  flex-direction: column;
 }
 
-/* TABS */
-
-h2.inactive {
-  color: #cccccc;
+.form-label,
+.form-message {
+  text-align: left;
 }
 
-h2.active {
-  color: #0d0d0d;
-  border-bottom: 2px solid #5fbae9;
+.form-label {
+  font-weight: 700;
+  padding-bottom: 6px;
+  line-height: 1.8rem;
+  font-size: 1rem;
 }
 
-/* FORM TYPOGRAPHY*/
-
-input[type="button"],
-input[type="submit"],
-input[type="reset"] {
-  background-color: #56baed;
-  border: none;
-  color: white;
-  padding: 15px 80px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  text-transform: uppercase;
-  font-size: 13px;
-  -webkit-box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-  box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-  -webkit-border-radius: 5px 5px 5px 5px;
-  border-radius: 5px 5px 5px 5px;
-  margin: 5px 20px 40px 20px;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-
-.btn-submit {
-  background-color: #56baed;
-  border: none;
-  color: white;
-  padding: 15px 80px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  text-transform: uppercase;
-  font-size: 13px;
-  -webkit-box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-  box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-  -webkit-border-radius: 5px 5px 5px 5px;
-  border-radius: 5px 5px 5px 5px;
-  margin: 5px 20px 40px 20px;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-
-.btn-submit:hover {
-  background-color: #39ace7;
-}
-
-input[type="button"]:hover,
-input[type="submit"]:hover,
-input[type="reset"]:hover {
-  background-color: #39ace7;
-}
-
-input[type="button"]:active,
-input[type="submit"]:active,
-input[type="reset"]:active {
-  -moz-transform: scale(0.95);
-  -webkit-transform: scale(0.95);
-  -o-transform: scale(0.95);
-  -ms-transform: scale(0.95);
-  transform: scale(0.95);
-}
-
-.btn-submit:active {
-  -moz-transform: scale(0.95);
-  -webkit-transform: scale(0.95);
-  -o-transform: scale(0.95);
-  -ms-transform: scale(0.95);
-  transform: scale(0.95);
-}
-
-input[type="text"] {
-  background-color: #f6f6f6;
-  border: none;
-  color: #0d0d0d;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 5px;
-  width: 85%;
-  border: 2px solid #f6f6f6;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  -ms-transition: all 0.5s ease-in-out;
-  -o-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out;
-  -webkit-border-radius: 5px 5px 5px 5px;
-  border-radius: 5px 5px 5px 5px;
-}
-
-input[type="text"]:focus {
-  background-color: #fff;
-  border-bottom: 2px solid #5fbae9;
-}
-
-input[type="text"]:placeholder {
-  color: #cccccc;
-}
-
-/* ANIMATIONS */
-
-/* Simple CSS3 Fade-in-down Animation */
-.fadeInDown {
-  -webkit-animation-name: fadeInDown;
-  animation-name: fadeInDown;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
-@-webkit-keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
-}
-
-@keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
-}
-
-/* Simple CSS3 Fade-in Animation */
-@-webkit-keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@-moz-keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.fadeIn {
-  opacity: 0;
-  -webkit-animation: fadeIn ease-in 1;
-  -moz-animation: fadeIn ease-in 1;
-  animation: fadeIn ease-in 1;
-
-  -webkit-animation-fill-mode: forwards;
-  -moz-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-
-  -webkit-animation-duration: 1s;
-  -moz-animation-duration: 1s;
-  animation-duration: 1s;
-}
-
-.fadeIn.first {
-  -webkit-animation-delay: 0.4s;
-  -moz-animation-delay: 0.4s;
-  animation-delay: 0.4s;
-}
-
-.fadeIn.second {
-  -webkit-animation-delay: 0.6s;
-  -moz-animation-delay: 0.6s;
-  animation-delay: 0.6s;
-}
-
-.fadeIn.third {
-  -webkit-animation-delay: 0.8s;
-  -moz-animation-delay: 0.8s;
-  animation-delay: 0.8s;
-}
-
-.fadeIn.fourth {
-  -webkit-animation-delay: 1s;
-  -moz-animation-delay: 1s;
-  animation-delay: 1s;
-}
-
-/* Simple CSS3 Fade-in Animation */
-.underlineHover:after {
-  display: block;
-  left: 0;
-  bottom: -10px;
-  width: 0;
-  height: 2px;
-  background-color: #56baed;
-  content: "";
-  transition: width 0.2s;
-}
-
-.underlineHover:hover {
-  color: #0d0d0d;
-}
-
-.underlineHover:hover:after {
-  width: 100%;
-}
-
-/* OTHERS */
-
-*:focus {
+.form-control {
+  height: 40px;
+  padding: 8px 12px;
+  border: 1px solid #b3b3b3;
+  border-radius: 3px;
   outline: none;
+  font-size: 1rem;
 }
 
-#icon {
-  width: 60%;
+.form-control:hover {
+  border-color: #1dbfaf;
 }
 
-* {
-  box-sizing: border-box;
+.form-group.invalid .form-control {
+  border-color: #f33a58;
+}
+
+.form-group.invalid .form-message {
+  color: #f33a58;
+}
+
+.form-message {
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  padding: 4px 0 0;
+}
+
+.form-submit {
+  outline: none;
+  background-color: #1dbfaf;
+  margin-top: 12px;
+  padding: 12px 16px;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  width: 100%;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.form-submit:hover {
+  background-color: #1ac7b6;
+}
+
+.spacer {
+  margin-top: 36px;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .background-login {
+    display: none;
+  }
 }
 </style>

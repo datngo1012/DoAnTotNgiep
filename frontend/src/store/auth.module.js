@@ -27,33 +27,48 @@ const getters = {
 const actions = {
   [LOGIN](context, credentials) {
     return new Promise((resolve) => {
-      ApiService.post("authenticate", credentials)
-        .then(({ data }) => {
-          console.log(data);
-          context.commit(SET_AUTH, data);
-          resolve(data);
-          console.log("sasasassa");
-        })
-        .catch(({ response }) => {
-          context.commit(SET_ERROR, response.data.title);
-        });
+      if (credentials.username == null || credentials.username == "")
+        context.commit(SET_ERROR, "Tên đăng nhập không được để trống");
+      else if (credentials.password == null)
+        context.commit(SET_ERROR, "Mật khẩu không được để trống");
+      else
+        ApiService.post("authenticate", credentials)
+          .then(({ data }) => {
+            console.log(data);
+            context.commit(SET_AUTH, data);
+            resolve(data);
+          })
+          .catch(({ response }) => {
+            context.commit(SET_ERROR, response.data.title);
+          });
     });
   },
   [LOGOUT](context) {
     context.commit(PURGE_AUTH);
   },
   [REGISTER](context, credentials) {
-    
     return new Promise((resolve, reject) => {
-      ApiService.post("users", { user: credentials })
-        .then(({ data }) => {
-          context.commit(SET_AUTH, data.user);
-          resolve(data);
-        })
-        .catch(({ response }) => {
-          context.commit(SET_ERROR, response.data.errors);
-          reject(response);
-        });
+      console.log("vao regis");
+      if (credentials.password != credentials.password_confirmation)
+        context.commit(SET_ERROR, "Mật khẩu không khớp nhau");
+      else if (credentials.login == null)
+        context.commit(SET_ERROR, "Tên đăng nhập không được để trống");
+      else if (credentials.email == null)
+        context.commit(SET_ERROR, "Email không được để trống");
+      else if (credentials.hoTen == null)
+        context.commit(SET_ERROR, "Họ tên không được để trống");
+      else if (credentials.sdt == null)
+        context.commit(SET_ERROR, "Số điện thoại không được để trống");
+      else
+        ApiService.post("register", { credentials })
+          .then(({ data }) => {
+            context.commit(SET_AUTH, data.user);
+            resolve(data);
+          })
+          .catch(({ response }) => {
+            context.commit(SET_ERROR, response.data.errors);
+            reject(response);
+          });
     });
   },
   [CHECK_AUTH](context) {

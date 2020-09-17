@@ -2,13 +2,16 @@ package com.datngo.service;
 
 import com.datngo.config.Constants;
 import com.datngo.domain.Authority;
+import com.datngo.domain.NguoiDung;
 import com.datngo.domain.User;
 import com.datngo.repository.AuthorityRepository;
+import com.datngo.repository.NguoiDungRepository;
 import com.datngo.repository.UserRepository;
 import com.datngo.security.AuthoritiesConstants;
 import com.datngo.security.SecurityUtils;
 import com.datngo.service.dto.UserDTO;
 
+import com.datngo.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.security.RandomUtil;
 
 import org.slf4j.Logger;
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -43,11 +47,14 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    private final NguoiDungRepository nguoiDungRepository;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager,NguoiDungRepository nguoiDungRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.nguoiDungRepository = nguoiDungRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -91,13 +98,13 @@ public class UserService {
         userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
-                throw new UsernameAlreadyUsedException();
+                throw new BadRequestAlertException("Tên đăng nhập đã tồn tại", "AccountOrPasswordErr", "not existed");
             }
         });
         userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
-                throw new EmailAlreadyUsedException();
+                throw new BadRequestAlertException("Email đăng ký đã được sử dụng", "AccountOrPasswordErr", "not existed");
             }
         });
         User newUser = new User();
@@ -120,6 +127,13 @@ public class UserService {
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
+
+        NguoiDung nguoiDung = new NguoiDung();
+        nguoiDung.setHoTen(userDTO.getHoTen());
+        nguoiDung.setSdt(userDTO.getSdt());
+        nguoiDung.setNgayTao(LocalDate.now());
+        nguoiDung.setUser(newUser);
+        nguoiDungRepository.save(nguoiDung);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
