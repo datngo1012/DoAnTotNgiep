@@ -46,27 +46,33 @@ const actions = {
   [LOGOUT](context) {
     context.commit(PURGE_AUTH);
   },
-  [REGISTER](context, credentials) {
+  [REGISTER](context, managedUserVM) {
     return new Promise((resolve, reject) => {
       console.log("vao regis");
-      if (credentials.password != credentials.password_confirmation)
+      if (managedUserVM.password != managedUserVM.password_confirmation)
         context.commit(SET_ERROR, "Mật khẩu không khớp nhau");
-      else if (credentials.login == null)
+      else if (managedUserVM.login == null)
         context.commit(SET_ERROR, "Tên đăng nhập không được để trống");
-      else if (credentials.email == null)
+      else if (managedUserVM.email == null)
         context.commit(SET_ERROR, "Email không được để trống");
-      else if (credentials.hoTen == null)
+      else if (managedUserVM.hoTen == null)
         context.commit(SET_ERROR, "Họ tên không được để trống");
-      else if (credentials.sdt == null)
+      else if (managedUserVM.sdt == null)
         context.commit(SET_ERROR, "Số điện thoại không được để trống");
       else
-        ApiService.post("register", { credentials })
+        ApiService.post("register", {
+          hoTen: managedUserVM.hoTen,
+          sdt: managedUserVM.sdt,
+          email: managedUserVM.email,
+          login: managedUserVM.login,
+          password: managedUserVM.password,
+        })
           .then(({ data }) => {
             context.commit(SET_AUTH, data.user);
             resolve(data);
           })
           .catch(({ response }) => {
-            context.commit(SET_ERROR, response.data.errors);
+            context.commit(SET_ERROR, response.data.title);
             reject(response);
           });
     });

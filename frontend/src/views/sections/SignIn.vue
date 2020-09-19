@@ -3,9 +3,9 @@
     <v-container fluid>
       <v-row>
         <v-col sm="8">
-          <img
+          <v-img
             class="background-login"
-            src="https://img.ltwebstatic.com/images3_ach/2020/09/04/1599182837429c97947f3f5ad71b6e4038b1ece14a.webp"
+            :src="require('@/assets/slide.jpg')"
             alt="Girl in a jacket"
           />
         </v-col>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar id="home-app-bar" app color="white" elevation="1" height="80">
+    <v-app-bar id="home-app-bar" app color="white" elevation="1" height="80" to="/">
       <base-img
         :src="require('@/assets/logo.svg')"
         class="mr-3 hidden-xs-only"
@@ -8,7 +8,9 @@
         max-width="52"
         width="100%"
       />
-      <b>KÊNH MUA BÁN HÀNG TQ</b>
+      <base-btn class="title" color="white" to="/">
+        <b>KÊNH MUA BÁN HÀNG TQ</b>
+      </base-btn>
       <v-spacer />
 
       <div>
@@ -23,21 +25,13 @@
             class="font-weight-bold"
             min-width="96"
             text
-          >
-            {{ item.name }}
-          </v-tab>
+          >{{ item.name }}</v-tab>
         </v-tabs>
       </div>
-      <v-app-bar-nav-icon
-        class="hidden-md-and-up"
-        @click="drawer = !drawer"
-      />
+      <v-app-bar-nav-icon class="hidden-md-and-up" @click="drawer = !drawer" />
     </v-app-bar>
 
-    <home-drawer
-      v-model="drawer"
-      :items="items"
-    />
+    <home-drawer v-model="drawer" :items="items" />
   </div>
 </template>
 
@@ -45,26 +39,26 @@
 export default {
   name: "HomeAppBar",
   components: {
-      HomeDrawer: () => import('./Drawer'),
-    },
+    HomeDrawer: () => import("./Drawer")
+  },
   data: () => ({
     drawer: null,
     items: [
       {
-        name:"GIỚI THIỆU",
+        name: "GIỚI THIỆU",
         link: ""
       },
       {
-        name:"BIỂU PHÍ",
+        name: "BIỂU PHÍ",
         link: "bieuphi"
       },
       {
-        name:"CÔNG CỤ ĐẶT HÀNG",
+        name: "CÔNG CỤ ĐẶT HÀNG",
         link: "congcu"
       }
     ]
     // items: ["GIỚI THIỆU", "BIỂU PHÍ", "CÔNG CỤ ĐẶT HÀNG"],
-  }),
+  })
 };
 </script>
 

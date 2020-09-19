@@ -223,6 +223,8 @@
 </template>
 
 <script>
+import { LOGOUT } from "@/store/actions.type";
+
 export default {
   name: "BackendHeader",
   components: {},
@@ -302,7 +304,9 @@ export default {
       });
     },
     logout() {
-      this.$router.push("/");
+      this.$store.dispatch(LOGOUT).then(() => {
+        this.$router.push("/");
+      });
     }
   }
 };

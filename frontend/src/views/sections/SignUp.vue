@@ -3,13 +3,21 @@
     <v-container fluid>
       <v-row>
         <v-col sm="8">
-          <img
+          <v-img
             class="background-login"
-            src="https://img.ltwebstatic.com/images3_ach/2020/09/04/1599182837429c97947f3f5ad71b6e4038b1ece14a.webp"
+            :src="require('@/assets/slide.jpg')"
             alt="Girl in a jacket"
           />
         </v-col>
         <v-col sm="4">
+          <v-dialog v-model="dialog" hide-overlay persistent width="300">
+            <v-card color="primary" dark>
+              <v-card-text class="font-weight-bold">
+                Đăng ký thành công ! Chuyển sang màn hình đăng nhập...
+                <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+              </v-card-text>
+            </v-card>
+          </v-dialog>
           <div class="form" id="form-1">
             <h4 class="heading">Thành viên đăng ký</h4>
 
@@ -89,7 +97,7 @@
               <span class="trick" v-on:click="moveLogin">Bạn đã có tài khoản?</span>
             </div>
             <h4 v-if="errors" class="error-messages">
-              <strong style="color:red; ">{{ errors != null ? errors: ""}}</strong>
+              <strong style="color:red; ">{{ errors }}</strong>
             </h4>
 
             <button @click="onSubmit()" class="form-submit">Đăng ký</button>
@@ -108,6 +116,7 @@ export default {
   name: "signup",
   data() {
     return {
+      dialog: false,
       email: null,
       hoTen: null,
       password: null,
@@ -136,7 +145,12 @@ export default {
           hoTen: this.hoTen,
           sdt: this.sdt
         })
-        .then(() => this.$router.push("/signin"));
+        .then(
+          (this.dialog = true),
+          setTimeout(() => {
+            this.$router.push("/signin"), (this.dialog = false);
+          }, 4000)
+        );
     }
   }
 };

@@ -33,7 +33,13 @@
 
                     <span class="font-weight-bold ml-6 mr-4 my-4">hoặc</span>
 
-                    <base-btn :ripple="false" class="pa-1" height="auto" text>Đăng Ký Ngay</base-btn>
+                    <base-btn
+                      :ripple="false"
+                      to="/signup"
+                      class="pa-1"
+                      height="auto"
+                      text
+                    >Đăng Ký Ngay</base-btn>
                   </div>
                 </v-responsive>
               </v-container>
