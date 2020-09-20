@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import { LOGIN } from "@/store/actions.type";
 
 export default {
@@ -63,6 +63,9 @@ export default {
       username: null,
       password: null
     };
+  },
+  created() {
+    if (this.isAuthenticated) this.$router.push("/backend/thongkechung");
   },
   methods: {
     moveSignup() {
@@ -76,9 +79,13 @@ export default {
   },
 
   computed: {
-    ...mapState({
-      errors: state => state.auth.errors
-    })
+    ...mapState(
+      {
+        errors: state => state.auth.errors
+      },
+      "isAuthenticated"
+    ),
+    ...mapGetters(["isAuthenticated"])
   }
 };
 </script>

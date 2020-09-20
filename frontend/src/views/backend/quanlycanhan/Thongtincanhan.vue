@@ -21,12 +21,14 @@
             <input id="file-upload" type="file" accept="image/x-png, image/gif, image/jpeg" />
             <v-card class="pa-2 ma-3" outlined tile>
               <h4>
-                <v-icon>mdi-email</v-icon>tridat1997@gmail.com
+                <v-icon>mdi-email</v-icon>
+                {{currentUser.user_info.email}}
               </h4>
             </v-card>
             <v-card class="pa-2 ma-3" outlined tile>
               <h4>
-                <v-icon>mdi-phone</v-icon>0986512835
+                <v-icon>mdi-phone</v-icon>
+                {{currentUser.user_info.sdt}}
               </h4>
             </v-card>
             <v-card class="mx-auto" color="primary" dark max-width="400">
@@ -241,6 +243,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "Thongtincanhan",
   data: () => ({
@@ -302,6 +306,9 @@ export default {
     }
     console.log(years);
     this.nams = years;
+  },
+  computed: {
+    ...mapGetters(["currentUser"])
   }
 };
 </script>

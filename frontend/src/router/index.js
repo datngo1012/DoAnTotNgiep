@@ -35,11 +35,6 @@ const routes = [
         component: () => import("@/views/contact-us/Index.vue"),
         meta: { src: require("@/assets/contact.jpg") },
       },
-      // {
-      //   path: '*',
-      //   name: 'FourOhFour',
-      //   component: () => import('@/views/404/Index.vue'),
-      // },
     ],
   },
   {
@@ -85,6 +80,11 @@ const routes = [
         component: () => import("@/views/backend/quanlyvitien/Giaodich.vue"),
       },
     ],
+  },
+  {
+    path: "*",
+    name: "FourOhFour",
+    component: () => import("@/views/404/Index.vue"),
   },
 ];
 

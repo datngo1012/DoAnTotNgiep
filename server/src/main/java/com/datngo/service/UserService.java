@@ -132,6 +132,7 @@ public class UserService {
         NguoiDung nguoiDung = new NguoiDung();
         nguoiDung.setHoTen(userDTO.getHoTen());
         nguoiDung.setSdt(userDTO.getSdt());
+        nguoiDung.setSoDu(0L);
         nguoiDung.setNgayTao(LocalDate.now());
         nguoiDung.setUser(newUser);
         nguoiDungRepository.save(nguoiDung);

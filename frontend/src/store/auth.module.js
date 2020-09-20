@@ -34,7 +34,6 @@ const actions = {
       else
         ApiService.post("authenticate", credentials)
           .then(({ data }) => {
-            console.log(data);
             context.commit(SET_AUTH, data);
             resolve(data);
           })

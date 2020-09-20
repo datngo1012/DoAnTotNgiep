@@ -13,8 +13,8 @@
                 </v-list-item-avatar>
 
                 <v-list-item-content>
-                  <h4>Đạt Ngô</h4>
-                  <h6>Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng</h6>
+                  <h4>{{currentUser.user_info.hoTen}}</h4>
+                  <h6>{{currentUser.user_info.sdt}}</h6>
                 </v-list-item-content>
               </v-list-item>
             </v-list-item>
@@ -184,7 +184,7 @@
                 </v-list-item-avatar>
 
                 <v-list-item-content>
-                  <h4>Đạt Ngô</h4>
+                  <h4>{{currentUser.user_info.hoTen}}</h4>
                 </v-list-item-content>
               </v-list-item>
             </template>
@@ -192,7 +192,7 @@
               <v-list-item to="/backend/giaodich">
                 <v-list-item-title>Số dư:</v-list-item-title>
                 <div class="my-2">
-                  <v-btn small color="green darken-2" dark>{{sotien}} VND</v-btn>
+                  <v-btn small color="green darken-2" dark>{{currentUser.user_info.soDu}} VND</v-btn>
                 </div>
                 <!-- <v-chip color="green" v-text="`${sotien}`"></v-chip> -->
               </v-list-item>
@@ -224,6 +224,7 @@
 
 <script>
 import { LOGOUT } from "@/store/actions.type";
+import { mapGetters } from "vuex";
 
 export default {
   name: "BackendHeader",
@@ -292,6 +293,10 @@ export default {
       }
     ]
   }),
+  created() {
+    console.log(this.isAuthenticated, 88888);
+    if (!this.isAuthenticated) this.$router.push("/signin");
+  },
   methods: {
     close() {
       this.items.forEach(item => {
@@ -308,6 +313,9 @@ export default {
         this.$router.push("/");
       });
     }
+  },
+  computed: {
+    ...mapGetters(["currentUser", "isAuthenticated"])
   }
 };
 </script>

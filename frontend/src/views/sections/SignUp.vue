@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import { REGISTER } from "@/store/actions.type";
 
 export default {
@@ -125,10 +125,14 @@ export default {
       sdt: null
     };
   },
+  created() {
+    if (this.isAuthenticated) this.$router.push("/backend/thongkechung");
+  },
   computed: {
     ...mapState({
       errors: state => state.auth.errors
-    })
+    }),
+    ...mapGetters(["isAuthenticated"])
   },
   methods: {
     moveLogin() {
@@ -150,7 +154,8 @@ export default {
           setTimeout(() => {
             this.$router.push("/signin"), (this.dialog = false);
           }, 4000)
-        );
+        )
+        .catch();
     }
   }
 };
