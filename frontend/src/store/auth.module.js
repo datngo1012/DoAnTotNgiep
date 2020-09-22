@@ -67,7 +67,6 @@ const actions = {
           password: managedUserVM.password,
         })
           .then(({ data }) => {
-            context.commit(SET_AUTH, data.user);
             resolve(data);
           })
           .catch(({ response }) => {
@@ -117,7 +116,7 @@ const mutations = {
     state.isAuthenticated = true;
     state.user = user;
     state.errors = {};
-    JwtService.saveToken(state.user.id_token);
+    JwtService.saveToken(state.user);
   },
   [PURGE_AUTH](state) {
     state.isAuthenticated = false;

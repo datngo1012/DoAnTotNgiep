@@ -1,11 +1,11 @@
-const ID_TOKEN_KEY = "id_token";
+const ID_TOKEN_KEY = "user_data";
 
 export const getToken = () => {
-  return window.localStorage.getItem(ID_TOKEN_KEY);
+  return JSON.parse(window.localStorage.getItem(ID_TOKEN_KEY));
 };
 
 export const saveToken = (token) => {
-  window.localStorage.setItem(ID_TOKEN_KEY, token);
+  window.localStorage.setItem(ID_TOKEN_KEY, JSON.stringify(token));
 };
 
 export const destroyToken = () => {

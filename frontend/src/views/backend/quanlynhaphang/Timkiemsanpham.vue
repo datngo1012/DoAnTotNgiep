@@ -38,6 +38,31 @@
           </div>
         </v-card>
       </form>
+      <v-row no-gutters>
+        <v-col v-for="n in 23" :key="n" cols="12" md="3" sm="4" xs="6">
+          <v-card max-width="180">
+            <v-img
+              class="white--text align-end"
+              height="200px"
+              src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+            >
+              <v-card-title>Top 10 Australian beaches</v-card-title>
+            </v-img>
+
+            <v-card-subtitle class="pb-0">
+              <b>Number 10</b>
+            </v-card-subtitle>
+
+            <v-card-text class="text--primary">
+              <strong>120.000 VND</strong>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-btn color="primary">Thêm vào giỏ hàng</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>

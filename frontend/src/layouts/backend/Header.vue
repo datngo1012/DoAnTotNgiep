@@ -225,13 +225,14 @@
 <script>
 import { LOGOUT } from "@/store/actions.type";
 import { mapGetters } from "vuex";
+import JwtService from "@/common/jwt.service";
 
 export default {
   name: "BackendHeader",
   components: {},
 
   data: () => ({
-    sotien: 3000000,
+    currentUser: JwtService.getToken(),
     activeHotline: true,
     activeInfo: true,
     drawer: null,
@@ -294,7 +295,7 @@ export default {
     ]
   }),
   created() {
-    console.log(this.isAuthenticated, 88888);
+    console.log(this.currentUser, 888);
     if (!this.isAuthenticated) this.$router.push("/signin");
   },
   methods: {
@@ -315,7 +316,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["currentUser", "isAuthenticated"])
+    ...mapGetters(["isAuthenticated"])
   }
 };
 </script>

@@ -243,12 +243,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import JwtService from "@/common/jwt.service";
 
 export default {
   name: "Thongtincanhan",
   data: () => ({
-    name: "Đạt Ngô",
+    currentUser: JwtService.getToken(),
     daLuu: false,
     isSua: false,
     gioitinhs: ["Nam", "Nữ", "Khác"],
@@ -307,9 +307,7 @@ export default {
     console.log(years);
     this.nams = years;
   },
-  computed: {
-    ...mapGetters(["currentUser"])
-  }
+  computed: {}
 };
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar id="home-app-bar" app color="white" elevation="1" height="80" to="/">
+    <v-app-bar id="home-app-bar" app color="white" elevation="1" height="80">
       <base-img
         :src="require('@/assets/logo.svg')"
         class="mr-3 hidden-xs-only"
@@ -8,9 +8,7 @@
         max-width="52"
         width="100%"
       />
-      <base-btn class="title" color="white" to="/">
-        <b>KÊNH MUA BÁN HÀNG TQ</b>
-      </base-btn>
+      <b>KÊNH MUA BÁN HÀNG TQ</b>
       <v-spacer />
 
       <div>
@@ -18,14 +16,14 @@
           <v-tab
             v-for="(item, i) in items"
             :key="i"
-            :to="{ item,link }"
             :exact="name === 'Home'"
             :ripple="false"
             active-class="text--primary"
             class="font-weight-bold"
             min-width="96"
             text
-          >{{ item.name }}</v-tab>
+            @click="link(i)"
+          >{{ item }}</v-tab>
         </v-tabs>
       </div>
       <v-app-bar-nav-icon class="hidden-md-and-up" @click="drawer = !drawer" />
@@ -43,22 +41,15 @@ export default {
   },
   data: () => ({
     drawer: null,
-    items: [
-      {
-        name: "GIỚI THIỆU",
-        link: ""
-      },
-      {
-        name: "BIỂU PHÍ",
-        link: "bieuphi"
-      },
-      {
-        name: "CÔNG CỤ ĐẶT HÀNG",
-        link: "congcu"
-      }
-    ]
-    // items: ["GIỚI THIỆU", "BIỂU PHÍ", "CÔNG CỤ ĐẶT HÀNG"],
-  })
+    items: ["TRANG CHỦ", "CÔNG CỤ ĐẶT HÀNG"]
+  }),
+  methods: {
+    link(index) {
+      if (index == 0) {
+        this.$router.push("/");
+      } else this.$router.push("/congcudathang");
+    }
+  }
 };
 </script>
 

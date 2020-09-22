@@ -10,14 +10,6 @@
           />
         </v-col>
         <v-col sm="4">
-          <v-dialog v-model="dialog" hide-overlay persistent width="300">
-            <v-card color="primary" dark>
-              <v-card-text class="font-weight-bold">
-                Đăng ký thành công ! Chuyển sang màn hình đăng nhập...
-                <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
-              </v-card-text>
-            </v-card>
-          </v-dialog>
           <div class="form" id="form-1">
             <h4 class="heading">Thành viên đăng ký</h4>
 
@@ -116,7 +108,6 @@ export default {
   name: "signup",
   data() {
     return {
-      dialog: false,
       email: null,
       hoTen: null,
       password: null,
@@ -149,12 +140,7 @@ export default {
           hoTen: this.hoTen,
           sdt: this.sdt
         })
-        .then(
-          (this.dialog = true),
-          setTimeout(() => {
-            this.$router.push("/signin"), (this.dialog = false);
-          }, 4000)
-        )
+        .then(this.$swal("Đăng ký thành công!!!"), this.$router.push("/signin"))
         .catch();
     }
   }
