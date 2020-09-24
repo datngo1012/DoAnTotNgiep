@@ -38,7 +38,7 @@
           </div>
         </v-card>
       </form>
-      <v-row no-gutters>
+      <v-row>
         <v-col v-for="n in 23" :key="n" cols="12" md="3" sm="4" xs="6">
           <v-card max-width="180">
             <v-img

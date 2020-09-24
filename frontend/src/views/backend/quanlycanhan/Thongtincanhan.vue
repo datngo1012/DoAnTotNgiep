@@ -133,8 +133,8 @@
                   color="primary"
                   label="Họ và tên"
                   ref="name"
-                  v-model="name"
-                  :rules="[() => !!name || 'Họ tên không được để trống!!!']"
+                  v-model="hoTen"
+                  :rules="[() => !!hoTen || 'Họ tên không được để trống!!!']"
                   :error-messages="errorMessages"
                   required
                 ></v-text-field>
@@ -142,9 +142,9 @@
                   :disabled="!isSua"
                   color="primary"
                   ref="phone"
-                  v-model="phone"
+                  v-model="sdt"
                   :rules="[
-                () => !!phone || 'Số điện thoại không được để trống!!!',
+                () => !!sdt || 'Số điện thoại không được để trống!!!',
               ]"
                   label="Số điện thoại"
                   required
@@ -155,7 +155,7 @@
                       :disabled="!isSua"
                       color="primary"
                       ref="ngay"
-                      v-model="ngay"
+                      v-model="ngaySinh"
                       :items="ngays"
                       label="Ngày sinh"
                     ></v-autocomplete>
@@ -165,7 +165,7 @@
                       :disabled="!isSua"
                       color="primary"
                       ref="thang"
-                      v-model="thang"
+                      v-model="thangSinh"
                       :items="thangs"
                       label="Tháng"
                     ></v-autocomplete>
@@ -175,7 +175,7 @@
                       :disabled="!isSua"
                       color="primary"
                       ref="nam"
-                      v-model="nam"
+                      v-model="namSinh"
                       :items="nams"
                       label="Năm sinh"
                     ></v-autocomplete>
@@ -185,7 +185,7 @@
                   :disabled="!isSua"
                   color="primary"
                   ref="gioitinh"
-                  v-model="gioitinh"
+                  v-model="gioiTinh"
                   :items="gioitinhs"
                   label="Giới tính"
                 ></v-autocomplete>
@@ -193,8 +193,8 @@
                   :disabled="!isSua"
                   color="primary"
                   ref="diachi"
-                  v-model="diachi"
-                  :rules="[() => !!diachi || 'Địa chỉ nhà không được để trống!!!']"
+                  v-model="diaChi"
+                  :rules="[() => !!diaChi || 'Địa chỉ nhà không được để trống!!!']"
                   label="Địa chỉ nhà"
                   required
                 ></v-text-field>
@@ -248,6 +248,13 @@ import JwtService from "@/common/jwt.service";
 export default {
   name: "Thongtincanhan",
   data: () => ({
+    hoTen: JwtService.getToken().user_info.hoTen,
+    sdt: JwtService.getToken().user_info.sdt,
+    ngaySinh: JwtService.getToken().user_info.ngaySinh,
+    thangSinh: JwtService.getToken().user_info.thangSinh,
+    namSinh: JwtService.getToken().user_info.namSinh,
+    gioiTinh: JwtService.getToken().user_info.gioiTinh,
+    diaChi: JwtService.getToken().user_info.diaChi,
     currentUser: JwtService.getToken(),
     daLuu: false,
     isSua: false,

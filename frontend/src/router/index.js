@@ -52,6 +52,11 @@ const routes = [
         component: () => import("@/views/backend/Thongkechung.vue"),
       },
       {
+        path: "giohang",
+        name: "Giohang",
+        component: () => import("@/views/backend/quanlynhaphang/Giohang.vue"),
+      },
+      {
         path: "danhsachdonhang",
         name: "Danhsachdonhang",
         component: () =>

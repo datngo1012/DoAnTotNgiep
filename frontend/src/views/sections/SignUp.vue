@@ -17,76 +17,88 @@
 
             <div class="form-group">
               <label for="username" class="form-label">Tên đăng nhập</label>
-              <input
+              <v-text-field
                 v-model="login"
                 name="username"
                 type="text"
                 placeholder="Nhập tên đăng nhập"
                 class="form-control"
-              />
+                :rules="[() => !!login || 'Tên đăng nhập không được để trống!!!']"
+                required
+              ></v-text-field>
               <span class="form-message"></span>
             </div>
 
             <div class="form-group">
               <label for="fullname" class="form-label">Tên đầy đủ</label>
-              <input
+              <v-text-field
                 v-model="hoTen"
                 name="fullname"
                 type="text"
                 placeholder="VD: Đạt Ngô"
                 class="form-control"
-              />
+                :rules="[() => !!hoTen || 'Họ tên không được để trống!!!']"
+                required
+              ></v-text-field>
               <span class="form-message"></span>
             </div>
 
             <div class="form-group">
               <label for="email" class="form-label">Email</label>
-              <input
+              <v-text-field
                 v-model="email"
                 name="email"
                 type="text"
                 placeholder="VD: email@domain.com"
                 class="form-control"
-              />
+                :rules="[() => !!email || 'Email không được để trống!!!']"
+                required
+              ></v-text-field>
               <span class="form-message"></span>
             </div>
 
             <div class="form-group">
               <label for="sdt" class="form-label">Số điện thoại</label>
-              <input
+              <v-text-field
                 v-model="sdt"
                 name="sdt"
                 type="text"
                 placeholder="Nhập số điện thoại"
                 class="form-control"
-              />
+                :rules="[() => !!sdt || 'Số điện thoại không được để trống!!!']"
+                required
+              ></v-text-field>
               <span class="form-message"></span>
             </div>
 
             <div class="form-group">
               <label for="password" class="form-label">Mật khẩu</label>
-              <input
+              <v-text-field
                 id="password"
                 name="password"
                 type="password"
                 placeholder="Nhập mật khẩu"
                 class="form-control"
                 v-model="password"
-              />
+                :rules="[() => !!password || 'Mật khẩu không được để trống!!!']"
+                required
+              ></v-text-field>
               <span class="form-message"></span>
             </div>
 
             <div class="form-group">
               <label for="password_confirmation" class="form-label">Nhập lại mật khẩu</label>
-              <input
+              <v-text-field
                 v-model="password_confirmation"
                 name="password_confirmation"
                 placeholder="Nhập lại mật khẩu"
                 type="password"
                 class="form-control"
-              />
+                :rules="[() => password_confirmation == password || 'Mật khẩu không khớp!!!']"
+                required
+              ></v-text-field>
               <span class="form-message"></span>
-              <span class="trick" v-on:click="moveLogin">Bạn đã có tài khoản?</span>
+              <span class="trick mt-3" v-on:click="moveLogin">Bạn đã có tài khoản?</span>
             </div>
             <h4 v-if="errors" class="error-messages">
               <strong style="color:red; ">{{ errors }}</strong>
@@ -121,27 +133,39 @@ export default {
   },
   computed: {
     ...mapState({
-      errors: state => state.auth.errors
+      errors: state => state.auth.errorsSignup
     }),
     ...mapGetters(["isAuthenticated"])
   },
   methods: {
     moveLogin() {
+      this.errors = "";
       this.$router.push("/signin");
     },
     onSubmit() {
-      console.log("vao onsu");
-      this.$store
-        .dispatch(REGISTER, {
-          email: this.email,
-          password: this.password,
-          login: this.login,
-          password_confirmation: this.password_confirmation,
-          hoTen: this.hoTen,
-          sdt: this.sdt
-        })
-        .then(this.$swal("Đăng ký thành công!!!"), this.$router.push("/signin"))
-        .catch();
+      if (
+        this.login &&
+        this.hoTen &&
+        this.email &&
+        this.sdt &&
+        this.password_confirmation == this.password
+      ) {
+        this.$store
+          .dispatch(REGISTER, {
+            email: this.email,
+            password: this.password,
+            login: this.login,
+            password_confirmation: this.password_confirmation,
+            hoTen: this.hoTen,
+            sdt: this.sdt
+          })
+          .then(result => {
+            console.log(result);
+            this.$swal("Đăng ký thành công!!!", "", "success"),
+              this.$router.push("/signin");
+          })
+          .catch();
+      }
     }
   }
 };
@@ -213,7 +237,7 @@ html {
 .form-control {
   height: 40px;
   padding: 8px 12px;
-  border: 1px solid #b3b3b3;
+  border: 0px solid #b3b3b3;
   border-radius: 3px;
   outline: none;
   font-size: 1em;

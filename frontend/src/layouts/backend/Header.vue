@@ -169,9 +169,11 @@
         <b>KÊNH MUA BÁN HÀNG TQ</b>
         <v-spacer />
         <div class="header_giohang">
-          <v-badge :content="amount" color="green" overlap>
-            <v-icon large>mdi-cart</v-icon>
-          </v-badge>
+          <v-btn text color="primary" to="/backend/giohang">
+            <v-badge :content="amount" color="green" overlap>
+              <v-icon large color="white">mdi-cart</v-icon>
+            </v-badge>
+          </v-btn>
         </div>
         <div>
           <v-menu bottom offset-y>
@@ -295,8 +297,10 @@ export default {
     ]
   }),
   created() {
-    console.log(this.currentUser, 888);
-    if (!this.isAuthenticated) this.$router.push("/signin");
+    if (!this.isAuthenticated) {
+      this.$swal("Bạn chưa đăng nhập! Vui lòng đăng nhập để tiếp tục.");
+      this.$router.push("/signin");
+    }
   },
   methods: {
     close() {

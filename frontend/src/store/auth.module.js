@@ -7,10 +7,16 @@ import {
   CHECK_AUTH,
   UPDATE_USER,
 } from "./actions.type";
-import { SET_AUTH, PURGE_AUTH, SET_ERROR } from "./mutations.type";
+import {
+  SET_AUTH,
+  PURGE_AUTH,
+  SET_ERROR_SIGNIN,
+  SET_ERROR_SIGNUP,
+} from "./mutations.type";
 
 const state = {
-  errors: null,
+  errorsSignin: null,
+  errorsSignup: null,
   user: {},
   isAuthenticated: !!JwtService.getToken(),
 };
@@ -27,19 +33,17 @@ const getters = {
 const actions = {
   [LOGIN](context, credentials) {
     return new Promise((resolve) => {
-      if (credentials.username == null || credentials.username == "")
-        context.commit(SET_ERROR, "Tên đăng nhập không được để trống");
-      else if (credentials.password == null)
-        context.commit(SET_ERROR, "Mật khẩu không được để trống");
-      else
-        ApiService.post("authenticate", credentials)
-          .then(({ data }) => {
-            context.commit(SET_AUTH, data);
-            resolve(data);
-          })
-          .catch(({ response }) => {
-            context.commit(SET_ERROR, response.data.title);
-          });
+      ApiService.post("authenticate", credentials)
+        .then(({ data }) => {
+          context.commit(SET_AUTH, data);
+          context.commit(SET_ERROR_SIGNIN, "");
+          context.commit(SET_ERROR_SIGNUP, "");
+          resolve(data);
+        })
+        .catch(({ response }) => {
+          context.commit(SET_ERROR_SIGNIN, response.data.title);
+          context.commit(SET_ERROR_SIGNUP, "");
+        });
     });
   },
   [LOGOUT](context) {
@@ -47,32 +51,23 @@ const actions = {
   },
   [REGISTER](context, managedUserVM) {
     return new Promise((resolve, reject) => {
-      console.log("vao regis");
-      if (managedUserVM.password != managedUserVM.password_confirmation)
-        context.commit(SET_ERROR, "Mật khẩu không khớp nhau");
-      else if (managedUserVM.login == null)
-        context.commit(SET_ERROR, "Tên đăng nhập không được để trống");
-      else if (managedUserVM.email == null)
-        context.commit(SET_ERROR, "Email không được để trống");
-      else if (managedUserVM.hoTen == null)
-        context.commit(SET_ERROR, "Họ tên không được để trống");
-      else if (managedUserVM.sdt == null)
-        context.commit(SET_ERROR, "Số điện thoại không được để trống");
-      else
-        ApiService.post("register", {
-          hoTen: managedUserVM.hoTen,
-          sdt: managedUserVM.sdt,
-          email: managedUserVM.email,
-          login: managedUserVM.login,
-          password: managedUserVM.password,
+      ApiService.post("register", {
+        hoTen: managedUserVM.hoTen,
+        sdt: managedUserVM.sdt,
+        email: managedUserVM.email,
+        login: managedUserVM.login,
+        password: managedUserVM.password,
+      })
+        .then(({ data }) => {
+          resolve(data);
+          context.commit(SET_ERROR_SIGNIN, "");
+          context.commit(SET_ERROR_SIGNUP, "");
         })
-          .then(({ data }) => {
-            resolve(data);
-          })
-          .catch(({ response }) => {
-            context.commit(SET_ERROR, response.data.title);
-            reject(response);
-          });
+        .catch(({ response }) => {
+          context.commit(SET_ERROR_SIGNUP, response.data.title);
+          context.commit(SET_ERROR_SIGNIN, "");
+          reject(response);
+        });
     });
   },
   [CHECK_AUTH](context) {
@@ -83,7 +78,7 @@ const actions = {
           context.commit(SET_AUTH, data.user);
         })
         .catch(({ response }) => {
-          context.commit(SET_ERROR, response.data.errors);
+          context.commit(SET_ERROR_SIGNIN, response.data.errors);
         });
     } else {
       context.commit(PURGE_AUTH);
@@ -109,8 +104,11 @@ const actions = {
 };
 
 const mutations = {
-  [SET_ERROR](state, error) {
-    state.errors = error;
+  [SET_ERROR_SIGNIN](state, error) {
+    state.errorsSignin = error;
+  },
+  [SET_ERROR_SIGNUP](state, error) {
+    state.errorsSignup = error;
   },
   [SET_AUTH](state, user) {
     state.isAuthenticated = true;

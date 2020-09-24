@@ -16,34 +16,38 @@
 
             <div class="form-group">
               <label for="username" class="form-label">Tên người dùng</label>
-              <input
+              <v-text-field
                 id="username"
                 name="username"
                 type="text"
                 v-model="username"
                 placeholder="Nhập tên người dùng"
                 class="form-control"
-              />
+                :rules="[() => !!username || 'Tên người dùng không được để trống!!!']"
+                required
+              ></v-text-field>
               <span class="form-message"></span>
             </div>
 
             <div class="form-group">
               <label for="password" class="form-label">Mật khẩu</label>
-              <input
+              <v-text-field
                 id="password"
                 name="password"
                 type="password"
                 v-model="password"
                 placeholder="Nhập mật khẩu"
                 class="form-control"
-              />
+                :rules="[() => !!password || 'Mật khẩu không được để trống!!!']"
+                required
+              ></v-text-field>
               <span class="form-message"></span>
-              <span class="trick" v-on:click="moveSignup">Bạn chưa có tài khoản?</span>
+              <span class="trick mt-3" v-on:click="moveSignup">Bạn chưa có tài khoản?</span>
             </div>
-            <h4 v-if="errors" class="error-messages">
-              <strong style="color:red; ">{{ errors != null ? errors: ""}}</strong>
-            </h4>
 
+            <h4 v-if="errors" class="error-messages">
+              <strong style="color:red; ">{{ errors }}</strong>
+            </h4>
             <button @click="submit(username,password)" class="form-submit">Đăng nhập</button>
           </div>
         </v-col>
@@ -69,19 +73,25 @@ export default {
   },
   methods: {
     moveSignup() {
+      this.errors = "";
       this.$router.push("/signup");
     },
     submit(username, password) {
-      this.$store.dispatch(LOGIN, { username, password }).then(() => {
-        this.$router.push("/backend/thongkechung");
-      });
+      if (this.username && this.password) {
+        this.$store
+          .dispatch(LOGIN, { username, password })
+          .then(() => {
+            this.$router.push("/backend/thongkechung");
+          })
+          .catch();
+      }
     }
   },
 
   computed: {
     ...mapState(
       {
-        errors: state => state.auth.errors
+        errors: state => state.auth.errorsSignin
       },
       "isAuthenticated"
     ),
@@ -155,7 +165,7 @@ html {
 .form-control {
   height: 40px;
   padding: 8px 12px;
-  border: 1px solid #b3b3b3;
+  border: 0px solid #b3b3b3;
   border-radius: 3px;
   outline: none;
   font-size: 1rem;
