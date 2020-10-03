@@ -80,7 +80,7 @@
                 placeholder="Nhập mật khẩu"
                 class="form-control"
                 v-model="password"
-                :rules="[() => !!password || 'Mật khẩu không được để trống!!!']"
+                :rules="[() => password.length > 3 || 'Mật khẩu phải lớn hơn 4 ký tụ!!!']"
                 required
               ></v-text-field>
               <span class="form-message"></span>

@@ -14,7 +14,7 @@
               <v-row>
                 <v-col cols="12" md="9" xs="12">
                   <table>
-                    <thead style="fontSize:14px;color: white;backgroundColor: #506f38;">
+                    <thead style="fontSize:14px;color: white;backgroundColor: #02afae;">
                       <tr>
                         <th scope="col" class="stt">
                           <input type="checkbox" />
@@ -30,7 +30,7 @@
                       <tr
                         v-for="item in items"
                         :key="item.id"
-                        style="backgroundColor: #e07a3f;color: white;"
+                        style="backgroundColor: #c978b8;color: white;"
                       >
                         <th>
                           <input type="checkbox" />
@@ -53,14 +53,33 @@
                     </tbody>
                   </table>
                 </v-col>
-                <v-col cols="12" md="4" xs="12">
+                <v-col cols="12" md="3" xs="12">
                   <div class="giohang-right">
-                    <div class="box-header">
-                      <div class="clearfix">
-                        <div class="clearfix-lable">Tiền hàng:</div>
-                        <div class="clearfix-totalamount">120.452đ</div>
-                      </div>
+                    <div class="giohang-right_item">
+                      <div class="clearfix-lable">Tiền hàng:</div>
+                      <div class="clearfix-totalamount">120.452đ</div>
                     </div>
+                    <div class="giohang-right_item">
+                      <div class="clearfix-lable">Phí mua hàng:</div>
+                      <div class="clearfix-totalamount">120.452đ</div>
+                    </div>
+                    <div class="giohang-right_item">
+                      <div class="clearfix-lable">Phí vận chuyển TQ-VN:</div>
+                      <div class="clearfix-totalamount">120.452đ</div>
+                    </div>
+                    <div class="giohang-right_item">
+                      <div class="clearfix-lable">Phí vận chuyển nội địa VN:</div>
+                      <div class="clearfix-totalamount">120.452đ</div>
+                    </div>
+                  </div>
+                  <div class="giohang-right-2">
+                    <div class="giohang-right_item">
+                      <div class="clearfix-lable">TỔNG TIỀN:</div>
+                      <div class="clearfix-totalamount">120.452đ</div>
+                    </div>
+                  </div>
+                  <div>
+                    <button class="btn-dathang">Đặt hàng</button>
                   </div>
                 </v-col>
               </v-row>
@@ -160,51 +179,63 @@ export default {
 </script>
 
 <style scoped>
-.clearfix-lable {
-  width: 176px;
-  height: 18px;
-  color: hsl(0, 0%, 27%);
-  font-size: 13px;
+.btn-dathang {
+  margin-top: 13px;
+  float: right;
+  width: 150px;
+  height: 34px;
+  align-items: flex-start;
+  background-color: hsl(202, 52%, 49%);
+  border-color: hsl(202, 52%, 44%);
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 1px;
+  color: hsl(0, 0%, 100%);
+  display: inline-block;
+  font-size: 14px;
   gap: normal;
-  line-height: 18.5714px;
-  margin: 0px 0px 5px;
-  padding: 0px 15px;
+  line-height: 20px;
+  padding: 6px 12px;
+  text-align: center;
+}
+.giohang-right_item {
+  display: flex;
+  font-size: 13px;
+  justify-content: space-between;
+}
+.clearfix-lable {
+  color: hsl(0, 0%, 27%);
+  gap: normal;
+  margin: 8px -11px;
 }
 .clearfix-totalamount {
-  width: 146px;
-  heitgh: 18px;
   color: hsl(0, 0%, 27%);
   display: inline-block;
-  font-size: 13px;
   font-weight: 600;
   gap: normal;
   line-height: 18.5714px;
-  margin: 0px 0px 10px;
+  margin: 8px 0px;
   text-align: right;
 }
-.clearfix {
-  height: 28px;
-  color: hsl(0, 0%, 27%);
-  font-size: 13px;
-  gap: normal;
-  line-height: 18.5714px;
-  margin: 0px -15px 5px;
-}
-.box-header {
-  width: 341px;
-  height: 265px;
-  color: hsl(0, 0%, 27%);
-  font-size: 13px;
-  gap: normal;
-  line-height: 18.5714px;
-  padding: 10px;
-}
 .giohang-right {
+  background: #e2f1f2;
+  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.75);
   color: hsl(0, 0%, 20%);
   font-size: 13px;
   gap: normal;
   line-height: 18.5714px;
   padding: 0px 15px;
+}
+
+.giohang-right-2 {
+  background: #e2f1f2;
+  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.75);
+  color: hsl(0, 0%, 20%);
+  font-size: 13px;
+  gap: normal;
+  line-height: 18.5714px;
+  padding: 0px 15px;
+  margin-top: 5px;
 }
 .basil {
   background-color: #fffbe6 !important;
