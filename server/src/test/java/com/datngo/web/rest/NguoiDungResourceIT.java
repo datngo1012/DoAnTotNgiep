@@ -71,6 +71,9 @@ public class NguoiDungResourceIT {
     private static final LocalDate DEFAULT_NGAY_SUA = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_NGAY_SUA = LocalDate.now(ZoneId.systemDefault());
 
+    private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
+    private static final String UPDATED_EMAIL = "BBBBBBBBBB";
+
     @Autowired
     private NguoiDungRepository nguoiDungRepository;
 
@@ -129,7 +132,8 @@ public class NguoiDungResourceIT {
             .soDu(DEFAULT_SO_DU)
             .trangThai(DEFAULT_TRANG_THAI)
             .ngayTao(DEFAULT_NGAY_TAO)
-            .ngaySua(DEFAULT_NGAY_SUA);
+            .ngaySua(DEFAULT_NGAY_SUA)
+            .email(DEFAULT_EMAIL);
         return nguoiDung;
     }
     /**
@@ -150,7 +154,8 @@ public class NguoiDungResourceIT {
             .soDu(UPDATED_SO_DU)
             .trangThai(UPDATED_TRANG_THAI)
             .ngayTao(UPDATED_NGAY_TAO)
-            .ngaySua(UPDATED_NGAY_SUA);
+            .ngaySua(UPDATED_NGAY_SUA)
+            .email(UPDATED_EMAIL);
         return nguoiDung;
     }
 
@@ -186,6 +191,7 @@ public class NguoiDungResourceIT {
         assertThat(testNguoiDung.getTrangThai()).isEqualTo(DEFAULT_TRANG_THAI);
         assertThat(testNguoiDung.getNgayTao()).isEqualTo(DEFAULT_NGAY_TAO);
         assertThat(testNguoiDung.getNgaySua()).isEqualTo(DEFAULT_NGAY_SUA);
+        assertThat(testNguoiDung.getEmail()).isEqualTo(DEFAULT_EMAIL);
     }
 
     @Test
@@ -230,7 +236,8 @@ public class NguoiDungResourceIT {
             .andExpect(jsonPath("$.[*].soDu").value(hasItem(DEFAULT_SO_DU.intValue())))
             .andExpect(jsonPath("$.[*].trangThai").value(hasItem(DEFAULT_TRANG_THAI)))
             .andExpect(jsonPath("$.[*].ngayTao").value(hasItem(DEFAULT_NGAY_TAO.toString())))
-            .andExpect(jsonPath("$.[*].ngaySua").value(hasItem(DEFAULT_NGAY_SUA.toString())));
+            .andExpect(jsonPath("$.[*].ngaySua").value(hasItem(DEFAULT_NGAY_SUA.toString())))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)));
     }
     
     @Test
@@ -254,7 +261,8 @@ public class NguoiDungResourceIT {
             .andExpect(jsonPath("$.soDu").value(DEFAULT_SO_DU.intValue()))
             .andExpect(jsonPath("$.trangThai").value(DEFAULT_TRANG_THAI))
             .andExpect(jsonPath("$.ngayTao").value(DEFAULT_NGAY_TAO.toString()))
-            .andExpect(jsonPath("$.ngaySua").value(DEFAULT_NGAY_SUA.toString()));
+            .andExpect(jsonPath("$.ngaySua").value(DEFAULT_NGAY_SUA.toString()))
+            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL));
     }
 
     @Test
@@ -288,7 +296,8 @@ public class NguoiDungResourceIT {
             .soDu(UPDATED_SO_DU)
             .trangThai(UPDATED_TRANG_THAI)
             .ngayTao(UPDATED_NGAY_TAO)
-            .ngaySua(UPDATED_NGAY_SUA);
+            .ngaySua(UPDATED_NGAY_SUA)
+            .email(UPDATED_EMAIL);
         NguoiDungDTO nguoiDungDTO = nguoiDungMapper.toDto(updatedNguoiDung);
 
         restNguoiDungMockMvc.perform(put("/api/nguoi-dungs")
@@ -311,6 +320,7 @@ public class NguoiDungResourceIT {
         assertThat(testNguoiDung.getTrangThai()).isEqualTo(UPDATED_TRANG_THAI);
         assertThat(testNguoiDung.getNgayTao()).isEqualTo(UPDATED_NGAY_TAO);
         assertThat(testNguoiDung.getNgaySua()).isEqualTo(UPDATED_NGAY_SUA);
+        assertThat(testNguoiDung.getEmail()).isEqualTo(UPDATED_EMAIL);
     }
 
     @Test

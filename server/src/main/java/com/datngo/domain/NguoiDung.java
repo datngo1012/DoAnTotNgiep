@@ -55,6 +55,9 @@ public class NguoiDung implements Serializable {
     @Column(name = "ngay_sua")
     private LocalDate ngaySua;
 
+    @Column(name = "email")
+    private String email;
+
     @OneToOne
     @JoinColumn(unique = true)
     private User user;
@@ -211,6 +214,19 @@ public class NguoiDung implements Serializable {
         this.ngaySua = ngaySua;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public NguoiDung email(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public User getUser() {
         return user;
     }
@@ -256,6 +272,7 @@ public class NguoiDung implements Serializable {
             ", trangThai=" + getTrangThai() +
             ", ngayTao='" + getNgayTao() + "'" +
             ", ngaySua='" + getNgaySua() + "'" +
+            ", email='" + getEmail() + "'" +
             "}";
     }
 }

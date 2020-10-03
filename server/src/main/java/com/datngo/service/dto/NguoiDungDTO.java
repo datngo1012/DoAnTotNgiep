@@ -32,6 +32,8 @@ public class NguoiDungDTO implements Serializable {
 
     private LocalDate ngaySua;
 
+    private String email;
+
 
     private Long userId;
 
@@ -131,6 +133,14 @@ public class NguoiDungDTO implements Serializable {
         this.ngaySua = ngaySua;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -175,6 +185,7 @@ public class NguoiDungDTO implements Serializable {
             ", trangThai=" + getTrangThai() +
             ", ngayTao='" + getNgayTao() + "'" +
             ", ngaySua='" + getNgaySua() + "'" +
+            ", email='" + getEmail() + "'" +
             ", userId=" + getUserId() +
             "}";
     }

@@ -135,6 +135,7 @@ public class UserService {
         nguoiDung.setSoDu(0L);
         nguoiDung.setNgayTao(LocalDate.now());
         nguoiDung.setUser(newUser);
+        nguoiDung.setEmail(userDTO.getEmail());
         nguoiDungRepository.save(nguoiDung);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
