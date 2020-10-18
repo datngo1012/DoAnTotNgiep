@@ -9,6 +9,7 @@ import com.datngo.repository.NguoiDungRepository;
 import com.datngo.repository.UserRepository;
 import com.datngo.security.AuthoritiesConstants;
 import com.datngo.security.SecurityUtils;
+import com.datngo.service.dto.GioHangDTO;
 import com.datngo.service.dto.UserDTO;
 
 import com.datngo.web.rest.errors.BadRequestAlertException;
@@ -16,6 +17,7 @@ import io.github.jhipster.security.RandomUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,6 +50,9 @@ public class UserService {
     private final CacheManager cacheManager;
 
     private final NguoiDungRepository nguoiDungRepository;
+
+    @Autowired
+    private GioHangService gioHangService;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager,NguoiDungRepository nguoiDungRepository) {
         this.userRepository = userRepository;
@@ -136,7 +141,12 @@ public class UserService {
         nguoiDung.setNgayTao(LocalDate.now());
         nguoiDung.setUser(newUser);
         nguoiDung.setEmail(userDTO.getEmail());
-        nguoiDungRepository.save(nguoiDung);
+        NguoiDung nguoiDungNew = nguoiDungRepository.save(nguoiDung);
+
+        GioHangDTO gioHangDTO = new GioHangDTO();
+        gioHangDTO.setNguoiDungId(nguoiDungNew.getId());
+        GioHangDTO gioHangDTONew = gioHangService.save(gioHangDTO);
+
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;

@@ -1,5 +1,6 @@
 package com.datngo.web.rest;
 
+import com.datngo.domain.GioHang;
 import com.datngo.service.GioHangService;
 import com.datngo.web.rest.errors.BadRequestAlertException;
 import com.datngo.service.dto.GioHangDTO;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +48,7 @@ public class GioHangResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/gio-hangs")
-    public ResponseEntity<GioHangDTO> createGioHang(@RequestBody GioHangDTO gioHangDTO) throws URISyntaxException {
+    public ResponseEntity<GioHangDTO> createGioHang(@RequestBody GioHangDTO gioHangDTO, Principal principal) throws URISyntaxException {
         log.debug("REST request to save GioHang : {}", gioHangDTO);
         if (gioHangDTO.getId() != null) {
             throw new BadRequestAlertException("A new gioHang cannot already have an ID", ENTITY_NAME, "idexists");
@@ -114,5 +116,11 @@ public class GioHangResource {
         log.debug("REST request to delete GioHang : {}", id);
         gioHangService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+    }
+
+    @GetMapping("/gio-hangs-by-nguoidung/{nguoiDungId}")
+    public ResponseEntity<GioHang> getGioHangByNguoiDung(@PathVariable Long nguoiDungId) {
+        Optional<GioHang> gioHang = gioHangService.findOneByNguoiDung(nguoiDungId);
+        return ResponseUtil.wrapOrNotFound(gioHang);
     }
 }

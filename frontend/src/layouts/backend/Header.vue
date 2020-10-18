@@ -160,7 +160,7 @@
       <v-app-bar app color="primary" dark>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <base-img
-          :src="require('@/assets/logo.svg')"
+          :src="require('@/assets/logo-snow4.png')"
           class="mr-3 hidden-xs-only"
           contain
           max-width="52"
@@ -300,6 +300,9 @@ export default {
     if (!this.isAuthenticated) {
       this.$swal("Bạn chưa đăng nhập! Vui lòng đăng nhập để tiếp tục.");
       this.$router.push("/signin");
+    }
+    if (this.currentUser.is_admin) {
+      this.$router.push("/admin/thongkechung");
     }
   },
   methods: {

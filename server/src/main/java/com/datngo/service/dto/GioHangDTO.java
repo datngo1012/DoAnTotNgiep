@@ -9,7 +9,6 @@ public class GioHangDTO implements Serializable {
 
     private Long id;
 
-
     private Long nguoiDungId;
 
     public Long getId() {

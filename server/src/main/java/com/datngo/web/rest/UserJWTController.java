@@ -60,7 +60,6 @@ public class UserJWTController {
                 if (passwordEncoder.matches(loginVM.getPassword(), user1.getPassword())) {
                     UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(loginVM.getUsername(), loginVM.getPassword());
-
                     Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                     boolean rememberMe = (loginVM.isRememberMe() == null) ? false : loginVM.isRememberMe();
@@ -68,7 +67,11 @@ public class UserJWTController {
                     HttpHeaders httpHeaders = new HttpHeaders();
                     NguoiDung nguoiDung = nguoiDungRepository.findOneByUserId(user.get().getId());
                     httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-                    return new ResponseEntity<>(new JWTToken(jwt, nguoiDung), httpHeaders, HttpStatus.OK);
+                    if(authentication.getAuthorities().size()>1) {
+                        return new ResponseEntity<>(new JWTToken(jwt, nguoiDung, true), httpHeaders, HttpStatus.OK);
+                    }
+                    else return new ResponseEntity<>(new JWTToken(jwt, nguoiDung, false), httpHeaders, HttpStatus.OK);
+
                 }
                 else {
                     throw new BadRequestAlertException("Tên đăng nhập hoặc mật khẩu không đúng", "AccountOrPasswordErr", "not existed");
@@ -95,9 +98,12 @@ public class UserJWTController {
 
         private NguoiDung nguoiDung;
 
-        JWTToken(String idToken, NguoiDung nguoiDung) {
+        private boolean isAdmin;
+
+        JWTToken(String idToken, NguoiDung nguoiDung, boolean isAdmin) {
             this.idToken = idToken;
             this.nguoiDung = nguoiDung;
+            this.isAdmin = isAdmin;
         }
 
         @JsonProperty("id_token")
@@ -107,6 +113,15 @@ public class UserJWTController {
 
         void setIdToken(String idToken) {
             this.idToken = idToken;
+        }
+
+        @JsonProperty("is_admin")
+        public boolean isAdmin() {
+            return isAdmin;
+        }
+
+        public void setAdmin(boolean admin) {
+            isAdmin = admin;
         }
 
         @JsonProperty("user_info")

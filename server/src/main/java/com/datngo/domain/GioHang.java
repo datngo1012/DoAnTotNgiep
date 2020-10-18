@@ -5,6 +5,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A GioHang.
@@ -24,6 +26,10 @@ public class GioHang implements Serializable {
     @OneToOne
     @JoinColumn(unique = true)
     private NguoiDung nguoiDung;
+
+    @OneToMany(mappedBy = "gioHang")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<ChiTietSanPham> chiTietSanPhams = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -45,6 +51,31 @@ public class GioHang implements Serializable {
 
     public void setNguoiDung(NguoiDung nguoiDung) {
         this.nguoiDung = nguoiDung;
+    }
+
+    public Set<ChiTietSanPham> getChiTietSanPhams() {
+        return chiTietSanPhams;
+    }
+
+    public GioHang chiTietSanPhams(Set<ChiTietSanPham> chiTietSanPhams) {
+        this.chiTietSanPhams = chiTietSanPhams;
+        return this;
+    }
+
+    public GioHang addChiTietSanPham(ChiTietSanPham chiTietSanPham) {
+        this.chiTietSanPhams.add(chiTietSanPham);
+        //chiTietSanPham.setGioHang(this);
+        return this;
+    }
+
+    public GioHang removeChiTietSanPham(ChiTietSanPham chiTietSanPham) {
+        this.chiTietSanPhams.remove(chiTietSanPham);
+        //chiTietSanPham.setGioHang(null);
+        return this;
+    }
+
+    public void setChiTietSanPhams(Set<ChiTietSanPham> chiTietSanPhams) {
+        this.chiTietSanPhams = chiTietSanPhams;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

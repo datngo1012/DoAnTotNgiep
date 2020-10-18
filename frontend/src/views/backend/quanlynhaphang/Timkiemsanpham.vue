@@ -31,7 +31,7 @@
               placeholder="Nhập từ khoá tìm kiếm sản phầm Taobao / Tmall / 1688 "
             />
           </div>
-          <div class="input-group-btn icon-search" ng-click="crawlProduct(keywordSearchProduct)">
+          <div class="input-group-btn icon-search" @click="crawlProduct(keywordSearchProduct)">
             <button class="btn btn-default btn-search" color="grey lighten-2">
               <i class="fas fa-search"></i>
             </button>
@@ -39,7 +39,7 @@
         </v-card>
       </form>
       <v-row>
-        <v-col v-for="n in 23" :key="n" cols="12" md="3" sm="4" xs="6">
+        <v-col v-for="n in 23" :key="n" cols="6" md="3" sm="4">
           <v-card max-width="180">
             <v-img
               class="white--text align-end"
@@ -58,7 +58,7 @@
             </v-card-text>
 
             <v-card-actions>
-              <v-btn color="primary">Thêm vào giỏ hàng</v-btn>
+              <v-btn width="100%" color="primary">Thêm giỏ hàng</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -73,7 +73,8 @@ export default {
     return {
       items: ["TaoBao", "Tmall", "1688"]
     };
-  }
+  },
+  me
 };
 </script>
 

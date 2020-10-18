@@ -92,6 +92,39 @@ const routes = [
     ],
   },
   {
+    path: "/admin",
+    component: () => import("@/layouts/admin/Index.vue"),
+    children: [
+      {
+        path: "thongkechung",
+        name: "ThongkechungAdmin",
+        component: () => import("@/views/admin/Thongkechung.vue"),
+      },
+      {
+        path: "danhsachdonhang",
+        name: "DanhsachdonhangAdmin",
+        component: () =>
+          import("@/views/admin/quanlynhaphang/Danhsachdonhang.vue"),
+      },
+      {
+        path: "thongtincanhan",
+        name: "ThongtincanhanAdmin",
+        component: () =>
+          import("@/views/admin/quanlycanhan/Thongtincanhan.vue"),
+      },
+      {
+        path: "doimatkhau",
+        name: "DoimatkhauAdmin",
+        component: () => import("@/views/admin/quanlycanhan/Doimatkhau.vue"),
+      },
+      {
+        path: "naptien",
+        name: "NaptienAdmin",
+        component: () => import("@/views/admin/quanlyvitien/Naptien.vue"),
+      },
+    ],
+  },
+  {
     path: "*",
     name: "FourOhFour",
     component: () => import("@/views/404/Index.vue"),

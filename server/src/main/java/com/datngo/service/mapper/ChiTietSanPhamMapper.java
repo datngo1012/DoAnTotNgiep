@@ -8,13 +8,15 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link ChiTietSanPham} and its DTO {@link ChiTietSanPhamDTO}.
  */
-@Mapper(componentModel = "spring", uses = {SanPhamMapper.class})
+@Mapper(componentModel = "spring", uses = {SanPhamMapper.class, GioHangMapper.class})
 public interface ChiTietSanPhamMapper extends EntityMapper<ChiTietSanPhamDTO, ChiTietSanPham> {
 
     @Mapping(source = "sanPham.id", target = "sanPhamId")
+    @Mapping(source = "gioHang.id", target = "gioHangId")
     ChiTietSanPhamDTO toDto(ChiTietSanPham chiTietSanPham);
 
     @Mapping(source = "sanPhamId", target = "sanPham")
+    @Mapping(source = "gioHangId", target = "gioHang")
     ChiTietSanPham toEntity(ChiTietSanPhamDTO chiTietSanPhamDTO);
 
     default ChiTietSanPham fromId(Long id) {

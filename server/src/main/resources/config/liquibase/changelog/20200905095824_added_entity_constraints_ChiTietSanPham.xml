@@ -14,5 +14,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="san_pham"/>
 
+        <addForeignKeyConstraint baseColumnNames="gio_hang_id"
+                                 baseTableName="chi_tiet_san_pham"
+                                 constraintName="fk_chi_tiet_san_pham_gio_hang_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="gio_hang"/>
+
     </changeSet>
 </databaseChangeLog>

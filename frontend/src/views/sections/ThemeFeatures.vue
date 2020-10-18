@@ -1,8 +1,6 @@
 <template>
   <base-section id="theme-features">
-    <base-section-heading
-      title="Quy trình nhập hàng qua Snow-China"
-    >Đơn giản, nhanh chóng và uy tín.</base-section-heading>
+    <base-section-heading title="Quy trình nhập hàng qua Snow-Shop">Đơn giản, nhanh chóng và uy tín.</base-section-heading>
 
     <v-container>
       <v-row>

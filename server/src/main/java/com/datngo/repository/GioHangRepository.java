@@ -4,6 +4,8 @@ import com.datngo.domain.GioHang;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 /**
  * Spring Data  repository for the GioHang entity.
@@ -12,4 +14,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GioHangRepository extends JpaRepository<GioHang, Long> {
 
+    Optional<GioHang> findByNguoiDungId(Long nguoiDungId);
 }

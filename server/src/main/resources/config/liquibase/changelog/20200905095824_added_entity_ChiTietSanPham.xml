@@ -24,6 +24,9 @@
             <column name="san_pham_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_chi_tiet_san_pham_san_pham_id" />
             </column>
+            <column name="gio_hang_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
     </changeSet>

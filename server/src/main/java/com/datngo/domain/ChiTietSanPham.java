@@ -1,4 +1,5 @@
 package com.datngo.domain;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -30,6 +31,10 @@ public class ChiTietSanPham implements Serializable {
     @OneToOne
     @JoinColumn(unique = true)
     private SanPham sanPham;
+
+    @ManyToOne
+    @JsonIgnoreProperties("chiTietSanPhams")
+    private GioHang gioHang;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -77,6 +82,19 @@ public class ChiTietSanPham implements Serializable {
 
     public void setSanPham(SanPham sanPham) {
         this.sanPham = sanPham;
+    }
+
+    public GioHang getGioHang() {
+        return gioHang;
+    }
+
+    public ChiTietSanPham gioHang(GioHang gioHang) {
+        this.gioHang = gioHang;
+        return this;
+    }
+
+    public void setGioHang(GioHang gioHang) {
+        this.gioHang = gioHang;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -82,4 +82,8 @@ public class GioHangService {
         log.debug("Request to delete GioHang : {}", id);
         gioHangRepository.deleteById(id);
     }
+
+    public Optional<GioHang> findOneByNguoiDung(Long nguoiDungId) {
+        return gioHangRepository.findByNguoiDungId(nguoiDungId);
+    }
 }

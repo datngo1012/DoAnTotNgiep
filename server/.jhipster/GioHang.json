@@ -9,6 +9,12 @@
             "relationshipName": "nguoiDung",
             "otherEntityField": "id",
             "ownerSide": true
+        },
+        {
+            "relationshipName": "chiTietSanPham",
+            "otherEntityName": "chiTietSanPham",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "gioHang"
         }
     ],
     "changelogDate": "20200905095825",
@@ -20,5 +26,7 @@
     "fluentMethods": true,
     "readOnly": false,
     "clientRootFolder": "",
-    "applications": "*"
+    "applications": "*",
+    "searchEngine": false,
+    "databaseType": "sql"
 }

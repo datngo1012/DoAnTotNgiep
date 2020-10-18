@@ -2,7 +2,7 @@
   <div>
     <v-app-bar id="home-app-bar" app color="white" elevation="1" height="80">
       <base-img
-        :src="require('@/assets/logo.svg')"
+        :src="require('@/assets/logo-snow3.png')"
         class="mr-3 hidden-xs-only"
         contain
         max-width="52"

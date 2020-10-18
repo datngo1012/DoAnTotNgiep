@@ -16,6 +16,8 @@ public class ChiTietSanPhamDTO implements Serializable {
 
     private Long sanPhamId;
 
+    private Long gioHangId;
+
     public Long getId() {
         return id;
     }
@@ -48,6 +50,14 @@ public class ChiTietSanPhamDTO implements Serializable {
         this.sanPhamId = sanPhamId;
     }
 
+    public Long getGioHangId() {
+        return gioHangId;
+    }
+
+    public void setGioHangId(Long gioHangId) {
+        this.gioHangId = gioHangId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -76,6 +86,7 @@ public class ChiTietSanPhamDTO implements Serializable {
             ", soLuong=" + getSoLuong() +
             ", propetiesName='" + getPropetiesName() + "'" +
             ", sanPhamId=" + getSanPhamId() +
+            ", gioHangId=" + getGioHangId() +
             "}";
     }
 }
