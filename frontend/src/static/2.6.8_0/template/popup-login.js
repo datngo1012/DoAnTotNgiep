@@ -1,18 +1,27 @@
-$(function() {
-  // Send a message to the active tab
-  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    var activeTab = tabs[0];
-    chrome.tabs.sendMessage(activeTab.id, { message: "getFirstFormId" });
-  });
-});
+sendAjax = function(url, method, data, callBack) {
+  chrome.runtime.sendMessage(
+    {
+      url: url,
+      method: method,
+      data: data,
+    },
+    callBack
+  );
+};
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  // if (request.message === "find_first_form") {
-  //     $('#formId').val("#" + request.formId);
-  // }
-  $(document).ready(function() {
-    $("#myform").submit(function() {
-      console.log("helloi");
-    });
+$(document).ready(function() {
+  $("#mybutton").click(function() {
+    var login = {
+      username: $("#myform")
+        .find('input[name="username"]')
+        .val(),
+      password: $("#myform")
+        .find('input[name="password"]')
+        .val(),
+    };
+
+    sendAjax("http://localhost:8085/api/authenticate", "POST", login, function(
+      resp
+    ) {});
   });
 });

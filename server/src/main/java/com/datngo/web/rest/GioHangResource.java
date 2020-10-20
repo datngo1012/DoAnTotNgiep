@@ -1,7 +1,11 @@
 package com.datngo.web.rest;
 
-import com.datngo.domain.GioHang;
+import com.datngo.domain.*;
+import com.datngo.repository.*;
 import com.datngo.service.GioHangService;
+import com.datngo.service.dto.SanPhamInputDTO;
+import com.datngo.service.dto.SanPhamItemInput;
+import com.datngo.service.mapper.GioHangMapper;
 import com.datngo.web.rest.errors.BadRequestAlertException;
 import com.datngo.service.dto.GioHangDTO;
 
@@ -9,6 +13,7 @@ import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +22,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * REST controller for managing {@link com.datngo.domain.GioHang}.
@@ -30,6 +34,24 @@ public class GioHangResource {
     private final Logger log = LoggerFactory.getLogger(GioHangResource.class);
 
     private static final String ENTITY_NAME = "gioHang";
+
+    @Autowired
+    private SanPhamRepository sanPhamRepository;
+
+    @Autowired
+    private ChiTietSanPhamRepository chiTietSanPhamRepository;
+
+    @Autowired
+    private NguoiDungRepository nguoiDungRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private GioHangRepository gioHangRepository;
+
+    @Autowired
+    private GioHangMapper gioHangMapper;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
@@ -43,17 +65,33 @@ public class GioHangResource {
     /**
      * {@code POST  /gio-hangs} : Create a new gioHang.
      *
-     * @param gioHangDTO the gioHangDTO to create.
+     * @param sanPhamInputDTO the gioHangDTO to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new gioHangDTO, or with status {@code 400 (Bad Request)} if the gioHang has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/gio-hangs")
-    public ResponseEntity<GioHangDTO> createGioHang(@RequestBody GioHangDTO gioHangDTO, Principal principal) throws URISyntaxException {
-        log.debug("REST request to save GioHang : {}", gioHangDTO);
-        if (gioHangDTO.getId() != null) {
-            throw new BadRequestAlertException("A new gioHang cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        GioHangDTO result = gioHangService.save(gioHangDTO);
+    public ResponseEntity<GioHangDTO> createGioHang(@RequestBody SanPhamInputDTO sanPhamInputDTO, Principal principal) throws URISyntaxException {
+        log.debug("REST request to save GioHang : {}", sanPhamInputDTO);
+        User user = userRepository.findOneByLogin(principal.getName()).get();
+        NguoiDung nguoiDung = nguoiDungRepository.findOneByUserId(user.getId());
+        GioHang gioHang = gioHangRepository.findByNguoiDungId(nguoiDung.getId()).get();
+        //luu san pham
+        SanPhamItemInput sanPhamItemInput = sanPhamInputDTO.getItems().get(0);
+        SanPham sanPham = new SanPham();
+        sanPham.setId(sanPhamItemInput.getItemId());
+        sanPham.setImage(sanPhamItemInput.getItemImage());
+        sanPham.setStock(sanPhamItemInput.getStock());
+        sanPham.setSellPrice(sanPhamItemInput.getTotalAmountNDT());
+        sanPham.setStartPriceVND(sanPhamItemInput.getTotalAmountNDT() * 3575);
+        SanPham sanPhamSave = sanPhamRepository.save(sanPham);
+
+        //Luu san pham chi tiet
+        ChiTietSanPham chiTietSanPham = new ChiTietSanPham();
+        chiTietSanPham.setSoLuong(sanPhamItemInput.getQuantity());
+        chiTietSanPham.setSanPham(sanPhamSave);
+        chiTietSanPham.setGioHang(gioHang);
+        ChiTietSanPham chiTietSanPhamSave = chiTietSanPhamRepository.save(chiTietSanPham);
+        GioHangDTO result = gioHangMapper.toDto(gioHang);
         return ResponseEntity.created(new URI("/api/gio-hangs/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);

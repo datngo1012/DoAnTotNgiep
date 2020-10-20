@@ -237,7 +237,7 @@ public class SanPhamResourceIT {
             .andExpect(jsonPath("$.[*].transaction").value(hasItem(DEFAULT_TRANSACTION.intValue())))
             .andExpect(jsonPath("$.[*].transalated").value(hasItem(DEFAULT_TRANSALATED.booleanValue())));
     }
-    
+
     @Test
     @Transactional
     public void getSanPham() throws Exception {

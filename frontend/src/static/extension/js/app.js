@@ -27,10 +27,6 @@ function start() {
                 addTranslate(siteName);
             }
         }, 1000);
-        if(siteName == "TAOBAO"){
-            tool.setItemCook("enc", "yTUJ904QmEotVjXCO7yuy9FnT07dy7TPd4an%2BysqqxkLDIdQkfqd%2BOaUn0dugdlxLSHLPyGjf04bDQYYq7qhPw%3D%3D", "Tue Jun 13 2028 18:20:05 GMT+0700 (Indochina Time)", "/", ".taobao.com", true);
-        }
-
     }, 2000);
     return true;
 }
@@ -41,60 +37,66 @@ function start() {
 function addTaskBar(domain) {
     // Make the toolbar
     var elem = document.createElement("div");
-    $(elem).addClass("_chipo_template");
+    $(elem).addClass("_tbdn_template");
     document.body.insertBefore(elem, document.body.childNodes[0]);
     $(elem).css({"display": "block"});
     $(elem).html(addon.toolbar);
     // Make popup
     var html = addon.popup;
     $(html).appendTo(document.body);
-    chrome.storage.sync.get("translateWarning", function (result) {
-        html = "<div class='chipo-toggle-container'>";
-        if (result.translateWarning || typeof result.translateWarning === 'undefined') {
-            html += "<a href='javascript:;' id='chipo-toggle-addon'>Thu gọn</a>";
-        } else {
-            html += "<a href='javascript:;' id='chipo-toggle-addon'>Mở rộng</a>";
-            $(".chipo-alert").addClass("collapsed");
-            $(".chipo-alert").hide();
-        }
-        html += "</div>";
-        $(html).appendTo(document.body);
-    });
+
+    // chrome.storage.sync.get("translateWarning", function (result) {
+    //     html = "<div class='tbdn-toggle-container'>";
+    //     if (result.translateWarning || typeof result.translateWarning === 'undefined') {
+    //         html += "<a href='javascript:;' id='tbdn-toggle-addon'>Thu gọn</a>";
+    //     } else {
+    //         html += "<a href='javascript:;' id='tbdn-toggle-addon'>Mở rộng</a>";
+    //         $(".tbdn-alert").addClass("collapsed");
+    //         $(".tbdn-alert").hide();
+    //     }
+    //     html += "</div>";
+    //     $(html).appendTo(document.body);
+    // });
+
     // if (rules.currentVersion !== rules.newestVersion) {
     //     $("#version-warning").removeAttr('style');
     // }
+
     // Translate if set
-    chrome.storage.sync.get('translateAuto', function (result) {
-        if (result.translateAuto || typeof result.translateAuto === 'undefined') {
-            $('#_is_translate').attr("checked", "checked");
-            addTranslate(domain);
-        } else {
-            $("#_is_translate").removeAttr("checked");
-        }
-    });
+    // chrome.storage.sync.get('translateAuto', function (result) {
+    //     if (result.translateAuto || typeof result.translateAuto === 'undefined') {
+    //         $('#_is_translate').attr("checked", "checked");
+    //         addTranslate(domain);
+    //     } else {
+    //         $("#_is_translate").removeAttr("checked");
+    //     }
+    // });
+
     // Handle button on taskbar
     setTimeout(function () {
         // Handle collapse button
-        $("#chipo-toggle-addon").click(function () {
-            if ($(".chipo-alert").hasClass('collapsed')) {
-                $(this).text("Thu gọn");
-                $(".chipo-alert").removeClass('collapsed');
-                chrome.storage.sync.set({"translateWarning": true});
-            } else {
-                $(this).text("Mở rộng");
-                $(".chipo-alert").addClass('collapsed');
-                chrome.storage.sync.set({"translateWarning": false});
-            }
-            $(".chipo-alert").toggle("1000");
-        });
+        // $("#tbdn-toggle-addon").click(function () {
+        //     if ($(".tbdn-alert").hasClass('collapsed')) {
+        //         $(this).text("Thu gọn");
+        //         $(".tbdn-alert").removeClass('collapsed');
+        //         chrome.storage.sync.set({"translateWarning": true});
+        //     } else {
+        //         $(this).text("Mở rộng");
+        //         $(".tbdn-alert").addClass('collapsed');
+        //         chrome.storage.sync.set({"translateWarning": false});
+        //     }
+        //     $(".tbdn-alert").toggle("1000");
+        // });
         // Handle translate checkbox
         $("#_is_translate").change(function () {
             if ($(this).is(":checked")) {
                 addTranslate(domain);
-                chrome.storage.sync.set({"translateAuto": true});
+                // TODO: Pending
+                // chrome.storage.sync.set({"translateAuto": true});
             } else {
+                // TODO: Pending
                 removeTranslate(domain);
-                chrome.storage.sync.set({"translateAuto": false});
+                // chrome.storage.sync.set({"translateAuto": false});
             }
         });
         // Handle order button
@@ -112,7 +114,7 @@ function addTaskBar(domain) {
                         $.each(product, function () {
                             if (this.itemPrice)
                                 delete this.itemPrice;
-                            this.note = $("#chipo-textarea").val();
+                            this.note = $("#tbdn-textarea").val();
                             totalQuantity += parseInt(this.quantity);
                         });
                         if (totalQuantity < parseInt(product[0].wholesales[0].begin)) {
@@ -127,7 +129,7 @@ function addTaskBar(domain) {
                             return;
                         }
                         if (parseInt(product.quantity) <= parseInt(product.stock)) {
-                            product.note = $("#chipo-textarea").val();
+                            product.note = $("#tbdn-textarea").val();
                             if (product.itemPrice)
                                 delete product.itemPrice;
                             product = [product];
@@ -147,6 +149,7 @@ function addTaskBar(domain) {
             }
         });
     }, 1000);
+
     // $("#load_exchange_rate").click(function () {
     //     tool.calculateExchangeRate();
     //     $("#exchange_rate").text(rules.exchangeRate);
@@ -207,11 +210,6 @@ function addTranslate(domain) {
         $(rules.translate[domain].condition).each(function () {
             text = $(this).text();
             $(this).html("<span class='hidden'>" + text + "</span>Điều kiện");
-        });
-    }
-    if ($(rules.translate[domain].freight).length) {
-        $(rules.translate[domain].freight).each(function () {
-            $(this).text("Kho");
         });
     }
     translated = true;

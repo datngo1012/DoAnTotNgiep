@@ -13,7 +13,7 @@ var tmall = function () {
          * @return {String} return shopId or empty string
          */
         function getShopId() {
-            var shopId = $(rules.info.TMALL.shop.id_shopid).attr('value');
+            var shopId = $(rules.info.TMALL.shop.id_shopid).attr('shopid');
             if (!shopId) {
                 shopId = $('input[name=seller_id]').val();
             }
@@ -159,10 +159,10 @@ var tmall = function () {
             } else {
                 priceVnd = tool.convertToVND(price) + "đ";
             }
-            $('.chipo-box-info #sell_price').text(priceVnd);
+            $('.tbdn-box-info #sell_price').text(priceVnd);
 
             var stock = prod.getSelectStock();
-            $('.chipo-box-info #stock').text(stock);
+            $('.tbdn-box-info #stock').text(stock);
         };
 
         /**
@@ -294,7 +294,7 @@ var tmall = function () {
     };
 
     /**
-     * Add chipo box to page
+     * Add tbdn box to page
      **/
     self.renderView = function (product) {
         var div = $('<div>');
@@ -303,16 +303,16 @@ var tmall = function () {
         $(div).addClass('tm-clear');
         $(rules.info.TMALL.box_after).after($(div));
         // if ($(rules.info.TMALL.product.hiddenPrice).length) {
-        //     $('.chipo-warning').removeClass('hidden');
+        //     $('.tbdn-warning').removeClass('hidden');
         // }
-        $('.chipo-box-info #stock').text(product.stock);
+        $('.tbdn-box-info #stock').text(product.stock);
         if (product.itemPrice) {
-            $('.chipo-box-info #sell_price').text(product.itemPrice + "đ");
+            $('.tbdn-box-info #sell_price').text(product.itemPrice + "đ");
         } else {
-            $('.chipo-box-info #sell_price').text(tool.convertToVND(product.itemPriceNDT) + "đ");
+            $('.tbdn-box-info #sell_price').text(tool.convertToVND(product.itemPriceNDT) + "đ");
         }
         if ($("#J_Sold-out-recommend").length) {
-            $(".chipo-warning").text("Sản phẩm này đã hết hàng");
+            $(".tbdn-warning").text("Sản phẩm này đã hết hàng");
         }
     };
 

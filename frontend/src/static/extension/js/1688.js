@@ -168,7 +168,7 @@ var cn1688 = function () {
                 var amountArr = [];
                 $(rules.info.cn1688.product.amountWholesale).find(".value").each(function (index, value) {
                     var temp = /[\d]+/.exec($(value).text());
-                    (temp && temp.length > 0) ? amountArr.push(temp[0]) : null;
+                    (temp && temp.length > 0) ? amountArr.push(temp[0]): null;
                 });
                 for (var i in priceArr) {
                     if (priceArr[i].indexOf(".") < (priceArr[i].length - 3)) {
@@ -182,7 +182,7 @@ var cn1688 = function () {
                 if (amountArr.length < priceArr.length) {
                     product.itemPrice = priceArr;
                 }
-                for (var i  in amountArr) {
+                for (var i in amountArr) {
                     product.wholesales.push({
                         begin: parseInt(amountArr[i]),
                         end: amountArr[i + 1] ? parseInt(amountArr[i + 1]) : 0,
@@ -211,19 +211,10 @@ var cn1688 = function () {
                 });
                 for (var i in elem) {
                     if (elem[i].indexOf(".") < (elem[i].length - 3)) {
-                        elem[i] = elem[i].replace(".", ".");
+                        elem[i] = elem[i].replace(".", "");
                     }
                     if (elem[i].indexOf(",")) {
                         elem[i] = elem[i].replace(",", ".");
-                    }
-                }
-                if(elem[0]){
-                    var price_arr =  elem[0].split("-");
-                    if(price_arr.length==1){
-                        elem[0] = price_arr[0];
-                    }
-                    if(price_arr.length==2){
-                        elem[0] = price_arr[1];
                     }
                 }
                 product.wholesales = [{
@@ -235,7 +226,6 @@ var cn1688 = function () {
                     product.itemPrice = elem;
                 }
             }
-
             product.itemPriceNDT = product.wholesales[0].price;
             return product;
         };
@@ -281,7 +271,11 @@ var cn1688 = function () {
          * @returns {Object} return product with properties
          */
         prod.getProductProperties = function (product) {
-            var properties = {type: '', name: '', images: ''};
+            var properties = {
+                type: '',
+                name: '',
+                images: ''
+            };
             $('div.obj-leading').each(function () {
                 if ($(this).find('span.obj-title .hidden').length > 0) { //.hidden is where original element name is stored when using translation
                     properties.type += $(this).find('span.obj-title .hidden').text() + ';';
@@ -509,7 +503,7 @@ var cn1688 = function () {
                 }
                 if (price) {
                     var priceVnd = tool.convertToVND(price) + "đ";
-                    $('.chipo-box-info #sell_price').text(priceVnd);
+                    $('.tbdn-box-info #sell_price').text(priceVnd);
                 }
             }
         };
@@ -544,7 +538,7 @@ var cn1688 = function () {
     };
 
     /**
-     * Display Chipo box on page
+     * Display tbdn box on page
      * @param product
      */
     self.renderView = function (product) {
@@ -582,27 +576,27 @@ var cn1688 = function () {
                 totalAmount = parseInt(temp);
             }
         }
-        $('.chipo-box-info #stock').text(totalAmount);
+        $('.tbdn-box-info #stock').text(totalAmount);
         //Display price
         if (product.itemPrice && Array.isArray(product.itemPrice) && product.itemPrice.length > product.wholesales.length) {
             var displayPrice = tool.convertToVND(product.itemPrice[0]) + "đ - " + tool.convertToVND(product.itemPrice[product.itemPrice.length - 1]) + "đ";
-            $('.chipo-box-info #sell_price').text(displayPrice);
+            $('.tbdn-box-info #sell_price').text(displayPrice);
         } else if (product.wholesales.length > 1) {
             var priceTable = "";
             $.each(product.wholesales, function (index, range) {
                 priceTable += "<tr><td>Mua ≥ " + range.begin + " sản phẩm</td>" +
-                    "<td class='text-chipo'>" + tool.convertToVND(range.price) + "đ </td></tr>";
+                    "<td class='text-tbdn'>" + tool.convertToVND(range.price) + "đ </td></tr>";
             });
-            $(".chipo-box-info .chipo-1688-price").html(priceTable);
-            $(".chipo-box-info .chipo-advanced-info").removeClass('hidden');
-            $('.chipo-box-info #sell_price').text(tool.convertToVND(product.itemPriceNDT) + "đ");
+            $(".tbdn-box-info .tbdn-1688-price").html(priceTable);
+            $(".tbdn-box-info .tbdn-advanced-info").removeClass('hidden');
+            $('.tbdn-box-info #sell_price').text(tool.convertToVND(product.itemPriceNDT) + "đ");
         } else {
-            $('.chipo-box-info #sell_price').text(tool.convertToVND(product.itemPriceNDT) + "đ");
+            $('.tbdn-box-info #sell_price').text(tool.convertToVND(product.itemPriceNDT) + "đ");
         }
         // Display quantity condition
         if (product.requireMin > 1) {
-            $(".chipo-warning").text("Cửa hàng yêu cầu mua tối thiểu " + product.requireMin + " sản phẩm");
-            $(".chipo-warning").removeClass('hidden');
+            $(".tbdn-warning").text("Sản phẩm này yêu cầu số lượng mua ít nhất là: " + product.requireMin);
+            $(".tbdn-warning").removeClass('hidden');
         }
     };
 
@@ -642,7 +636,9 @@ var cn1688 = function () {
     self.focusOnError = function () {
         $("div.obj-sku, li.opt-li, div.obj-amount").each(function () {
             $(this).find("input:first").focus();
-            var style = {border: "1px solid red"};
+            var style = {
+                border: "1px solid red"
+            };
             $("div.spu-list-content").css(style);
             $(this).css(style);
             // scroll to the error

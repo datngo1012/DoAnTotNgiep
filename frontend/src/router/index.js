@@ -63,12 +63,6 @@ const routes = [
           import("@/views/backend/quanlynhaphang/Danhsachdonhang.vue"),
       },
       {
-        path: "timkiemsanpham",
-        name: "Timkiemsanpham",
-        component: () =>
-          import("@/views/backend/quanlynhaphang/Timkiemsanpham.vue"),
-      },
-      {
         path: "thongtincanhan",
         name: "Thongtincanhan",
         component: () =>

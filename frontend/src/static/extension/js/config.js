@@ -16,8 +16,7 @@ var rules = {
             product: ".tb-amount-widget .mui-amount-unit",
             size: "dt:contains('尺碼'), dt:contains('尺寸'), dt:contains('尺码'), dt:contains('套餐類型'), dt:contains('参考身高'), dt:contains('鞋码'), dt:contains('大小描述')",
             color: "dt:contains('顏色'), dt:contains('颜色')",
-            stock_str: "#J_EmStock",
-            freight:"dt:contains('运费')"
+            stock_str: "#J_EmStock"
         },
         cn1688: {
             basePrice: "tr.price > td.price-title",
@@ -56,7 +55,7 @@ var rules = {
         },
         TMALL: {
             shop: {
-                id_shopid: "#dsr-userid",
+                id_shopid: "#LineZing",
                 id_eval: "meta[name='microscope-data']",
                 name_text: ".shopLink, .slogo-shopname strong",
                 name_value: "input[name=seller_nickname]",
@@ -116,7 +115,7 @@ var rules = {
 var addon = {};
 $.get(chrome.runtime.getURL("../template/toolbar.html"), function (data) {
     var html = $.parseHTML(data);
-    $(html).find("a._chipo-home").attr('href', tool.baseUrl);
+    $(html).find("a._tbdn-home").attr('href', tool.baseUrl);
     $(html).find("a._link-detail-cart").attr('href', tool.getCartUrl);
     addon.toolbar = html;
 });

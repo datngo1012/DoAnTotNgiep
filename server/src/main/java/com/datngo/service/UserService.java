@@ -2,6 +2,7 @@ package com.datngo.service;
 
 import com.datngo.config.Constants;
 import com.datngo.domain.Authority;
+import com.datngo.domain.ChiTietSanPham;
 import com.datngo.domain.NguoiDung;
 import com.datngo.domain.User;
 import com.datngo.repository.AuthorityRepository;
