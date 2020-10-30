@@ -115,7 +115,7 @@ var rules = {
 var addon = {};
 $.get(chrome.runtime.getURL("../template/toolbar.html"), function (data) {
     var html = $.parseHTML(data);
-    $(html).find("a._tbdn-home").attr('href', tool.baseUrl);
+    $(html).find("a._tbdn-home").attr('href', "http://localhost:8081");
     $(html).find("a._link-detail-cart").attr('href', tool.getCartUrl);
     addon.toolbar = html;
 });

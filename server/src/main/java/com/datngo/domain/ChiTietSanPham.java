@@ -12,6 +12,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "chi_tiet_san_pham")
+@JsonIgnoreProperties({ "gioHang" })
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class ChiTietSanPham implements Serializable {
 

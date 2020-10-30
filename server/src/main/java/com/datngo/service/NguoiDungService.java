@@ -41,9 +41,20 @@ public class NguoiDungService {
      */
     public NguoiDungDTO save(NguoiDungDTO nguoiDungDTO) {
         log.debug("Request to save NguoiDung : {}", nguoiDungDTO);
-        NguoiDung nguoiDung = nguoiDungMapper.toEntity(nguoiDungDTO);
-        nguoiDung = nguoiDungRepository.save(nguoiDung);
-        return nguoiDungMapper.toDto(nguoiDung);
+
+        NguoiDung nguoiDungUpdate = nguoiDungRepository.findById(nguoiDungDTO.getId()).get();
+        nguoiDungUpdate.setSdt(nguoiDungDTO.getSdt());
+        nguoiDungUpdate.setHoTen(nguoiDungDTO.getHoTen());
+        nguoiDungUpdate.setDiaChi(nguoiDungDTO.getDiaChi());
+        nguoiDungUpdate.setNgaySinh(nguoiDungDTO.getNgaySinh());
+        nguoiDungUpdate.setThangSinh(nguoiDungDTO.getThangSinh());
+        nguoiDungUpdate.setNamSinh(nguoiDungDTO.getNamSinh());
+        nguoiDungUpdate.setTinhThanh(nguoiDungDTO.getTinhThanh());
+        nguoiDungUpdate.setQuanHuyen(nguoiDungDTO.getQuanHuyen());
+        nguoiDungUpdate.setXaPhuong(nguoiDungDTO.getXaPhuong());
+        nguoiDungUpdate.setGioiTinh(nguoiDungDTO.getGioiTinh());
+        nguoiDungUpdate = nguoiDungRepository.save(nguoiDungUpdate);
+        return nguoiDungMapper.toDto(nguoiDungUpdate);
     }
 
     /**
@@ -70,6 +81,11 @@ public class NguoiDungService {
     public Optional<NguoiDungDTO> findOne(Long id) {
         log.debug("Request to get NguoiDung : {}", id);
         return nguoiDungRepository.findById(id)
+            .map(nguoiDungMapper::toDto);
+    }
+
+    public Optional<NguoiDungDTO> getNguoiDungByUserId(Long userid) {
+        return nguoiDungRepository.findOneByUserId(userid)
             .map(nguoiDungMapper::toDto);
     }
 

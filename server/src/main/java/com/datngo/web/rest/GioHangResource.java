@@ -73,12 +73,13 @@ public class GioHangResource {
     public ResponseEntity<GioHangDTO> createGioHang(@RequestBody SanPhamInputDTO sanPhamInputDTO, Principal principal) throws URISyntaxException {
         log.debug("REST request to save GioHang : {}", sanPhamInputDTO);
         User user = userRepository.findOneByLogin(principal.getName()).get();
-        NguoiDung nguoiDung = nguoiDungRepository.findOneByUserId(user.getId());
+        NguoiDung nguoiDung = nguoiDungRepository.findOneByUserId(user.getId()).get();
         GioHang gioHang = gioHangRepository.findByNguoiDungId(nguoiDung.getId()).get();
         //luu san pham
         SanPhamItemInput sanPhamItemInput = sanPhamInputDTO.getItems().get(0);
         SanPham sanPham = new SanPham();
         sanPham.setId(sanPhamItemInput.getItemId());
+        sanPham.setNam(sanPhamItemInput.getItemName());
         sanPham.setImage(sanPhamItemInput.getItemImage());
         sanPham.setStock(sanPhamItemInput.getStock());
         sanPham.setSellPrice(sanPhamItemInput.getTotalAmountNDT());
@@ -130,6 +131,12 @@ public class GioHangResource {
         return gioHangService.findAll();
     }
 
+    @PostMapping("/gio-hangs-by-nguoidungid")
+    public List<ChiTietSanPham> getGioHangByNguoiDung(@RequestBody Map<String, Object> thongTin) {
+        long nguoiDungId = Long.parseLong(thongTin.get("nguoiDungId").toString());
+        return chiTietSanPhamRepository.findListChiTietSanPhamByNguoiDungId(nguoiDungId);
+    }
+
     /**
      * {@code GET  /gio-hangs/:id} : get the "id" gioHang.
      *
@@ -157,8 +164,7 @@ public class GioHangResource {
     }
 
     @GetMapping("/gio-hangs-by-nguoidung/{nguoiDungId}")
-    public ResponseEntity<GioHang> getGioHangByNguoiDung(@PathVariable Long nguoiDungId) {
-        Optional<GioHang> gioHang = gioHangService.findOneByNguoiDung(nguoiDungId);
-        return ResponseUtil.wrapOrNotFound(gioHang);
+    public List<ChiTietSanPham> getGioHangByNguoiDung(@PathVariable Long nguoiDungId) {
+        return chiTietSanPhamRepository.findListChiTietSanPhamByNguoiDungId(nguoiDungId);
     }
 }

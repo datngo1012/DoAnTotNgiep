@@ -1,9 +1,11 @@
 package com.datngo.repository;
 
 import com.datngo.domain.NguoiDung;
+
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 
 /**
  * Spring Data  repository for the NguoiDung entity.
@@ -11,6 +13,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface NguoiDungRepository extends JpaRepository<NguoiDung, Long> {
-
-    NguoiDung findOneByUserId(Long id);
+    Optional<NguoiDung> findOneByUserId(Long id);
 }

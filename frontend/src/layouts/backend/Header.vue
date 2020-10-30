@@ -13,8 +13,8 @@
                 </v-list-item-avatar>
 
                 <v-list-item-content>
-                  <h4>{{currentUser.user_info.hoTen}}</h4>
-                  <h6>{{currentUser.user_info.sdt}}</h6>
+                  <h4>{{nguoidung.hoTen}}</h4>
+                  <h6>{{nguoidung.sdt}}</h6>
                 </v-list-item-content>
               </v-list-item>
             </v-list-item>
@@ -170,7 +170,7 @@
         <v-spacer />
         <div class="header_giohang">
           <v-btn text color="primary" to="/backend/giohang">
-            <v-badge :content="amount" color="green" overlap>
+            <v-badge :content="amount>0?amount:0" color="green" overlap>
               <v-icon large color="white">mdi-cart</v-icon>
             </v-badge>
           </v-btn>
@@ -186,7 +186,7 @@
                 </v-list-item-avatar>
 
                 <v-list-item-content>
-                  <h4>{{currentUser.user_info.hoTen}}</h4>
+                  <h4>{{nguoidungCurrent.hoTen}}</h4>
                 </v-list-item-content>
               </v-list-item>
             </template>
@@ -194,7 +194,7 @@
               <v-list-item to="/backend/giaodich">
                 <v-list-item-title>Số dư:</v-list-item-title>
                 <div class="my-2">
-                  <v-btn small color="green darken-2" dark>{{currentUser.user_info.soDu}} VND</v-btn>
+                  <v-btn small color="green darken-2" dark>{{nguoidungCurrent.soDu}} VND</v-btn>
                 </div>
                 <!-- <v-chip color="green" v-text="`${sotien}`"></v-chip> -->
               </v-list-item>
@@ -228,6 +228,8 @@
 import { LOGOUT } from "@/store/actions.type";
 import { mapGetters } from "vuex";
 import JwtService from "@/common/jwt.service";
+import NguoiDungService from "@/common/nguoidung.service";
+import { GIOHANG, GET_NGUOIDUNG } from "@/store/actions.type";
 
 export default {
   name: "BackendHeader",
@@ -235,11 +237,11 @@ export default {
 
   data: () => ({
     currentUser: JwtService.getToken(),
+    nguoidungCurrent: NguoiDungService.getToken(),
     activeHotline: true,
     activeInfo: true,
     drawer: null,
     miniVariant: false,
-    amount: 1,
     items: [
       {
         action: "fas fa-file-import",
@@ -247,10 +249,7 @@ export default {
         active: false,
         items: [
           { title: "Danh sách đơn hàng", link: "danhsachdonhang" },
-          { title: "Tìm kiếm sản phẩm", link: "timkiemsanpham" },
-          { title: "Sản phẩm xu hướng" },
           { title: "Công cụ đặt hàng" },
-          { title: "Danh sách kiện hàng" },
           { title: "Danh sách khiếu nại" }
         ]
       },
@@ -281,7 +280,6 @@ export default {
         items: [
           { title: "Thông tin cá nhân", link: "thongtincanhan" },
           { title: "Đổi mật khẩu", link: "doimatkhau" },
-          { title: "Sản phẩm đã lưu" }
         ]
       },
       {
@@ -304,6 +302,12 @@ export default {
     if (this.currentUser.is_admin) {
       this.$router.push("/admin/thongkechung");
     }
+    this.$store
+        .dispatch(GIOHANG, { nguoiDungId: this.currentUser.user_info.id})
+        .catch();
+    this.$store
+      .dispatch(GET_NGUOIDUNG, { userId: JwtService.getToken().user_info.user.id })
+      .catch();
   },
   methods: {
     close() {
@@ -323,7 +327,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["isAuthenticated"])
+    ...mapGetters(["isAuthenticated","amount", "nguoidung"])
   }
 };
 </script>

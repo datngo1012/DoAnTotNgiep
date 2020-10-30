@@ -65,7 +65,7 @@ public class UserJWTController {
                     boolean rememberMe = (loginVM.isRememberMe() == null) ? false : loginVM.isRememberMe();
                     String jwt = tokenProvider.createToken(authentication, rememberMe);
                     HttpHeaders httpHeaders = new HttpHeaders();
-                    NguoiDung nguoiDung = nguoiDungRepository.findOneByUserId(user.get().getId());
+                    NguoiDung nguoiDung = nguoiDungRepository.findOneByUserId(user.get().getId()).get();
                     httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
                     if(authentication.getAuthorities().size()>1) {
                         return new ResponseEntity<>(new JWTToken(jwt, nguoiDung, true), httpHeaders, HttpStatus.OK);

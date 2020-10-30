@@ -1,13 +1,13 @@
 package com.datngo.service.dto;
+
 import java.time.LocalDate;
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * A DTO for the {@link com.datngo.domain.NguoiDung} entity.
  */
 public class NguoiDungDTO implements Serializable {
-
+    
     private Long id;
 
     private String hoTen;
@@ -34,9 +34,15 @@ public class NguoiDungDTO implements Serializable {
 
     private String email;
 
+    private String tinhThanh;
+
+    private String quanHuyen;
+
+    private String xaPhuong;
+
 
     private Long userId;
-
+    
     public Long getId() {
         return id;
     }
@@ -141,6 +147,30 @@ public class NguoiDungDTO implements Serializable {
         this.email = email;
     }
 
+    public String getTinhThanh() {
+        return tinhThanh;
+    }
+
+    public void setTinhThanh(String tinhThanh) {
+        this.tinhThanh = tinhThanh;
+    }
+
+    public String getQuanHuyen() {
+        return quanHuyen;
+    }
+
+    public void setQuanHuyen(String quanHuyen) {
+        this.quanHuyen = quanHuyen;
+    }
+
+    public String getXaPhuong() {
+        return xaPhuong;
+    }
+
+    public void setXaPhuong(String xaPhuong) {
+        this.xaPhuong = xaPhuong;
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -154,22 +184,19 @@ public class NguoiDungDTO implements Serializable {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof NguoiDungDTO)) {
             return false;
         }
 
-        NguoiDungDTO nguoiDungDTO = (NguoiDungDTO) o;
-        if (nguoiDungDTO.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), nguoiDungDTO.getId());
+        return id != null && id.equals(((NguoiDungDTO) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return 31;
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return "NguoiDungDTO{" +
@@ -186,6 +213,9 @@ public class NguoiDungDTO implements Serializable {
             ", ngayTao='" + getNgayTao() + "'" +
             ", ngaySua='" + getNgaySua() + "'" +
             ", email='" + getEmail() + "'" +
+            ", tinhThanh='" + getTinhThanh() + "'" +
+            ", quanHuyen='" + getQuanHuyen() + "'" +
+            ", xaPhuong='" + getXaPhuong() + "'" +
             ", userId=" + getUserId() +
             "}";
     }

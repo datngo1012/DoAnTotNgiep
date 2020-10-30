@@ -15,7 +15,7 @@
       <v-card
         id="settings"
         class="py-2 px-4"
-        color="#0000004D"
+        color="#0000002D"
         dark
         flat
         style="position: fixed; top: 164px; right: -35px;"

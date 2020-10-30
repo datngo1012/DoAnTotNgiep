@@ -1,4 +1,5 @@
 package com.datngo.domain;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -12,7 +13,7 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "nguoi_dung")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class NguoiDung implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,11 +59,20 @@ public class NguoiDung implements Serializable {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "tinh_thanh")
+    private String tinhThanh;
+
+    @Column(name = "quan_huyen")
+    private String quanHuyen;
+
+    @Column(name = "xa_phuong")
+    private String xaPhuong;
+
     @OneToOne
     @JoinColumn(unique = true)
     private User user;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
     }
@@ -227,6 +237,45 @@ public class NguoiDung implements Serializable {
         this.email = email;
     }
 
+    public String getTinhThanh() {
+        return tinhThanh;
+    }
+
+    public NguoiDung tinhThanh(String tinhThanh) {
+        this.tinhThanh = tinhThanh;
+        return this;
+    }
+
+    public void setTinhThanh(String tinhThanh) {
+        this.tinhThanh = tinhThanh;
+    }
+
+    public String getQuanHuyen() {
+        return quanHuyen;
+    }
+
+    public NguoiDung quanHuyen(String quanHuyen) {
+        this.quanHuyen = quanHuyen;
+        return this;
+    }
+
+    public void setQuanHuyen(String quanHuyen) {
+        this.quanHuyen = quanHuyen;
+    }
+
+    public String getXaPhuong() {
+        return xaPhuong;
+    }
+
+    public NguoiDung xaPhuong(String xaPhuong) {
+        this.xaPhuong = xaPhuong;
+        return this;
+    }
+
+    public void setXaPhuong(String xaPhuong) {
+        this.xaPhuong = xaPhuong;
+    }
+
     public User getUser() {
         return user;
     }
@@ -239,7 +288,7 @@ public class NguoiDung implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
@@ -257,6 +306,7 @@ public class NguoiDung implements Serializable {
         return 31;
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return "NguoiDung{" +
@@ -273,6 +323,9 @@ public class NguoiDung implements Serializable {
             ", ngayTao='" + getNgayTao() + "'" +
             ", ngaySua='" + getNgaySua() + "'" +
             ", email='" + getEmail() + "'" +
+            ", tinhThanh='" + getTinhThanh() + "'" +
+            ", quanHuyen='" + getQuanHuyen() + "'" +
+            ", xaPhuong='" + getXaPhuong() + "'" +
             "}";
     }
 }

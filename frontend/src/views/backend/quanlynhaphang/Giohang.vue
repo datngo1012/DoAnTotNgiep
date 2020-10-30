@@ -4,93 +4,229 @@
       <v-card color="basil">
         <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
           <v-tab>B1: Giỏ hàng</v-tab>
-          <v-tab>B2: Chọn địa chỉ nhận hàng</v-tab>
-          <v-tab>B3: Đặt hàng</v-tab>
+          <v-tab>B2: Đặt Hàng</v-tab>
         </v-tabs>
 
         <v-tabs-items v-model="tab">
           <v-tab-item>
             <v-card color="basil" flat>
               <v-row>
-                <v-col cols="12" md="9" xs="12">
-                  <table>
-                    <thead style="fontSize:14px;color: white;backgroundColor: #02afae;">
-                      <tr>
-                        <th scope="col" class="stt">
-                          <input type="checkbox" />
-                        </th>
-                        <th style="width: 300px">Sản phẩm</th>
-                        <th style="width: 100px">Số lượng</th>
-                        <th style="width: 100px">Đơn giá</th>
-                        <th style="width: 100px">Tiền hàng</th>
-                        <th style="width: 100px">Thao tác</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        v-for="item in items"
-                        :key="item.id"
-                        style="backgroundColor: #c978b8;color: white;"
-                      >
-                        <th>
-                          <input type="checkbox" />
-                        </th>
-                        <th style="display:inline;">
-                          <center>
-                            <img :src="item.itemImage" alt="sanpham" class="list-image__giohang" />
-                          </center>
-                          <center>
-                            <h5 class="list-name__giohang">{{item.itemName}}</h5>
-                          </center>
-                        </th>
-                        <th>{{item.quantity}}</th>
-                        <th>{{item.itemPrice}}</th>
-                        <th>{{item.itemPrice}}</th>
-                        <th>
-                          <v-icon color="white" small @click="deleteItem(item)">mdi-delete</v-icon>
-                        </th>
-                      </tr>
-                    </tbody>
-                  </table>
+                <v-col cols="12" md="8" xs="12">
+                  <div v-for="item in giohang"
+                      :key="item.id" class="box has-ribbon-left is-small">
+                    <div class="tabs is-fullwidth">
+                      <ul>
+                        <li>
+                          <span class="icon"
+                            ><v-icon
+                              color="green darken-2"
+                            >
+                              mdi-cart
+                            </v-icon></span>
+                          <span>Số lượng: {{item.soLuong}}</span>
+                        </li>
+                        <li>
+                         <span class="icon"
+                            ><v-icon
+                              color="green darken-2"
+                            >
+                              mdi-money
+                            </v-icon></span>
+                          <span>Tổng tiền: {{(item.sanPham.startPriceVND*item.soLuong).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}VND</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <article id="itemCart410228" class="media">
+                      <figure class="media-left">
+                        <a href="#" target="_blank">
+                          <p class="image is-128x128">
+                            <a
+                              href="https://detail.tmall.com/item.htm?spm=a220o.1000855.w5003-18130825846.2.40ab75d6q2QIKf&amp;id=599465292486&amp;rn=db0298494bc31e5afa21025c69de307f&amp;abbucket=5&amp;scene=taobao_shop&amp;skuId=4189599785951"
+                              target="_blank"
+                            >
+                              <img
+                                id="itemCartImg410228"
+                                :src=item.sanPham.image
+                              />
+                            </a>
+                          </p>
+                        </a>
+                      </figure>
+
+                      <div class="media-content">
+                        <div class="content">
+                          <nav class="level">
+                            <div id="itemCartInfo410228" class="level-left">
+                              <div class="level-item">
+                                <div>
+                                  <p class="heading">
+                                    <a
+                                      id="itemCartName410228"
+                                      href="https://detail.tmall.com/item.htm?spm=a220o.1000855.w5003-18130825846.2.40ab75d6q2QIKf&amp;id=599465292486&amp;rn=db0298494bc31e5afa21025c69de307f&amp;abbucket=5&amp;scene=taobao_shop&amp;skuId=4189599785951"
+                                      target="_blank"
+                                      title="Tên sản phẩm"
+                                      >{{item.sanPham.nam}}</a
+                                    >
+                                  </p>
+                                  <p class="heading">
+                                    <span>Giá(VND):</span>
+                                    <strong class="has-text-main"
+                                      >{{item.sanPham.startPriceVND.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}} VND</strong
+                                    >
+                                  </p>
+                                  <p class="heading">
+                                    <span>Giá(NDT):</span>
+                                    <strong class="has-text-main"
+                                      >{{item.sanPham.sellPrice}} ¥</strong
+                                    >
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </nav>
+                        </div>
+                      </div>
+
+                      <div class="media-right">
+                        <div id="itemCartCmd410228" class="level-right">
+                          <div class="level-item">
+                            <v-btn
+                              color="primary"
+                              depressed
+                            >
+                              <v-icon left>
+                                mdi-delete
+                              </v-icon>
+                              Xóa
+                            </v-btn>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
                 </v-col>
-                <v-col cols="12" md="3" xs="12">
+                <v-col cols="12" md="4" xs="12">
                   <div class="giohang-right">
                     <div class="giohang-right_item">
                       <div class="clearfix-lable">Tiền hàng:</div>
-                      <div class="clearfix-totalamount">120.452đ</div>
+                      <div class="clearfix-totalamount">{{getTienHang.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}đ</div>
                     </div>
                     <div class="giohang-right_item">
                       <div class="clearfix-lable">Phí mua hàng:</div>
-                      <div class="clearfix-totalamount">120.452đ</div>
+                      <div class="clearfix-totalamount">{{(getTienHang*0.01).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}đ</div>
                     </div>
                     <div class="giohang-right_item">
                       <div class="clearfix-lable">Phí vận chuyển TQ-VN:</div>
-                      <div class="clearfix-totalamount">120.452đ</div>
+                      <div class="clearfix-totalamount">----</div>
                     </div>
                     <div class="giohang-right_item">
                       <div class="clearfix-lable">Phí vận chuyển nội địa VN:</div>
-                      <div class="clearfix-totalamount">120.452đ</div>
+                      <div class="clearfix-totalamount">----</div>
                     </div>
                   </div>
                   <div class="giohang-right-2">
                     <div class="giohang-right_item">
                       <div class="clearfix-lable">TỔNG TIỀN:</div>
-                      <div class="clearfix-totalamount">120.452đ</div>
+                      <div class="clearfix-totalamount">{{(getTienHang*0.01+ getTienHang).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}đ</div>
                     </div>
                   </div>
                   <div>
-                    <button class="btn-dathang">Đặt hàng</button>
+                    <v-btn
+                      color="primary"
+                      depressed
+                      class="btn-dathang"
+                      @click="datHang()"
+                    >
+                      Đặt hàng
+                    </v-btn>
                   </div>
                 </v-col>
               </v-row>
             </v-card>
           </v-tab-item>
           <v-tab-item>
-            <v-card color="basil" flat></v-card>
+            <v-card color="basil" flat>
+              <v-row>
+                <v-col cols="12" md="8" xs="12">
+                  <div class="box has-ribbon-left is-small">
+                  <div class="infor-adress">
+                    <div v-if="nguoiDungCurrent.xaPhuong"> 
+                      <p><v-icon>mdi-home</v-icon>{{nguoiDungCurrent.diaChi}}, {{nguoiDungCurrent.xaPhuong}}, {{nguoiDungCurrent.quanHuyen}}, {{nguoiDungCurrent.tinhThanh}}</p>
+                      <v-btn
+                        class="setting-adress"
+                        color="primary"
+                        depressed
+                        to="/backend/thongtincanhan"
+                      >
+                        <v-icon left>
+                          mdi-wrench
+                        </v-icon>
+                        Thay đổi địa chỉ nhận hàng
+                      </v-btn>
+                    </div>
+                    <div v-else> 
+                      <p>Bạn chưa cập nhật địa chỉ nhận hàng trong phần thông tin cá nhân. Bạn vui lòng cập nhật để tiếp tục mua hàng!!!</p>
+                      <v-btn
+                        class="setting-adress"
+                        color="primary"
+                        depressed
+                        to="/backend/thongtincanhan"
+                      >
+                        <v-icon left>
+                          mdi-wrench
+                        </v-icon>
+                        Cập nhật địa chỉ nhận hàng
+                      </v-btn>
+                    </div>
+                  </div>
+                  </div>
+                </v-col>
+                <v-col cols="12" md="4" xs="12">
+                  <div class="giohang-right">
+                    <div class="giohang-right_item">
+                      <div class="clearfix-lable">Tiền hàng:</div>
+                      <div class="clearfix-totalamount">{{getTienHang.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}đ</div>
+                    </div>
+                    <div class="giohang-right_item">
+                      <div class="clearfix-lable">Phí mua hàng:</div>
+                      <div class="clearfix-totalamount">{{(getTienHang*0.01).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}đ</div>
+                    </div>
+                    <div class="giohang-right_item">
+                      <div class="clearfix-lable">Phí vận chuyển TQ-VN:</div>
+                      <div class="clearfix-totalamount">50,000.00đ</div>
+                    </div>
+                    <div class="giohang-right_item">
+                      <div class="clearfix-lable">Phí vận chuyển nội địa VN:</div>
+                      <div class="clearfix-totalamount">30,000.00đ</div>
+                    </div>
+                  </div>
+                  <div class="giohang-right-2">
+                    <div class="giohang-right_item">
+                      <div class="clearfix-lable">TỔNG TIỀN:</div>
+                      <div class="clearfix-totalamount">{{(getTienHang*0.01+ getTienHang + 80000).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}đ</div>
+                    </div>
+                    <div class="giohang-right_item">
+                      <div class="clearfix-lable">THANH TOÁN TRƯỚC:</div>
+                      <div class="clearfix-totalamount">{{((getTienHang*0.01+ getTienHang + 80000)*0.7).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}đ</div>
+                    </div>
+                  </div>
+                  <div>
+                    <v-btn
+                      color="primary"
+                      depressed
+                      class="btn-dathang"
+                      @click="muaHang()"
+                    >
+                      Mua hàng
+                    </v-btn>
+                    
+                  </div>
+                </v-col>
+              </v-row>
+            </v-card>
           </v-tab-item>
-          <v-tab-item>
-            <v-card color="basil" flat></v-card>
-          </v-tab-item>
+          
         </v-tabs-items>
       </v-card>
     </v-container>
@@ -98,87 +234,54 @@
 </template>
 
 <script>
+import { GIOHANG } from "@/store/actions.type";
+import { mapGetters } from "vuex";
+import NguoiDungService from "@/common/nguoidung.service";
 export default {
   name: "GioHang",
   data: () => ({
     tab: 0,
-    items: [
-      {
-        itemId: "574466260341",
-        itemName:
-          "益智巴克球1000玩具彩色颗磁力球减压魔方创意磁铁球玩具磁力珠5m",
-        itemLink: "https://detail.1688.com/offer/574466260341.html",
-        itemPrice: 49593.5,
-        itemPriceNDT: 13.97,
-        itemImage:
-          "https://cbu01.alicdn.com/img/ibank/2018/709/867/9012768907_701585404.jpg",
-        totalAmount: 0,
-        totalAmountNDT: 0.0,
-        quantity: 1,
-        requireMin: 3,
-        weight: 0.0,
-        stock: 5654,
-        skuId: "3763941221938",
-        check: false,
-        createTime: 0,
-        updateTime: 0,
-        favoriteLink: false,
-        propetiesId: "银色3mm216颗+铁盒",
-        propetiesMD5: "a98213ffcd3162b146062fbf3c17ae6d",
-        propetiesName: "银色3mm216颗+铁盒",
-        propetiesImage:
-          "https://cbu01.alicdn.com/img/ibank/2018/709/867/9012768907_701585404.jpg",
-        wholesales: [
-          {
-            begin: 3,
-            end: 0,
-            price: 13.97
-          }
-        ],
-        serviceStatus: false,
-        save: false
-      },
-      {
-        itemId: "574466260341",
-        itemName:
-          "益智巴克球1000玩具彩色颗磁力球减压魔方创意磁铁球玩具磁力珠5m",
-        itemLink: "https://detail.1688.com/offer/574466260341.html",
-        itemPrice: 120451.5,
-        itemPriceNDT: 33.93,
-        itemImage:
-          "https://cbu01.alicdn.com/img/ibank/2018/709/867/9012768907_701585404.jpg",
-        totalAmount: 120451,
-        totalAmountNDT: 33.93,
-        quantity: 1,
-        requireMin: 3,
-        weight: 0.0,
-        stock: 13496,
-        skuId: "3763941221940",
-        check: true,
-        createTime: 0,
-        updateTime: 0,
-        favoriteLink: false,
-        propetiesId: "金色5mm216颗+铁盒",
-        propetiesMD5: "bc3980ca71504eabf522a9465c2562c3",
-        propetiesName: "金色5mm216颗+铁盒",
-        propetiesImage:
-          "https://cbu01.alicdn.com/img/ibank/2018/709/867/9012768907_701585404.jpg",
-        wholesales: [
-          {
-            begin: 3,
-            end: 0,
-            price: 13.97
-          }
-        ],
-        serviceStatus: false,
-        save: false
-      }
-    ]
-  })
+    nguoiDungCurrent: NguoiDungService.getToken(),
+  }),
+  created() {
+    this.$store
+      .dispatch(GIOHANG, { nguoiDungId: this.currentUser.user_info.id })
+      .catch();
+  },
+  computed: {
+    ...mapGetters(["isAuthenticated", "giohang"]),
+    getTienHang: function () {
+      return this.giohang.reduce(function (accumulator, currentValue) {
+      return accumulator + (currentValue.sanPham.startPriceVND*currentValue.soLuong);
+    }, 0);
+    },
+  },
+  methods: {
+    datHang() {
+      this.tab =1
+    },
+    muaHang() {
+
+    }
+  }
+
 };
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap");
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+.setting-adress {
+  float: right;
+}
+
+.image {
+  display: block;
+  position: relative;
+}
 .btn-dathang {
   margin-top: 13px;
   float: right;
@@ -198,6 +301,7 @@ export default {
   padding: 6px 12px;
   text-align: center;
 }
+
 .giohang-right_item {
   display: flex;
   font-size: 13px;
@@ -221,7 +325,7 @@ export default {
   background: #e2f1f2;
   box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.75);
   color: hsl(0, 0%, 20%);
-  font-size: 13px;
+  font-size: 16px;
   gap: normal;
   line-height: 18.5714px;
   padding: 0px 15px;
@@ -247,5 +351,46 @@ img.list-image__giohang {
 }
 .list-name__giohang {
   display: inline !important;
+}
+
+ul {
+  display: flex;
+  list-style: none;
+  justify-content: space-around;
+}
+
+.box.has-ribbon-left.is-small {
+  background-color: white;
+  margin-left: 13px;
+  border: 1px solid #f6f6f6;
+  margin-bottom: 15px;
+}
+
+.media-content {
+    margin-top: 12px;
+}
+
+.media {
+  align-items: flex-start;
+  display: flex;
+  text-align: left;
+}
+
+img#itemCartImg410228 {
+  margin: 8px;
+  width: 128px;
+  height: 128px;
+  /* margin-left: 8px; */
+}
+
+.media-right {
+    bottom: -66px;
+    position: relative;
+    right: 13%;
+}
+
+a#itemCartName410228 {
+    color: #2cab23;
+    font-size: 15px;
 }
 </style>

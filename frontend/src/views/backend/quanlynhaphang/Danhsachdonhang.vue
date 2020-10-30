@@ -104,7 +104,7 @@
         item-key="name"
         class="elevation-1"
       >
-        <template v-slot:item.name="{ item }">
+        <!-- <template v-slot:item.name="{ item }">
           <v-chip color="primary" dark>{{ item.name }}</v-chip>
         </template>
         <template v-slot:item.trangthai="{ item }">
@@ -118,7 +118,7 @@
         </template>
         <template v-slot:item.thaotac="{ item }">
           <v-icon color="red" small @click="deleteItem(item)">mdi-delete</v-icon>
-        </template>
+        </template> -->
       </v-data-table>
     </v-container>
   </v-app>
@@ -183,3 +183,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap");
+* {
+  font-family: "Roboto", sans-serif;
+}
+</style>

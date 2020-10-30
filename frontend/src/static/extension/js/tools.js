@@ -5,7 +5,6 @@ var tools = function () {
     var self = this;
     self.baseUrl = "http://localhost:8085/";
     var addUrl = "api/gio-hangs";
-    var exchangeRateUrl = "api/v1/ExchangeRate";
 
     self.getCartUrl = "http://localhost:8081/backend/giohang";
 
@@ -139,6 +138,23 @@ var tools = function () {
                         $(".ls-warning").css("display", "none")
                     }
 
+                    if (result.data == "login") {
+                        $('#btnLogin').css("display", "inline");
+                    } else {
+                        $('#btnLogin').css("display", "none");
+                    }
+
+                    $("#errTbdnModal-order").tbdnModal("toggle");
+                    $(".ls-deposit p").text("Bạn chưa đăng nhập. Mời bạn đăng nhập để tiếp tục mua hàng!!!");
+                    $("#tbdn-textarea").val("");
+
+                } else {
+                    if ($('.translated-ltr').length) {
+                        $(".ls-warning").css("display", "block")
+                    } else {
+                        $(".ls-warning").css("display", "none")
+                    }
+
                     $("#myTbdnModal-order").tbdnModal("toggle");
                     var totalAmount = 0;
                     $.each(cart.items, function (index, value) {
@@ -148,23 +164,7 @@ var tools = function () {
                     $(".ls-deposit p").text("Số tiền của sản phẩm phải trả: " + totalAmount + " NDT");
                     $("#tbdn-textarea").val("");
 
-                } else {
-
-                    if ($('.translated-ltr').length) {
-                        $(".ls-warning").css("display", "block")
-                    } else {
-                        $(".ls-warning").css("display", "none")
-                    }
-
-                    if (result.data == "login") {
-                        $('#btnLogin').css("display", "inline");
-                    } else {
-                        $('#btnLogin').css("display", "none");
-                    }
-
-                    $("#errTbdnModal-order").tbdnModal("toggle");
-                    $(".ls-deposit p").text(result.error);
-                    $("#tbdn-textarea").val("");
+                    
                 }
             }
         );

@@ -1,5 +1,6 @@
 package com.datngo.web.rest;
 
+import com.datngo.domain.NguoiDung;
 import com.datngo.service.NguoiDungService;
 import com.datngo.web.rest.errors.BadRequestAlertException;
 import com.datngo.service.dto.NguoiDungDTO;
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -81,7 +82,6 @@ public class NguoiDungResource {
     /**
      * {@code GET  /nguoi-dungs} : get all the nguoiDungs.
      *
-
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of nguoiDungs in body.
      */
     @GetMapping("/nguoi-dungs")
@@ -114,5 +114,12 @@ public class NguoiDungResource {
         log.debug("REST request to delete NguoiDung : {}", id);
         nguoiDungService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+    }
+
+    @PostMapping("/nguoi-dung-by-userid")
+    public ResponseEntity<NguoiDungDTO> getNguoiDungByUserId(@RequestBody Map<String, Object> thongTin) {
+        Long userId = Long.valueOf(thongTin.get("userId").toString());
+        Optional<NguoiDungDTO> nguoiDungDTO = nguoiDungService.getNguoiDungByUserId(userId);
+        return ResponseUtil.wrapOrNotFound(nguoiDungDTO);
     }
 }

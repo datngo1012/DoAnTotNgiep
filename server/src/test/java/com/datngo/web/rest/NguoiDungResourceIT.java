@@ -6,27 +6,21 @@ import com.datngo.repository.NguoiDungRepository;
 import com.datngo.service.NguoiDungService;
 import com.datngo.service.dto.NguoiDungDTO;
 import com.datngo.service.mapper.NguoiDungMapper;
-import com.datngo.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Validator;
-
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import static com.datngo.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -36,6 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests for the {@link NguoiDungResource} REST controller.
  */
 @SpringBootTest(classes = ServerApp.class)
+@AutoConfigureMockMvc
+@WithMockUser
 public class NguoiDungResourceIT {
 
     private static final String DEFAULT_HO_TEN = "AAAAAAAAAA";
@@ -74,6 +70,15 @@ public class NguoiDungResourceIT {
     private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
     private static final String UPDATED_EMAIL = "BBBBBBBBBB";
 
+    private static final String DEFAULT_TINH_THANH = "AAAAAAAAAA";
+    private static final String UPDATED_TINH_THANH = "BBBBBBBBBB";
+
+    private static final String DEFAULT_QUAN_HUYEN = "AAAAAAAAAA";
+    private static final String UPDATED_QUAN_HUYEN = "BBBBBBBBBB";
+
+    private static final String DEFAULT_XA_PHUONG = "AAAAAAAAAA";
+    private static final String UPDATED_XA_PHUONG = "BBBBBBBBBB";
+
     @Autowired
     private NguoiDungRepository nguoiDungRepository;
 
@@ -84,35 +89,12 @@ public class NguoiDungResourceIT {
     private NguoiDungService nguoiDungService;
 
     @Autowired
-    private MappingJackson2HttpMessageConverter jacksonMessageConverter;
-
-    @Autowired
-    private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
-
-    @Autowired
-    private ExceptionTranslator exceptionTranslator;
-
-    @Autowired
     private EntityManager em;
 
     @Autowired
-    private Validator validator;
-
     private MockMvc restNguoiDungMockMvc;
 
     private NguoiDung nguoiDung;
-
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-        final NguoiDungResource nguoiDungResource = new NguoiDungResource(nguoiDungService);
-        this.restNguoiDungMockMvc = MockMvcBuilders.standaloneSetup(nguoiDungResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter)
-            .setValidator(validator).build();
-    }
 
     /**
      * Create an entity for this test.
@@ -133,7 +115,10 @@ public class NguoiDungResourceIT {
             .trangThai(DEFAULT_TRANG_THAI)
             .ngayTao(DEFAULT_NGAY_TAO)
             .ngaySua(DEFAULT_NGAY_SUA)
-            .email(DEFAULT_EMAIL);
+            .email(DEFAULT_EMAIL)
+            .tinhThanh(DEFAULT_TINH_THANH)
+            .quanHuyen(DEFAULT_QUAN_HUYEN)
+            .xaPhuong(DEFAULT_XA_PHUONG);
         return nguoiDung;
     }
     /**
@@ -155,7 +140,10 @@ public class NguoiDungResourceIT {
             .trangThai(UPDATED_TRANG_THAI)
             .ngayTao(UPDATED_NGAY_TAO)
             .ngaySua(UPDATED_NGAY_SUA)
-            .email(UPDATED_EMAIL);
+            .email(UPDATED_EMAIL)
+            .tinhThanh(UPDATED_TINH_THANH)
+            .quanHuyen(UPDATED_QUAN_HUYEN)
+            .xaPhuong(UPDATED_XA_PHUONG);
         return nguoiDung;
     }
 
@@ -168,11 +156,10 @@ public class NguoiDungResourceIT {
     @Transactional
     public void createNguoiDung() throws Exception {
         int databaseSizeBeforeCreate = nguoiDungRepository.findAll().size();
-
         // Create the NguoiDung
         NguoiDungDTO nguoiDungDTO = nguoiDungMapper.toDto(nguoiDung);
         restNguoiDungMockMvc.perform(post("/api/nguoi-dungs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(nguoiDungDTO)))
             .andExpect(status().isCreated());
 
@@ -192,6 +179,9 @@ public class NguoiDungResourceIT {
         assertThat(testNguoiDung.getNgayTao()).isEqualTo(DEFAULT_NGAY_TAO);
         assertThat(testNguoiDung.getNgaySua()).isEqualTo(DEFAULT_NGAY_SUA);
         assertThat(testNguoiDung.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(testNguoiDung.getTinhThanh()).isEqualTo(DEFAULT_TINH_THANH);
+        assertThat(testNguoiDung.getQuanHuyen()).isEqualTo(DEFAULT_QUAN_HUYEN);
+        assertThat(testNguoiDung.getXaPhuong()).isEqualTo(DEFAULT_XA_PHUONG);
     }
 
     @Test
@@ -205,7 +195,7 @@ public class NguoiDungResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restNguoiDungMockMvc.perform(post("/api/nguoi-dungs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(nguoiDungDTO)))
             .andExpect(status().isBadRequest());
 
@@ -224,7 +214,7 @@ public class NguoiDungResourceIT {
         // Get all the nguoiDungList
         restNguoiDungMockMvc.perform(get("/api/nguoi-dungs?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(nguoiDung.getId().intValue())))
             .andExpect(jsonPath("$.[*].hoTen").value(hasItem(DEFAULT_HO_TEN)))
             .andExpect(jsonPath("$.[*].sdt").value(hasItem(DEFAULT_SDT)))
@@ -237,7 +227,10 @@ public class NguoiDungResourceIT {
             .andExpect(jsonPath("$.[*].trangThai").value(hasItem(DEFAULT_TRANG_THAI)))
             .andExpect(jsonPath("$.[*].ngayTao").value(hasItem(DEFAULT_NGAY_TAO.toString())))
             .andExpect(jsonPath("$.[*].ngaySua").value(hasItem(DEFAULT_NGAY_SUA.toString())))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)));
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
+            .andExpect(jsonPath("$.[*].tinhThanh").value(hasItem(DEFAULT_TINH_THANH)))
+            .andExpect(jsonPath("$.[*].quanHuyen").value(hasItem(DEFAULT_QUAN_HUYEN)))
+            .andExpect(jsonPath("$.[*].xaPhuong").value(hasItem(DEFAULT_XA_PHUONG)));
     }
     
     @Test
@@ -249,7 +242,7 @@ public class NguoiDungResourceIT {
         // Get the nguoiDung
         restNguoiDungMockMvc.perform(get("/api/nguoi-dungs/{id}", nguoiDung.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(nguoiDung.getId().intValue()))
             .andExpect(jsonPath("$.hoTen").value(DEFAULT_HO_TEN))
             .andExpect(jsonPath("$.sdt").value(DEFAULT_SDT))
@@ -262,9 +255,11 @@ public class NguoiDungResourceIT {
             .andExpect(jsonPath("$.trangThai").value(DEFAULT_TRANG_THAI))
             .andExpect(jsonPath("$.ngayTao").value(DEFAULT_NGAY_TAO.toString()))
             .andExpect(jsonPath("$.ngaySua").value(DEFAULT_NGAY_SUA.toString()))
-            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL));
+            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
+            .andExpect(jsonPath("$.tinhThanh").value(DEFAULT_TINH_THANH))
+            .andExpect(jsonPath("$.quanHuyen").value(DEFAULT_QUAN_HUYEN))
+            .andExpect(jsonPath("$.xaPhuong").value(DEFAULT_XA_PHUONG));
     }
-
     @Test
     @Transactional
     public void getNonExistingNguoiDung() throws Exception {
@@ -297,11 +292,14 @@ public class NguoiDungResourceIT {
             .trangThai(UPDATED_TRANG_THAI)
             .ngayTao(UPDATED_NGAY_TAO)
             .ngaySua(UPDATED_NGAY_SUA)
-            .email(UPDATED_EMAIL);
+            .email(UPDATED_EMAIL)
+            .tinhThanh(UPDATED_TINH_THANH)
+            .quanHuyen(UPDATED_QUAN_HUYEN)
+            .xaPhuong(UPDATED_XA_PHUONG);
         NguoiDungDTO nguoiDungDTO = nguoiDungMapper.toDto(updatedNguoiDung);
 
         restNguoiDungMockMvc.perform(put("/api/nguoi-dungs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(nguoiDungDTO)))
             .andExpect(status().isOk());
 
@@ -321,6 +319,9 @@ public class NguoiDungResourceIT {
         assertThat(testNguoiDung.getNgayTao()).isEqualTo(UPDATED_NGAY_TAO);
         assertThat(testNguoiDung.getNgaySua()).isEqualTo(UPDATED_NGAY_SUA);
         assertThat(testNguoiDung.getEmail()).isEqualTo(UPDATED_EMAIL);
+        assertThat(testNguoiDung.getTinhThanh()).isEqualTo(UPDATED_TINH_THANH);
+        assertThat(testNguoiDung.getQuanHuyen()).isEqualTo(UPDATED_QUAN_HUYEN);
+        assertThat(testNguoiDung.getXaPhuong()).isEqualTo(UPDATED_XA_PHUONG);
     }
 
     @Test
@@ -333,7 +334,7 @@ public class NguoiDungResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restNguoiDungMockMvc.perform(put("/api/nguoi-dungs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(nguoiDungDTO)))
             .andExpect(status().isBadRequest());
 
@@ -352,7 +353,7 @@ public class NguoiDungResourceIT {
 
         // Delete the nguoiDung
         restNguoiDungMockMvc.perform(delete("/api/nguoi-dungs/{id}", nguoiDung.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
