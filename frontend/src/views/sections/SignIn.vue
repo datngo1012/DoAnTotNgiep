@@ -2,14 +2,14 @@
   <div calss="app">
     <v-container fluid>
       <v-row>
-        <v-col sm="8">
+        <v-col sm="8" cols="0">
           <v-img
             class="background-login"
             :src="require('@/assets/slide.jpg')"
             alt="Girl in a jacket"
           />
         </v-col>
-        <v-col sm="4">
+        <v-col sm="4" cols="12">
           <div class="form">
             <h4 class="heading">Đăng nhập</h4>
             <div class="spacer"></div>

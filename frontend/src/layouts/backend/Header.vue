@@ -170,7 +170,7 @@
         <v-spacer />
         <div class="header_giohang">
           <v-btn text color="primary" to="/backend/giohang">
-            <v-badge :content="amount>0?amount:0" color="green" overlap>
+            <v-badge :content="amount>0?amount:'O'" color="green" overlap>
               <v-icon large color="white">mdi-cart</v-icon>
             </v-badge>
           </v-btn>
@@ -186,7 +186,7 @@
                 </v-list-item-avatar>
 
                 <v-list-item-content>
-                  <h4>{{nguoidungCurrent.hoTen}}</h4>
+                  <h4>{{nguoidung.hoTen}}</h4>
                 </v-list-item-content>
               </v-list-item>
             </template>
@@ -194,7 +194,7 @@
               <v-list-item to="/backend/giaodich">
                 <v-list-item-title>Số dư:</v-list-item-title>
                 <div class="my-2">
-                  <v-btn small color="green darken-2" dark>{{nguoidungCurrent.soDu}} VND</v-btn>
+                  <v-btn small color="green darken-2" dark>{{nguoidung.soDu}} VND</v-btn>
                 </div>
                 <!-- <v-chip color="green" v-text="`${sotien}`"></v-chip> -->
               </v-list-item>
@@ -279,7 +279,7 @@ export default {
         active: false,
         items: [
           { title: "Thông tin cá nhân", link: "thongtincanhan" },
-          { title: "Đổi mật khẩu", link: "doimatkhau" },
+          { title: "Đổi mật khẩu", link: "doimatkhau" }
         ]
       },
       {
@@ -303,10 +303,12 @@ export default {
       this.$router.push("/admin/thongkechung");
     }
     this.$store
-        .dispatch(GIOHANG, { nguoiDungId: this.currentUser.user_info.id})
-        .catch();
+      .dispatch(GIOHANG, { nguoiDungId: this.currentUser.user_info.id })
+      .catch();
     this.$store
-      .dispatch(GET_NGUOIDUNG, { userId: JwtService.getToken().user_info.user.id })
+      .dispatch(GET_NGUOIDUNG, {
+        userId: JwtService.getToken().user_info.user.id
+      })
       .catch();
   },
   methods: {
@@ -327,7 +329,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["isAuthenticated","amount", "nguoidung"])
+    ...mapGetters(["isAuthenticated", "amount", "nguoidung"])
   }
 };
 </script>

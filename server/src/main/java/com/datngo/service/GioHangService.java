@@ -1,15 +1,23 @@
 package com.datngo.service;
 
+import com.datngo.domain.ChiTietSanPham;
 import com.datngo.domain.GioHang;
+import com.datngo.domain.NguoiDung;
+import com.datngo.domain.User;
+import com.datngo.repository.ChiTietSanPhamRepository;
 import com.datngo.repository.GioHangRepository;
+import com.datngo.repository.NguoiDungRepository;
+import com.datngo.repository.UserRepository;
 import com.datngo.service.dto.GioHangDTO;
 import com.datngo.service.mapper.GioHangMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +35,15 @@ public class GioHangService {
     private final GioHangRepository gioHangRepository;
 
     private final GioHangMapper gioHangMapper;
+
+    @Autowired
+    private ChiTietSanPhamRepository chiTietSanPhamRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private NguoiDungRepository nguoiDungRepository;
 
     public GioHangService(GioHangRepository gioHangRepository, GioHangMapper gioHangMapper) {
         this.gioHangRepository = gioHangRepository;
@@ -87,4 +104,10 @@ public class GioHangService {
         return gioHangRepository.findByNguoiDungId(nguoiDungId);
     }
 
+    public List<ChiTietSanPham> xoaGioHang(long chiTietSanPhamId, long id) {
+
+        chiTietSanPhamRepository.deleteById(chiTietSanPhamId);
+        return chiTietSanPhamRepository.findListChiTietSanPhamByNguoiDungId(id);
+
+    }
 }

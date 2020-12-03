@@ -2,14 +2,14 @@
   <div calss="app">
     <v-container fluid>
       <v-row>
-        <v-col sm="8">
+        <v-col sm="8" cols="0">
           <v-img
             class="background-login"
             :src="require('@/assets/slide.jpg')"
             alt="Girl in a jacket"
           />
         </v-col>
-        <v-col sm="4">
+        <v-col sm="4" cols="12">
           <div class="form" id="form-1">
             <h4 class="heading">Thành viên đăng ký</h4>
 
@@ -159,8 +159,7 @@ export default {
             hoTen: this.hoTen,
             sdt: this.sdt
           })
-          .then(result => {
-            console.log(result);
+          .then(() => {
             this.$swal("Đăng ký thành công!!!", "", "success"),
               this.$router.push("/signin");
           })

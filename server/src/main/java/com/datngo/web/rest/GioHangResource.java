@@ -137,6 +137,13 @@ public class GioHangResource {
         return chiTietSanPhamRepository.findListChiTietSanPhamByNguoiDungId(nguoiDungId);
     }
 
+    @DeleteMapping("xoa-gio-hangs/{id}")
+    public List<ChiTietSanPham> xoaGioHang(@PathVariable Long id, Principal principal) {
+        User user = userRepository.findOneByLogin(principal.getName()).get();
+        NguoiDung nguoiDung = nguoiDungRepository.findOneByUserId(user.getId()).get();
+        return gioHangService.xoaGioHang(id, nguoiDung.getId());
+    }
+
     /**
      * {@code GET  /gio-hangs/:id} : get the "id" gioHang.
      *

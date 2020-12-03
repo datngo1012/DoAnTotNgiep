@@ -116,6 +116,12 @@ const routes = [
         name: "NaptienAdmin",
         component: () => import("@/views/admin/quanlyvitien/Naptien.vue"),
       },
+      {
+        path: "danhsachkhieunai",
+        name: "DanhSachNguoiDung",
+        component: () =>
+          import("@/views/admin/quanlynhaphang/Danhsachkhieunai.vue"),
+      },
     ],
   },
   {

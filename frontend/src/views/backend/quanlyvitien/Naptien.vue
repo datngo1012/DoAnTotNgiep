@@ -51,7 +51,7 @@
                 <v-app-bar>
                   <h5>NỘI DUNG:</h5>
                   <v-spacer></v-spacer>
-                  <h5>MÃ KHÁCH HÀNG, EMAIL</h5>
+                  <h5>Tên đăng nhập, Email</h5>
                 </v-app-bar>
               </div>
             </div>

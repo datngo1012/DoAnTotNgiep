@@ -233,31 +233,16 @@ export default {
         active: false,
         items: [
           { title: "Danh sách đơn hàng", link: "danhsachdonhang" },
-          { title: "Tìm kiếm sản phẩm", link: "timkiemsanpham" },
-          { title: "Sản phẩm xu hướng" },
-          { title: "Công cụ đặt hàng" },
-          { title: "Danh sách kiện hàng" },
-          { title: "Danh sách khiếu nại" }
-        ]
-      },
-      {
-        action: "fas fa-file-export",
-        title: "Quản lý giao hàng",
-        active: false,
-        items: [
-          { title: "Yêu cầu giao hàng" },
-          { title: "Danh sách phiếu giao" }
+          { title: "Danh sách khiếu nại", link: "danhsachkhieunai" }
         ]
       },
       {
         action: "fas fa-coins",
-        title: "Quản lý ví tiền",
+        title: "Quản lý tiền",
         active: false,
         items: [
-          { title: "Nạp tiền", link: "naptien" },
-          { title: "Số dư & Lịch sử giao dịch", link: "giaodich" },
-          { title: "Tài khoản ngân hàng" },
-          { title: "Rút tiền" }
+          { title: "Nạp tiền cho user", link: "naptien" },
+          { title: "Số dư & Lịch sử giao dịch", link: "giaodich" }
         ]
       },
       {

@@ -10,11 +10,9 @@ import com.datngo.service.dto.UserDTO;
 import com.datngo.web.rest.errors.BadRequestAlertException;
 import com.datngo.web.rest.errors.EmailAlreadyUsedException;
 import com.datngo.web.rest.errors.LoginAlreadyUsedException;
-
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,7 +28,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing users.
@@ -187,4 +187,12 @@ public class UserResource {
         userService.deleteUser(login);
         return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName,  "userManagement.deleted", login)).build();
     }
+
+    @GetMapping("/all-users")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public List<User> getTatCaUser() {
+        return userRepository.findAll();
+    }
+
+
 }

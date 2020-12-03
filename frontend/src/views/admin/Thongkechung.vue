@@ -30,7 +30,7 @@
               dark
             >
               <v-card-text>
-                <b class="display-1">0 đơn</b>
+                <b class="display-1">{{donhang.length}} đơn</b>
               </v-card-text>
               <v-card-actions>
                 <v-btn text>Xem chi tiết</v-btn>
@@ -73,7 +73,19 @@
 </template>
 
 <script>
+import { ALLDONHANG } from "@/store/actions.type";
+import { mapGetters } from "vuex";
+import NguoiDungService from "@/common/nguoidung.service";
 export default {
-  name: "ThongkechungAdmin"
+  name: "Thongkechung",
+  computed: {
+    ...mapGetters(["donhang", "nguoidung"])
+  },
+  data: () => ({
+    nguoiDungCurrent: NguoiDungService.getToken()
+  }),
+  created() {
+    this.$store.dispatch(ALLDONHANG).catch();
+  }
 };
 </script>

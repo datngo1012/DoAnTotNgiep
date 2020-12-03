@@ -40,8 +40,8 @@ const ApiService = {
     return Vue.axios.put(`${resource}`, params);
   },
 
-  delete(resource) {
-    return Vue.axios.delete(resource).catch((error) => {
+  delete(resource, id) {
+    return Vue.axios.delete(`${resource}/${id}`).catch((error) => {
       throw new Error(`[RWV] ApiService ${error}`);
     });
   },
