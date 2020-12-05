@@ -1,5 +1,11 @@
 import ApiService from "@/common/api.service";
-import { UPDATE_NGUOIDUNG, GET_NGUOIDUNG, USERS } from "./actions.type";
+import {
+  UPDATE_NGUOIDUNG,
+  GET_NGUOIDUNG,
+  USERS,
+  DEACTIVED,
+  ACTIVED,
+} from "./actions.type";
 
 import { SET_NGUOIDUNG, SET_USERS } from "./mutations.type";
 
@@ -48,6 +54,24 @@ export const actions = {
           context.commit(SET_USERS, data);
           resolve(data);
         })
+        .catch(() => {});
+    });
+  },
+
+  async [ACTIVED](context, userid) {
+    ApiService.setHeader();
+    return new Promise(() => {
+      ApiService.post("users/active", userid)
+        .then(() => {})
+        .catch(() => {});
+    });
+  },
+
+  async [DEACTIVED](context, userid) {
+    ApiService.setHeader();
+    return new Promise(() => {
+      ApiService.post("users/deactive", userid)
+        .then(() => {})
         .catch(() => {});
     });
   },

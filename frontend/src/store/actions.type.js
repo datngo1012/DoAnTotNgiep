@@ -13,3 +13,5 @@ export const MUAHANG = "MUAHANG";
 export const DONHANG = "DONHANG";
 export const ALLDONHANG = "ALLDONHANG";
 export const USERS = "USERS";
+export const ACTIVED = "ACTIVED";
+export const DEACTIVED = "DEACTIVED";
