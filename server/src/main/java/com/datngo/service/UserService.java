@@ -331,4 +331,16 @@ public class UserService {
             Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
         }
     }
+
+    public void deactive(Long userid) {
+        User user = userRepository.findById(userid).get();
+        user.setActivated(false);
+        userRepository.save(user);
+    }
+
+    public void active(Long userid) {
+        User user = userRepository.findById(userid).get();
+        user.setActivated(true);
+        userRepository.save(user);
+    }
 }
