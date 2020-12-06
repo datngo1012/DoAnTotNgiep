@@ -98,4 +98,10 @@ public class NguoiDungService {
         log.debug("Request to delete NguoiDung : {}", id);
         nguoiDungRepository.deleteById(id);
     }
+
+    public void nopTien(Long userid, Long soTien) {
+        NguoiDung nguoiDung = nguoiDungRepository.findById(userid).get();
+        nguoiDung.setSoDu(nguoiDung.getSoDu() + soTien);
+        nguoiDungRepository.save(nguoiDung);
+    }
 }

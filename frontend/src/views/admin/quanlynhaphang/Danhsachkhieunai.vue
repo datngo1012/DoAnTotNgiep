@@ -26,7 +26,30 @@
                   <v-btn color="yellow" dark>Xem</v-btn>
                 </td>
                 <td style="text-align: center">
-                  <v-btn color="green" dark>Nộp tiền</v-btn>
+                  <v-dialog name="user.id" v-model="dialog" persistent max-width="600px">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn name="user.id" color="green" dark v-bind="attrs" v-on="on">Nộp tiền</v-btn>
+                    </template>
+                    <v-card>
+                      <v-card-title>
+                        <span class="headline">Nộp tiền</span>
+                      </v-card-title>
+                      <v-card-text>
+                        <v-container>
+                          <v-row>
+                            <v-col cols="12">
+                              <input placeholder="Số tiền nộp" name="sotien" v-model="soTien" />
+                            </v-col>
+                          </v-row>
+                        </v-container>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="blue darken-1" text @click="dialog = false">Thoát</v-btn>
+                        <v-btn color="blue darken-1" text @click="noptien(user.id)">Lưu</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
                 </td>
                 <td style="text-align: center" v-if="user.user.activated">
                   <v-btn @click="deactived(user.user.id)" color="red" dark>Chặn</v-btn>
@@ -38,83 +61,20 @@
             </tbody>
           </table>
         </v-row>
-
-        <v-row no-gutters>
-          <div class="error w-100 text-center" v-if="error">
-            <p class="mt-3">{{ error }}</p>
-            <p>
-              <button class="btn btn-warning mb-3" @click.prevent="fetchData()">Try Again</button>
-            </p>
-          </div>
-        </v-row>
       </div>
     </v-container>
   </v-app>
 </template>
 
 <script>
-import { USERS, ACTIVED, DEACTIVED } from "@/store/actions.type";
+import { USERS, ACTIVED, DEACTIVED, NOPTIEN } from "@/store/actions.type";
 import { mapGetters } from "vuex";
 export default {
   name: "Naptien",
   data() {
     return {
-      search: "",
-      loading: null,
-      requests: [
-        {
-          req_id: 78,
-          no_batches: 3,
-          batch_size: 10,
-          requested_at: "05 September 2019, 11:19:34",
-          requested_by: "First Last",
-          requester_email: "xx@xx.com",
-          complete: 0,
-          producer: "-",
-          produced_at: "-",
-          template: "Strides",
-          template_id: 4,
-          template_cohort: "RTB",
-          exclude: 0,
-          excluded_at: "-",
-          excluded_by: "-"
-        },
-        {
-          req_id: 79,
-          no_batches: 4,
-          batch_size: 10,
-          requested_at: "05 September 2019, 11:19:37",
-          requested_by: "Last First",
-          requester_email: "xx@xx.com",
-          complete: 0,
-          producer: "-",
-          produced_at: "-",
-          template: "Strides",
-          template_id: 4,
-          template_cohort: "RTB",
-          exclude: 0,
-          excluded_at: "-",
-          excluded_by: "-"
-        }
-      ],
-      error: null,
-      tableHeaders: [
-        {
-          text: "ID",
-          value: "req_id",
-          align: "center"
-        },
-        { text: "Template", value: "templateConcatenated" },
-        { text: "No of batches", value: "no_batches" },
-        { text: "Batch size", value: "batch_size" },
-        { text: "Date requested", value: "requested_at" },
-        { text: "Requested by", value: "requester" },
-        { text: "Actions", value: "action", sortable: false, align: "center" }
-      ],
-      createloading: false,
-      cancelloading: false,
-      successmessage: "",
-      errormessage: ""
+      dialog: false,
+      soTien: null
     };
   },
   computed: {
@@ -134,6 +94,15 @@ export default {
       };
       this.$store.dispatch(DEACTIVED, userid).then();
       this.$store.dispatch(USERS).catch();
+    },
+    async noptien(id) {
+      this.dialog = false;
+      const thongTin = {
+        userid: id,
+        soTien: this.soTien
+      };
+      await this.$store.dispatch(NOPTIEN, thongTin).then(() => {});
+      await this.$store.dispatch(USERS).catch();
     }
   },
   created() {

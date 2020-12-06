@@ -1,6 +1,7 @@
 package com.datngo.web.rest;
 
 import com.datngo.domain.NguoiDung;
+import com.datngo.security.AuthoritiesConstants;
 import com.datngo.service.NguoiDungService;
 import com.datngo.web.rest.errors.BadRequestAlertException;
 import com.datngo.service.dto.NguoiDungDTO;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -121,5 +123,13 @@ public class NguoiDungResource {
         Long userId = Long.valueOf(thongTin.get("userId").toString());
         Optional<NguoiDungDTO> nguoiDungDTO = nguoiDungService.getNguoiDungByUserId(userId);
         return ResponseUtil.wrapOrNotFound(nguoiDungDTO);
+    }
+
+    @PostMapping("/users/noptien")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public void nopTien(@RequestBody Map<String, Object> thongTin) {
+        Long userid = Long.valueOf(thongTin.get("userid").toString());
+        Long soTien = Long.valueOf(thongTin.get("soTien").toString());
+        nguoiDungService.nopTien(userid, soTien);
     }
 }

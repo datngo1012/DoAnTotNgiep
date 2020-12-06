@@ -5,6 +5,7 @@ import {
   USERS,
   DEACTIVED,
   ACTIVED,
+  NOPTIEN,
 } from "./actions.type";
 
 import { SET_NGUOIDUNG, SET_USERS } from "./mutations.type";
@@ -71,6 +72,15 @@ export const actions = {
     ApiService.setHeader();
     return new Promise(() => {
       ApiService.post("users/deactive", userid)
+        .then(() => {})
+        .catch(() => {});
+    });
+  },
+
+  async [NOPTIEN](context, userid) {
+    ApiService.setHeader();
+    return new Promise(() => {
+      ApiService.post("users/noptien", userid)
         .then(() => {})
         .catch(() => {});
     });
