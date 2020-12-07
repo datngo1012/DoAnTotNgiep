@@ -33,6 +33,7 @@
                   <td>{{item.tenSanPham}}</td>
                   <td style="text-align: center">
                     <v-select
+                      @change="chageTrangThai(item.id)"
                       v-model="item.trangThai"
                       :items="trangthais"
                       color="yellow"
@@ -57,7 +58,7 @@ export default {
   data() {
     return {
       soTien: 0,
-      trangthais: ["Đang chờ nhận hàng", "Đã nhận hàng"]
+      trangthais: ["Đang chờ lấy hàng", "Đã nhận hàng"]
     };
   },
   computed: {
@@ -70,12 +71,11 @@ export default {
           userid: this.$route.params.id,
           soTien: this.soTien
         })
-        .then(() => {
-          alert(777);
-          this.$swal("Nộp tiền thành công!!!", "", "success");
-          this.$router.push("/admin/danhsachnguoidung");
-        })
+        .then(() => {})
         .catch(() => {});
+      this.$swal("Nộp tiền thành công!!!", "", "success");
+      this.$router.push("/admin/danhsachnguoidung");
+      this.soTien = 0;
     }
   },
   created() {
