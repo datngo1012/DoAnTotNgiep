@@ -62,4 +62,11 @@ public class DonHangResource {
     public List<DonHang> getTatCaDonHang() {
         return donHangRepository.findAll();
     }
+
+    @PostMapping("/don-hangs/user")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public List<DonHang> getDonHangByNguoiDungId(@RequestBody Map<String, Object> thongTin) {
+        Long nguoiDungId = Long.valueOf(thongTin.get("nguoiDungId").toString());
+        return donHangRepository.findByNguoiDungId(nguoiDungId);
+    }
 }

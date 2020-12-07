@@ -229,11 +229,11 @@ export default {
     items: [
       {
         action: "fas fa-file-import",
-        title: "Quản lý nhập hàng",
+        title: "Quản lý người dùng",
         active: false,
         items: [
           { title: "Danh sách đơn hàng", link: "danhsachdonhang" },
-          { title: "Danh sách khiếu nại", link: "danhsachkhieunai" }
+          { title: "Danh sách người dùng", link: "danhsachnguoidung" }
         ]
       },
       {

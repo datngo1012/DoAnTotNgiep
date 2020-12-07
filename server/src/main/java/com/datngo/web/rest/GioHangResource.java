@@ -78,6 +78,7 @@ public class GioHangResource {
         //luu san pham
         SanPhamItemInput sanPhamItemInput = sanPhamInputDTO.getItems().get(0);
         SanPham sanPham = new SanPham();
+        sanPham.setTransaction(sanPhamItemInput.getItemLink());
         sanPham.setId(sanPhamItemInput.getItemId());
         sanPham.setNam(sanPhamItemInput.getItemName());
         sanPham.setImage(sanPhamItemInput.getItemImage());

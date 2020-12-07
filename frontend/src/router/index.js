@@ -117,10 +117,16 @@ const routes = [
         component: () => import("@/views/admin/quanlyvitien/Naptien.vue"),
       },
       {
-        path: "danhsachkhieunai",
+        path: "danhsachnguoidung",
         name: "DanhSachNguoiDung",
         component: () =>
-          import("@/views/admin/quanlynhaphang/Danhsachkhieunai.vue"),
+          import("@/views/admin/quanlynhaphang/Danhsachnguoidung.vue"),
+      },
+      {
+        path: "quanlynguoidung/:id",
+        name: "Quanlynguoidung",
+        component: () =>
+          import("@/views/admin/quanlynhaphang/Quanlynguoidung.vue"),
       },
     ],
   },

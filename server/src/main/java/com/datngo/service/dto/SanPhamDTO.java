@@ -29,7 +29,7 @@ public class SanPhamDTO implements Serializable {
 
     private Long stock;
 
-    private Long transaction;
+    private String transaction;
 
     private Boolean transalated;
 
@@ -122,11 +122,11 @@ public class SanPhamDTO implements Serializable {
         this.stock = stock;
     }
 
-    public Long getTransaction() {
+    public String getTransaction() {
         return transaction;
     }
 
-    public void setTransaction(Long transaction) {
+    public void setTransaction(String transaction) {
         this.transaction = transaction;
     }
 

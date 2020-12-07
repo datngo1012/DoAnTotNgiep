@@ -52,7 +52,7 @@ public class SanPham implements Serializable {
     private Long stock;
 
     @Column(name = "transaction")
-    private Long transaction;
+    private String transaction;
 
     @Column(name = "transalated")
     private Boolean transalated;
@@ -196,16 +196,16 @@ public class SanPham implements Serializable {
         this.stock = stock;
     }
 
-    public Long getTransaction() {
+    public String getTransaction() {
         return transaction;
     }
 
-    public SanPham transaction(Long transaction) {
+    public SanPham transaction(String transaction) {
         this.transaction = transaction;
         return this;
     }
 
-    public void setTransaction(Long transaction) {
+    public void setTransaction(String transaction) {
         this.transaction = transaction;
     }
 

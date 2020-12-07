@@ -23,33 +23,10 @@
                 <td>{{user.hoTen}}</td>
                 <td>{{user.soDu}}</td>
                 <td style="text-align: center">
-                  <v-btn color="yellow" dark>Xem</v-btn>
+                  <v-btn @click="nopTien(user.id)" color="yellow" dark>Xem</v-btn>
                 </td>
                 <td style="text-align: center">
-                  <v-dialog name="user.id" v-model="dialog" persistent max-width="600px">
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn name="user.id" color="green" dark v-bind="attrs" v-on="on">Nộp tiền</v-btn>
-                    </template>
-                    <v-card>
-                      <v-card-title>
-                        <span class="headline">Nộp tiền</span>
-                      </v-card-title>
-                      <v-card-text>
-                        <v-container>
-                          <v-row>
-                            <v-col cols="12">
-                              <input placeholder="Số tiền nộp" name="sotien" v-model="soTien" />
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" text @click="dialog = false">Thoát</v-btn>
-                        <v-btn color="blue darken-1" text @click="noptien(user.id)">Lưu</v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
+                  <v-btn @click="nopTien(user.id)" color="green" dark>Nộp tiền</v-btn>
                 </td>
                 <td style="text-align: center" v-if="user.user.activated">
                   <v-btn @click="deactived(user.user.id)" color="red" dark>Chặn</v-btn>
@@ -67,15 +44,12 @@
 </template>
 
 <script>
-import { USERS, ACTIVED, DEACTIVED, NOPTIEN } from "@/store/actions.type";
+import { USERS, ACTIVED, DEACTIVED } from "@/store/actions.type";
 import { mapGetters } from "vuex";
 export default {
   name: "Naptien",
   data() {
-    return {
-      dialog: false,
-      soTien: null
-    };
+    return {};
   },
   computed: {
     ...mapGetters(["users"])
@@ -95,14 +69,9 @@ export default {
       this.$store.dispatch(DEACTIVED, userid).then();
       this.$store.dispatch(USERS).catch();
     },
-    async noptien(id) {
-      this.dialog = false;
-      const thongTin = {
-        userid: id,
-        soTien: this.soTien
-      };
-      await this.$store.dispatch(NOPTIEN, thongTin).then(() => {});
-      await this.$store.dispatch(USERS).catch();
+    nopTien(id) {
+      console.log(67676767);
+      this.$router.push("/admin/quanlynguoidung/" + id);
     }
   },
   created() {

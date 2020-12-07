@@ -66,8 +66,8 @@ public class SanPhamResourceIT {
     private static final Long DEFAULT_STOCK = 1L;
     private static final Long UPDATED_STOCK = 2L;
 
-    private static final Long DEFAULT_TRANSACTION = 1L;
-    private static final Long UPDATED_TRANSACTION = 2L;
+    private static final String DEFAULT_TRANSACTION = "";
+    private static final String UPDATED_TRANSACTION = "";
 
     private static final Boolean DEFAULT_TRANSALATED = false;
     private static final Boolean UPDATED_TRANSALATED = true;
@@ -234,7 +234,7 @@ public class SanPhamResourceIT {
             .andExpect(jsonPath("$.[*].sellPriceDisplay").value(hasItem(DEFAULT_SELL_PRICE_DISPLAY.intValue())))
             .andExpect(jsonPath("$.[*].startPriceVND").value(hasItem(DEFAULT_START_PRICE_VND.intValue())))
             .andExpect(jsonPath("$.[*].stock").value(hasItem(DEFAULT_STOCK.intValue())))
-            .andExpect(jsonPath("$.[*].transaction").value(hasItem(DEFAULT_TRANSACTION.intValue())))
+            .andExpect(jsonPath("$.[*].transaction").value(hasItem(DEFAULT_TRANSACTION)))
             .andExpect(jsonPath("$.[*].transalated").value(hasItem(DEFAULT_TRANSALATED.booleanValue())));
     }
 
@@ -259,7 +259,7 @@ public class SanPhamResourceIT {
             .andExpect(jsonPath("$.sellPriceDisplay").value(DEFAULT_SELL_PRICE_DISPLAY.intValue()))
             .andExpect(jsonPath("$.startPriceVND").value(DEFAULT_START_PRICE_VND.intValue()))
             .andExpect(jsonPath("$.stock").value(DEFAULT_STOCK.intValue()))
-            .andExpect(jsonPath("$.transaction").value(DEFAULT_TRANSACTION.intValue()))
+            .andExpect(jsonPath("$.transaction").value(DEFAULT_TRANSACTION))
             .andExpect(jsonPath("$.transalated").value(DEFAULT_TRANSALATED.booleanValue()));
     }
 

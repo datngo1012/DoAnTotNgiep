@@ -5,6 +5,7 @@ import {
   MUAHANG,
   DONHANG,
   ALLDONHANG,
+  DSDONHANG,
 } from "./actions.type";
 import { GET_GIOHANG, SET_DONHANG } from "./mutations.type";
 
@@ -66,6 +67,18 @@ export const actions = {
     ApiService.setHeader();
     return new Promise((resolve) => {
       ApiService.get("don-hangs")
+        .then(({ data }) => {
+          context.commit(SET_DONHANG, data);
+          resolve(data);
+        })
+        .catch(() => {});
+    });
+  },
+
+  async [DSDONHANG](context, thongTin) {
+    ApiService.setHeader();
+    return new Promise((resolve) => {
+      ApiService.post("don-hangs/user", thongTin)
         .then(({ data }) => {
           context.commit(SET_DONHANG, data);
           resolve(data);

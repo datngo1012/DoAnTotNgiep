@@ -77,10 +77,10 @@ export const actions = {
     });
   },
 
-  async [NOPTIEN](context, userid) {
+  async [NOPTIEN](context, thongTin) {
     ApiService.setHeader();
     return new Promise(() => {
-      ApiService.post("users/noptien", userid)
+      ApiService.post("users/noptien", thongTin)
         .then(() => {})
         .catch(() => {});
     });

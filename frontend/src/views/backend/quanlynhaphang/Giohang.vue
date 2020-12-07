@@ -58,7 +58,7 @@
                                     <p class="heading">
                                       <a
                                         id="itemCartName410228"
-                                        href="https://detail.tmall.com/item.htm?spm=a220o.1000855.w5003-18130825846.2.40ab75d6q2QIKf&amp;id=599465292486&amp;rn=db0298494bc31e5afa21025c69de307f&amp;abbucket=5&amp;scene=taobao_shop&amp;skuId=4189599785951"
+                                        :href="item.sanPham.transaction"
                                         target="_blank"
                                         title="Tên sản phẩm"
                                       >{{item.sanPham.nam}}</a>
