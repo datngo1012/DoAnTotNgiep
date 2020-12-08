@@ -17,3 +17,4 @@ export const ACTIVED = "ACTIVED";
 export const DEACTIVED = "DEACTIVED";
 export const NOPTIEN = "NOPTIEN";
 export const DSDONHANG = "DSDONHANG";
+export const TRANGTHAI = "TRANGTHAI";

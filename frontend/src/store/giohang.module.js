@@ -6,6 +6,7 @@ import {
   DONHANG,
   ALLDONHANG,
   DSDONHANG,
+  TRANGTHAI,
 } from "./actions.type";
 import { GET_GIOHANG, SET_DONHANG } from "./mutations.type";
 
@@ -93,6 +94,17 @@ export const actions = {
       ApiService.get("don-hangs/admin")
         .then(({ data }) => {
           context.commit(SET_DONHANG, data);
+          resolve(data);
+        })
+        .catch(() => {});
+    });
+  },
+
+  async [TRANGTHAI](context, thongTin) {
+    ApiService.setHeader();
+    return new Promise((resolve) => {
+      ApiService.post("don-hang/capnhat", thongTin)
+        .then(({ data }) => {
           resolve(data);
         })
         .catch(() => {});

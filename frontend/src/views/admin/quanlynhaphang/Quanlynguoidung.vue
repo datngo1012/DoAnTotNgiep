@@ -33,7 +33,7 @@
                   <td>{{item.tenSanPham}}</td>
                   <td style="text-align: center">
                     <v-select
-                      @change="chageTrangThai(item.id)"
+                      @change="changeTrangThai(item.trangThai, item.id)"
                       v-model="item.trangThai"
                       :items="trangthais"
                       color="yellow"
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { DSDONHANG, NOPTIEN } from "@/store/actions.type";
+import { DSDONHANG, NOPTIEN, TRANGTHAI } from "@/store/actions.type";
 import { mapGetters } from "vuex";
 export default {
   name: "Naptien",
@@ -76,6 +76,15 @@ export default {
       this.$swal("Nộp tiền thành công!!!", "", "success");
       this.$router.push("/admin/danhsachnguoidung");
       this.soTien = 0;
+    },
+    changeTrangThai(trangThai, id) {
+      this.$store
+        .dispatch(TRANGTHAI, {
+          donHangId: id,
+          trangThai: trangThai
+        })
+        .then(() => {})
+        .catch(() => {});
     }
   },
   created() {

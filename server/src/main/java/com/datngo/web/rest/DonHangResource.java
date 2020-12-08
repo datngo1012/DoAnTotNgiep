@@ -69,4 +69,14 @@ public class DonHangResource {
         Long nguoiDungId = Long.valueOf(thongTin.get("nguoiDungId").toString());
         return donHangRepository.findByNguoiDungId(nguoiDungId);
     }
+
+    @PostMapping("/don-hang/capnhat")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public void capNhatDonHang(@RequestBody Map<String, Object> thongTin) {
+        Long donHangId = Long.valueOf(thongTin.get("donHangId").toString());
+        String trangThai = thongTin.get("trangThai").toString();
+        DonHang donHang = donHangRepository.findById(donHangId).get();
+        donHang.setTrangThai(trangThai);
+        donHangRepository.save(donHang);
+    }
 }
