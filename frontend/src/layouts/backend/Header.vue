@@ -168,13 +168,39 @@
         />
         <b>KÊNH MUA BÁN HÀNG TQ</b>
         <v-spacer />
-        <div class="header_giohang">
+        <!-- <div class="header_giohang">
           <v-btn text color="primary" to="/backend/giohang">
             <v-badge :content="amount>0?amount:'O'" color="green" overlap>
               <v-icon large color="white">mdi-cart</v-icon>
             </v-badge>
           </v-btn>
-        </div>
+        </div>-->
+        <v-toolbar-items class="hidden-sm-and-down">
+          <!-- <v-btn flat>Link One</v-btn>
+          <v-btn flat>Link Two</v-btn>-->
+          <v-btn text color="primary" to="/backend/giohang">
+            <v-badge :content="amount>0?amount:'O'" color="green" overlap>
+              <v-icon large color="white">mdi-cart</v-icon>
+            </v-badge>
+          </v-btn>
+          <v-menu offset-y>
+            <template v-slot:activator="{ on }">
+              <v-btn dark icon v-on="on">
+                <i style="fontSize: 30px;" class="fas fa-bell"></i>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-list dense>
+                <v-list-item
+                  v-for="notification in notifications"
+                  :key="`notification-key-${notification.id}`"
+                >
+                  <v-list-item-title>{{ notification.title }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </v-menu>
+        </v-toolbar-items>
         <div>
           <v-menu bottom offset-y>
             <template v-slot:activator="{ on, attrs }">
@@ -292,6 +318,12 @@ export default {
           { title: "Hướng dẫn nhập hàng" }
         ]
       }
+    ],
+    notifications: [
+      { id: 1, title: "Click Me" },
+      { id: 2, title: "Click Me" },
+      { id: 3, title: "Click Me" },
+      { id: 4, title: "Click Me 2" }
     ]
   }),
   created() {
