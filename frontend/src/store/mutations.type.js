@@ -10,3 +10,4 @@ export const GET_XA_PHUONG = "GET_XA_PHUONG";
 export const SET_NGUOIDUNG = "SET_NGUOIDUNG";
 export const SET_DONHANG = "SET_DONHANG";
 export const SET_USERS = "SET_USERS";
+export const SET_ORDER = "SET_ORDER";

@@ -125,6 +125,13 @@ public class NguoiDungResource {
         return ResponseUtil.wrapOrNotFound(nguoiDungDTO);
     }
 
+    @PostMapping("/nguoi-dung-by-nguoidungid")
+    public ResponseEntity<NguoiDungDTO> getNguoiDungByNguoiDungId(@RequestBody Map<String, Object> thongTin) {
+        Long userId = Long.valueOf(thongTin.get("userId").toString());
+        Optional<NguoiDungDTO> nguoiDungDTO = nguoiDungService.findOne(userId);
+        return ResponseUtil.wrapOrNotFound(nguoiDungDTO);
+    }
+
     @PostMapping("/users/noptien")
     @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
     public void nopTien(@RequestBody Map<String, Object> thongTin) {

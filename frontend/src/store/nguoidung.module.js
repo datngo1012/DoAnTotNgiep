@@ -2,6 +2,7 @@ import ApiService from "@/common/api.service";
 import {
   UPDATE_NGUOIDUNG,
   GET_NGUOIDUNG,
+  GETNGUOIDUNG,
   USERS,
   DEACTIVED,
   ACTIVED,
@@ -39,6 +40,18 @@ export const actions = {
     ApiService.setHeader();
     return new Promise((resolve) => {
       ApiService.post("nguoi-dung-by-userid", credentials)
+        .then(({ data }) => {
+          context.commit(SET_NGUOIDUNG, data);
+          resolve(data);
+        })
+        .catch(() => {});
+    });
+  },
+
+  async [GETNGUOIDUNG](context, credentials) {
+    ApiService.setHeader();
+    return new Promise((resolve) => {
+      ApiService.post("nguoi-dung-by-nguoidungid", credentials)
         .then(({ data }) => {
           context.commit(SET_NGUOIDUNG, data);
           resolve(data);

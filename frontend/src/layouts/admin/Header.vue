@@ -168,6 +168,11 @@
         />
         <b>KÊNH MUA BÁN HÀNG TQ</b>
         <v-spacer />
+        <v-btn text color="primary" to="/admin/donhang">
+          <v-badge :content="amount>0?amount:'O'" color="green" overlap>
+            <v-icon large color="white">mdi-cart</v-icon>
+          </v-badge>
+        </v-btn>
         <div>
           <v-menu bottom offset-y>
             <template v-slot:activator="{ on, attrs }">

@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "don_hang")
@@ -32,6 +33,9 @@ public class DonHang {
 
     @Column(name = "nguoi_dung_id")
     private Long nguoiDungId;
+
+    @Column(name ="ngay_mua")
+    private LocalDateTime ngayMua;
 
     public Long getNguoiDungId() {
         return nguoiDungId;
@@ -87,5 +91,13 @@ public class DonHang {
 
     public void setSoTienDangThieu(Long soTienDangThieu) {
         this.soTienDangThieu = soTienDangThieu;
+    }
+
+    public LocalDateTime getNgayMua() {
+        return ngayMua;
+    }
+
+    public void setNgayMua(LocalDateTime ngayMua) {
+        this.ngayMua = ngayMua;
     }
 }

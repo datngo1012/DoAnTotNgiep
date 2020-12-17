@@ -206,7 +206,7 @@
                         >{{((getTienHang*0.01+ getTienHang + 80000)*0.7).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}đ</div>
                       </div>
                     </div>
-                    <div v-if="nguoidung.soDu >=(getTienHang*0.01+ getTienHang + 80000) ">
+                    <div v-if="nguoidung.soDu >=(getTienHang*0.01+ getTienHang + 80000)*0.7 ">
                       <v-btn
                         color="primary"
                         depressed

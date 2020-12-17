@@ -7,13 +7,15 @@ import {
   ALLDONHANG,
   DSDONHANG,
   TRANGTHAI,
+  ORDER,
 } from "./actions.type";
-import { GET_GIOHANG, SET_DONHANG } from "./mutations.type";
+import { GET_GIOHANG, SET_DONHANG, SET_ORDER } from "./mutations.type";
 
 const state = {
   giohang: [],
   amount: null,
   donhang: [],
+  order: [],
 };
 
 const getters = {
@@ -26,9 +28,24 @@ const getters = {
   donhang(state) {
     return state.donhang;
   },
+  order(state) {
+    return state.order;
+  },
 };
 
 export const actions = {
+  async [ORDER](context, credentials) {
+    ApiService.setHeader();
+    return new Promise((resolve) => {
+      ApiService.post("don-hang/order", credentials)
+        .then(({ data }) => {
+          context.commit(SET_ORDER, data);
+          resolve(data);
+        })
+        .catch(() => {});
+    });
+  },
+
   async [GIOHANG](context, credentials) {
     ApiService.setHeader();
     return new Promise((resolve) => {
@@ -120,6 +137,9 @@ const mutations = {
   [SET_DONHANG](state, data) {
     state.donhang = data;
     console.log(data, 888);
+  },
+  [SET_ORDER](state, data) {
+    state.order = data;
   },
 };
 

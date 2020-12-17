@@ -2,23 +2,9 @@
   <v-app>
     <v-container>
       <v-app-bar>
-        <h4>QUẢN LÝ NGƯỜI DÙNG</h4>
+        <h4>ĐƠN HÀNG ĐANG ORDER</h4>
       </v-app-bar>
       <div id="app">
-        <v-row>
-          <v-col cols="6">
-            <v-text-field
-              v-model="soTien"
-              :rules="rules"
-              hint="Chỉ được nhập số"
-              label="Nhập số tiền"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-btn @click="nopTien()" name="user.id" color="green" dark>Nộp tiền</v-btn>
-          </v-col>
-        </v-row>
-
         <v-row>
           <v-col cols="12">
             <table>
@@ -27,14 +13,20 @@
                   <th>Tên sản phẩm</th>
                   <th>Số lượng</th>
                   <th>Địa chỉ nhận hàng</th>
-                  <th>Trạng thái</th>
+                  <th>Thời gian</th>
+                  <th>Số tiền</th>
+                  <th>Số tiền còn thiếu</th>
+                  <th>trạng thái</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in donhang" :key="item.id">
+                <tr v-for="item in order" :key="item.id">
                   <td>{{item.tenSanPham}}</td>
                   <td>{{item.soLuong}}</td>
-                  <td>{{nguoidung.diaChi}}-{{nguoidung.xaPhuong}}-{{nguoidung.quanHuyen}}-{{nguoidung.tinhThanh}}</td>
+                  <td>{{item.diaChi}}-{{item.xaPhuong}}-{{item.quanHuyen}}-{{item.tinhThanh}}</td>
+                  <td>{{item.ngayMua}}</td>
+                  <td>{{tem.soTien}}</td>
+                  <td>{{tem.soTienDangThieu}}</td>
                   <td style="text-align: center">
                     <v-select
                       @change="changeTrangThai(item.trangThai, item.id)"
@@ -55,12 +47,7 @@
 </template>
 
 <script>
-import {
-  DSDONHANG,
-  NOPTIEN,
-  TRANGTHAI,
-  GETNGUOIDUNG
-} from "@/store/actions.type";
+import { ORDER, TRANGTHAI } from "@/store/actions.type";
 import { mapGetters } from "vuex";
 export default {
   name: "Naptien",
@@ -71,21 +58,9 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["donhang", "nguoidung"])
+    ...mapGetters(["order"])
   },
   methods: {
-    nopTien() {
-      this.$store
-        .dispatch(NOPTIEN, {
-          userid: this.$route.params.id,
-          soTien: this.soTien
-        })
-        .then(() => {})
-        .catch(() => {});
-      this.$swal("Nộp tiền thành công!!!", "", "success");
-      this.$router.push("/admin/danhsachnguoidung");
-      this.soTien = 0;
-    },
     changeTrangThai(trangThai, id) {
       this.$store
         .dispatch(TRANGTHAI, {
@@ -97,15 +72,7 @@ export default {
     }
   },
   created() {
-    this.$store
-      .dispatch(DSDONHANG, { nguoiDungId: this.$route.params.id })
-      .catch();
-
-    this.$store
-      .dispatch(GETNGUOIDUNG, {
-        userId: this.$route.params.id
-      })
-      .catch();
+    this.$store.dispatch(ORDER).catch();
   }
 };
 </script>
