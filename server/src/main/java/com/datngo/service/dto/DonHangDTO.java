@@ -127,7 +127,7 @@ public class DonHangDTO {
     }
 
     public DonHangDTO(Long id, String tenSanPham, Long soLuong, String trangThai, long soTien, Long soTienDangThieu,
-                      Long nguoiDungId, LocalDateTime ngayMua, String diaChi, String xaPhuong, String quanHuyen, String tinhThanh) {
+                      Long nguoiDungId, String diaChi, String xaPhuong, String quanHuyen) {
         this.id = id;
         this.tenSanPham = tenSanPham;
         this.soLuong = soLuong;

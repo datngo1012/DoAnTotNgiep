@@ -141,10 +141,10 @@
                   <v-col cols="12" md="8" xs="12">
                     <div class="box has-ribbon-left is-small">
                       <div class="infor-adress">
-                        <div v-if="nguoiDungCurrent.xaPhuong">
+                        <div v-if="nguoidung.xaPhuong">
                           <p>
                             <v-icon>mdi-home</v-icon>
-                            {{nguoiDungCurrent.diaChi}}, {{nguoiDungCurrent.xaPhuong}}, {{nguoiDungCurrent.quanHuyen}}, {{nguoiDungCurrent.tinhThanh}}
+                            {{nguoidung.diaChi}}, {{nguoidung.xaPhuong}}, {{nguoidung.quanHuyen}}, {{nguoidung.tinhThanh}}
                           </p>
                           <v-btn
                             class="setting-adress"
@@ -257,6 +257,12 @@ export default {
     this.$store
       .dispatch(GIOHANG, { nguoiDungId: this.currentUser.user_info.id })
       .catch();
+    this.$store
+            .dispatch(GET_NGUOIDUNG, {
+              userId: JwtService.getToken().user_info.user.id
+            })
+            .catch();
+
   },
   computed: {
     ...mapGetters(["isAuthenticated", "giohang", "nguoidung"]),

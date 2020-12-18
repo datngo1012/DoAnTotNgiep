@@ -99,8 +99,9 @@ public class DonHangResource {
         List<DonHangDTO> donHangDTOS = new ArrayList<>();
         List<Object[]> datas = donHangRepository.findOrder();
         for(Object[] item : datas) {
-            DonHangDTO donHangDTO = new DonHangDTO(item[0].toString(),item[2].toString(), item[3].toString(), item[4].toString()
-            ,item[5].toString(), item[6].toString(),item[7].toString(), item[8].toString(), item[9].toString());
+            DonHangDTO donHangDTO = new DonHangDTO(Long.valueOf(item[0].toString()),item[1].toString(),Long.valueOf(item[2].toString()), item[3].toString(), Long.valueOf(item[4].toString())
+            ,Long.valueOf(item[5].toString()), Long.valueOf(item[6].toString()),item[7].toString(), item[8].toString(), item[9].toString());
+            donHangDTOS.add(donHangDTO);
         }
         return donHangDTOS;
     }
