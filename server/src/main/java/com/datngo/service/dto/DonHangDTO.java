@@ -17,7 +17,7 @@ public class DonHangDTO {
 
     private Long nguoiDungId;
 
-    private LocalDateTime ngayMua;
+    private String ngayMua;
 
     private String diaChi;
 
@@ -26,6 +26,26 @@ public class DonHangDTO {
     private String quanHuyen;
 
     private String tinhThanh;
+
+    private String hoTen;
+
+    public String getHoTen() {
+        return hoTen;
+    }
+
+    public void setHoTen(String hoTen) {
+        this.hoTen = hoTen;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    private String link;
 
     public Long getId() {
         return id;
@@ -83,11 +103,11 @@ public class DonHangDTO {
         this.nguoiDungId = nguoiDungId;
     }
 
-    public LocalDateTime getNgayMua() {
+    public String getNgayMua() {
         return ngayMua;
     }
 
-    public void setNgayMua(LocalDateTime ngayMua) {
+    public void setNgayMua(String ngayMua) {
         this.ngayMua = ngayMua;
     }
 
@@ -126,8 +146,8 @@ public class DonHangDTO {
     public DonHangDTO() {
     }
 
-    public DonHangDTO(Long id, String tenSanPham, Long soLuong, String trangThai, long soTien, Long soTienDangThieu,
-                      Long nguoiDungId, String diaChi, String xaPhuong, String quanHuyen) {
+    public DonHangDTO(Long id, String tenSanPham, Long soLuong, long soTien, Long soTienDangThieu, String trangThai
+        , String diaChi, String xaPhuong, String quanHuyen, String link, String tinhThanh, String ngayMua, Long nguoiDungId, String hoTen) {
         this.id = id;
         this.tenSanPham = tenSanPham;
         this.soLuong = soLuong;
@@ -140,5 +160,7 @@ public class DonHangDTO {
         this.xaPhuong = xaPhuong;
         this.quanHuyen = quanHuyen;
         this.tinhThanh = tinhThanh;
+        this.link  =link;
+        this.hoTen = hoTen;
     }
 }

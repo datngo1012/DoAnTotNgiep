@@ -12,24 +12,26 @@
                 <tr>
                   <th>Tên sản phẩm</th>
                   <th>Số lượng</th>
+                  <th>Họ tên</th>
                   <th>Địa chỉ nhận hàng</th>
                   <th>Thời gian</th>
                   <th>Số tiền</th>
                   <th>Số tiền còn thiếu</th>
-                  <th>trạng thái</th>
+                  <th>Trạng thái</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="item in order" :key="item.id">
-                  <td>{{item.tenSanPham}}</td>
+                  <td style="width: 250px;"><a v-bind:href='item.link'>{{item.tenSanPham}}</a></td>
                   <td>{{item.soLuong}}</td>
-                  <td>{{item.diaChi}}-{{item.xaPhuong}}-{{item.quanHuyen}}-{{item.tinhThanh}}</td>
+                  <td>{{item.hoTen}}</td>
+                  <td style="width: 300px;">{{item.diaChi}}-{{item.xaPhuong}}-{{item.quanHuyen}}-{{item.tinhThanh}}</td>
                   <td>{{item.ngayMua}}</td>
-                  <td>{{tem.soTien}}</td>
-                  <td>{{tem.soTienDangThieu}}</td>
-                  <td style="text-align: center">
+                  <td>{{item.soTien}}</td>
+                  <td>{{item.soTienDangThieu}}</td>
+                  <td style="text-align: center; width: 200px">
                     <v-select
-                      @change="changeTrangThai(item.trangThai, item.id)"
+                      @change="changeTrangThai(item.trangThai, item.id, item.nguoiDungId, item.tenSanPham)"
                       v-model="item.trangThai"
                       :items="trangthais"
                       color="yellow"
@@ -58,14 +60,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["order"])
+    ...mapGetters(["order", "countOrder"])
   },
   methods: {
-    changeTrangThai(trangThai, id) {
+    changeTrangThai(trangThai, id, ndId, sp) {
       this.$store
         .dispatch(TRANGTHAI, {
           donHangId: id,
-          trangThai: trangThai
+          trangThai: trangThai,
+          nguoiDungId: ndId,
+          tenSP: sp
         })
         .then(() => {})
         .catch(() => {});
@@ -78,6 +82,14 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none !important;
+}
+
+a:active {
+  text-decoration: none !important;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

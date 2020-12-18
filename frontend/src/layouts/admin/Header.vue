@@ -169,7 +169,7 @@
         <b>KÊNH MUA BÁN HÀNG TQ</b>
         <v-spacer />
         <v-btn text color="primary" to="/admin/donhang">
-          <v-badge :content="amount>0?amount:'O'" color="green" overlap>
+          <v-badge :content="countOrder>0?countOrder:'O'" color="green" overlap>
             <v-icon large color="white">mdi-cart</v-icon>
           </v-badge>
         </v-btn>
@@ -216,7 +216,7 @@
 </template>
 
 <script>
-import { LOGOUT } from "@/store/actions.type";
+import { LOGOUT ,ORDER} from "@/store/actions.type";
 import { mapGetters } from "vuex";
 import JwtService from "@/common/jwt.service";
 
@@ -277,6 +277,7 @@ export default {
       this.$swal("Bạn chưa đăng nhập! Vui lòng đăng nhập để tiếp tục.");
       this.$router.push("/signin");
     }
+    this.$store.dispatch(ORDER).catch();
   },
   methods: {
     close() {
@@ -296,7 +297,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["isAuthenticated"])
+    ...mapGetters(["isAuthenticated", "countOrder"])
   }
 };
 </script>

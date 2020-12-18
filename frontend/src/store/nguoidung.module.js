@@ -7,15 +7,17 @@ import {
   DEACTIVED,
   ACTIVED,
   NOPTIEN,
+  THONGBAO
 } from "./actions.type";
 
-import { SET_NGUOIDUNG, SET_USERS } from "./mutations.type";
+import { SET_NGUOIDUNG, SET_USERS, SET_THONGBAO } from "./mutations.type";
 
 import nguoidungService from "../common/nguoidung.service";
 
 const state = {
   nguoidung: {},
   users: [],
+  thongbao: []
 };
 
 const getters = {
@@ -25,6 +27,9 @@ const getters = {
   users(state) {
     return state.users;
   },
+  thongbao(state) {
+    return state.thongbao;
+  }
 };
 
 export const actions = {
@@ -98,6 +103,17 @@ export const actions = {
         .catch(() => {});
     });
   },
+  async [THONGBAO](context) {
+    ApiService.setHeader();
+    return new Promise((resolve) => {
+      ApiService.post("nguoi-dung/thong-bao")
+        .then(({ data }) => {
+          context.commit(SET_THONGBAO, data);
+          resolve(data);
+        })
+        .catch(() => {});
+    });
+  },
 };
 
 const mutations = {
@@ -107,6 +123,9 @@ const mutations = {
   },
   [SET_USERS](state, data) {
     state.users = data;
+  },
+  [SET_THONGBAO](state, data) {
+    state.thongbao = data;
   },
 };
 

@@ -20,3 +20,4 @@ export const NOPTIEN = "NOPTIEN";
 export const DSDONHANG = "DSDONHANG";
 export const TRANGTHAI = "TRANGTHAI";
 export const ORDER = "ORDER";
+export const THONGBAO = "THONGBAO";

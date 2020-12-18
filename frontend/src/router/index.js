@@ -128,6 +128,12 @@ const routes = [
         component: () =>
           import("@/views/admin/quanlynhaphang/Quanlynguoidung.vue"),
       },
+      {
+        path: "donhang",
+        name: "QuanlyOrder",
+        component: () =>
+          import("@/views/admin/quanlynhaphang/DonHang.vue"),
+      },
     ],
   },
   {

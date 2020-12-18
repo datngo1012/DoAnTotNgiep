@@ -1,15 +1,11 @@
 package com.datngo.web.rest;
 
-import com.datngo.domain.ChiTietSanPham;
-import com.datngo.domain.DonHang;
-import com.datngo.domain.NguoiDung;
-import com.datngo.domain.User;
-import com.datngo.repository.ChiTietSanPhamRepository;
-import com.datngo.repository.DonHangRepository;
-import com.datngo.repository.NguoiDungRepository;
-import com.datngo.repository.UserRepository;
+import com.datngo.domain.*;
+import com.datngo.repository.*;
 import com.datngo.security.AuthoritiesConstants;
 import com.datngo.service.dto.DonHangDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +20,9 @@ import java.util.Map;
 @RequestMapping("/api")
 public class DonHangResource {
 
+    private final Logger log = LoggerFactory.getLogger(DonHangResource.class);
+
+
     @Autowired
     private UserRepository userRepository;
 
@@ -36,6 +35,9 @@ public class DonHangResource {
     @Autowired
     private DonHangRepository donHangRepository;
 
+    @Autowired
+    private ThongBaoRepository thongBaoRepository;
+
     @PostMapping("/don-hangs")
     public DonHang createDonHang(Principal principal)
     {
@@ -47,6 +49,7 @@ public class DonHangResource {
         for(ChiTietSanPham chiTietSanPham : chiTietSanPhams) {
             DonHang donHang = new DonHang();
             donHang.setTenSanPham(chiTietSanPham.getSanPham().getNam());
+            donHang.setLink(chiTietSanPham.getSanPham().getTransaction());
             donHang.setSoLuong(Long.valueOf(chiTietSanPham.getSoLuong()));
             donHang.setNgayMua(LocalDateTime.now());
             donHang.setTrangThai("Đang chờ lấy hàng");
@@ -88,8 +91,21 @@ public class DonHangResource {
     public void capNhatDonHang(@RequestBody Map<String, Object> thongTin) {
         Long donHangId = Long.valueOf(thongTin.get("donHangId").toString());
         String trangThai = thongTin.get("trangThai").toString();
+        String tenSP = thongTin.get("tenSP").toString();
+        Long nguoiDungId = Long.valueOf(thongTin.get("nguoiDungId").toString());
         DonHang donHang = donHangRepository.findById(donHangId).get();
         donHang.setTrangThai(trangThai);
+
+        ThongBao thongBao = new ThongBao();
+        thongBao.setNgayTao(LocalDateTime.now());
+        thongBao.setNguoiDungId(nguoiDungId);
+        if(trangThai.equals("Hết hàng")) {
+            thongBao.setNoiDung("Xin lỗi sản phẩm "+ tenSP +" hiện đã hết hàng");
+        }
+        else if(trangThai.equals("Đã nhận hàng")) {
+            thongBao.setNoiDung("Bạn đã nhận sản phẩm "+ tenSP +". Có gì thắc mắc xin vui lòng liên hệ 0986512835");
+        }
+        thongBaoRepository.save(thongBao);
         donHangRepository.save(donHang);
     }
 
@@ -99,8 +115,8 @@ public class DonHangResource {
         List<DonHangDTO> donHangDTOS = new ArrayList<>();
         List<Object[]> datas = donHangRepository.findOrder();
         for(Object[] item : datas) {
-            DonHangDTO donHangDTO = new DonHangDTO(Long.valueOf(item[0].toString()),item[1].toString(),Long.valueOf(item[2].toString()), item[3].toString(), Long.valueOf(item[4].toString())
-            ,Long.valueOf(item[5].toString()), Long.valueOf(item[6].toString()),item[7].toString(), item[8].toString(), item[9].toString());
+            DonHangDTO donHangDTO = new DonHangDTO(Long.valueOf(item[0].toString()),item[1].toString(),Long.valueOf(item[2].toString()), Long.valueOf(item[3].toString()), Long.valueOf(item[4].toString())
+            ,item[5].toString(), item[6].toString(),item[7].toString(), item[8].toString(), item[9].toString(), item[10].toString(), item[11].toString(), Long.valueOf(item[12].toString()), item[13].toString());
             donHangDTOS.add(donHangDTO);
         }
         return donHangDTOS;

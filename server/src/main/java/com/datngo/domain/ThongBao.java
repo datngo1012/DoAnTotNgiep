@@ -17,8 +17,8 @@ public class ThongBao implements Serializable {
     @Column(name = "noi_dung")
     private String noiDung;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "nguoidung_id")
+    private Long nguoiDungId;
 
     @Column(name = "ngay_tao")
     private LocalDateTime ngayTao;
@@ -39,12 +39,12 @@ public class ThongBao implements Serializable {
         this.noiDung = noiDung;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getNguoiDungId() {
+        return nguoiDungId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setNguoiDungId(Long nguoiDungId) {
+        this.nguoiDungId = nguoiDungId;
     }
 
     public LocalDateTime getNgayTao() {

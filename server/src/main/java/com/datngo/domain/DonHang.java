@@ -37,6 +37,17 @@ public class DonHang {
     @Column(name ="ngay_mua")
     private LocalDateTime ngayMua;
 
+    @Column(name ="link")
+    private String link;
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
     public Long getNguoiDungId() {
         return nguoiDungId;
     }

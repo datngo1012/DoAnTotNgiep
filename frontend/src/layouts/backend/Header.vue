@@ -192,10 +192,10 @@
             <v-card>
               <v-list dense>
                 <v-list-item
-                  v-for="notification in notifications"
+                  v-for="notification in thongbao"
                   :key="`notification-key-${notification.id}`"
                 >
-                  <v-list-item-title>{{ notification.title }}</v-list-item-title>
+                  <v-list-item-title>{{ notification.noiDung }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-card>
@@ -251,11 +251,11 @@
 </template>
 
 <script>
-import { LOGOUT } from "@/store/actions.type";
+import { LOGOUT ,} from "@/store/actions.type";
 import { mapGetters } from "vuex";
 import JwtService from "@/common/jwt.service";
 import NguoiDungService from "@/common/nguoidung.service";
-import { GIOHANG, GET_NGUOIDUNG } from "@/store/actions.type";
+import { GIOHANG, GET_NGUOIDUNG,THONGBAO } from "@/store/actions.type";
 
 export default {
   name: "BackendHeader",
@@ -342,6 +342,10 @@ export default {
         userId: JwtService.getToken().user_info.user.id
       })
       .catch();
+    this.getThongBao();
+    setInterval(() => {
+       this.getThongBao();
+    }, 10000);
   },
   methods: {
     close() {
@@ -358,10 +362,16 @@ export default {
       this.$store.dispatch(LOGOUT).then(() => {
         this.$router.push("/");
       });
+    }, 
+    getThongBao() {
+      this.$store
+        .dispatch(THONGBAO)
+        .then(() => {})
+        .catch(() => {});
     }
   },
   computed: {
-    ...mapGetters(["isAuthenticated", "amount", "nguoidung"])
+    ...mapGetters(["isAuthenticated", "amount", "nguoidung","thongbao"])
   }
 };
 </script>

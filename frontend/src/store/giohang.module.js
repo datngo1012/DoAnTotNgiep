@@ -16,6 +16,7 @@ const state = {
   amount: null,
   donhang: [],
   order: [],
+  countOrder: []
 };
 
 const getters = {
@@ -31,6 +32,9 @@ const getters = {
   order(state) {
     return state.order;
   },
+  countOrder(state) {
+    return state.countOrder;
+  }
 };
 
 export const actions = {
@@ -140,6 +144,7 @@ const mutations = {
   },
   [SET_ORDER](state, data) {
     state.order = data;
+    state.countOrder = data.length;
   },
 };
 

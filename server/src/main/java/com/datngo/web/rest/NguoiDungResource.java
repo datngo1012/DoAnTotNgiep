@@ -1,15 +1,20 @@
 package com.datngo.web.rest;
 
 import com.datngo.domain.NguoiDung;
+import com.datngo.domain.ThongBao;
+import com.datngo.domain.User;
+import com.datngo.repository.NguoiDungRepository;
+import com.datngo.repository.ThongBaoRepository;
+import com.datngo.repository.UserRepository;
 import com.datngo.security.AuthoritiesConstants;
 import com.datngo.service.NguoiDungService;
-import com.datngo.web.rest.errors.BadRequestAlertException;
 import com.datngo.service.dto.NguoiDungDTO;
-
+import com.datngo.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -36,6 +42,15 @@ public class NguoiDungResource {
     private String applicationName;
 
     private final NguoiDungService nguoiDungService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private NguoiDungRepository nguoiDungRepository;
+
+    @Autowired
+    private ThongBaoRepository thongBaoRepository;
 
     public NguoiDungResource(NguoiDungService nguoiDungService) {
         this.nguoiDungService = nguoiDungService;
@@ -138,5 +153,12 @@ public class NguoiDungResource {
         Long userid = Long.valueOf(thongTin.get("userid").toString());
         Long soTien = Long.valueOf(thongTin.get("soTien").toString());
         nguoiDungService.nopTien(userid, soTien);
+    }
+
+    @PostMapping("nguoi-dung/thong-bao")
+    public List<ThongBao> getDonHang(Principal principal) {
+        User user = userRepository.findOneByLogin(principal.getName()).get();
+        NguoiDung nguoiDung = nguoiDungRepository.findOneByUserId(user.getId()).get();
+        return thongBaoRepository.findByNguoiDungId(nguoiDung.getId());
     }
 }
