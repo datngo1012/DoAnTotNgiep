@@ -1,398 +1,291 @@
 <template>
   <div calss="app">
-    <div
-      class="wrapper fadeInDown"
-      
-    >
-      <div id="formContent">
-        <!-- Tabs Titles -->
-        <h2 class="inactive underlineHover cursor" v-on:click="moveLogin">Đăng Nhập</h2>
-        <h2 class="active cursor">Đăng Ký</h2>
+    <v-container fluid>
+      <v-row>
+        <v-col sm="8" cols="0">
+          <v-img
+            class="background-login"
+            :src="require('@/assets/slide.jpg')"
+            alt="Girl in a jacket"
+          />
+        </v-col>
+        <v-col sm="4" cols="12">
+          <div class="form" id="form-1">
+            <h4 class="heading">Thành viên đăng ký</h4>
 
-        <!-- Icon -->
-        <div class="fadeIn first">
-          <!-- <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" /> -->
-        </div>
+            <div class="spacer"></div>
 
-        <!-- Login Form -->
-        <input
-          type="text"
-          id="login"
-          class="fadeIn second"
-          name="login"
-          placeholder="Nhập email"
-          v-model="email"
-        />
-        <input
-          type="text"
-          id="login"
-          class="fadeIn third"
-          name="login"
-          placeholder="Nhập tên của bạn"
-          v-model="fullName"
-        />
-        <input
-          type="text"
-          id="password"
-          class="fadeIn third"
-          name="login"
-          placeholder="Nhập mật khẩu"
-          v-model="password"
-        />
-        <button @click="submit" class="fadeIn fourth btn-submit">ĐĂNG KÝ</button>
+            <div class="form-group">
+              <label for="username" class="form-label">Tên đăng nhập</label>
+              <v-text-field
+                v-model="login"
+                name="username"
+                type="text"
+                placeholder="Nhập tên đăng nhập"
+                class="form-control"
+                :rules="[() => !!login || 'Tên đăng nhập không được để trống!!!']"
+                required
+              ></v-text-field>
+              <span class="form-message"></span>
+            </div>
 
-        <!-- Remind Passowrd -->
-      </div>
-    </div>
+            <div class="form-group">
+              <label for="fullname" class="form-label">Tên đầy đủ</label>
+              <v-text-field
+                v-model="hoTen"
+                name="fullname"
+                type="text"
+                placeholder="VD: Đạt Ngô"
+                class="form-control"
+                :rules="[() => !!hoTen || 'Họ tên không được để trống!!!']"
+                required
+              ></v-text-field>
+              <span class="form-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="form-label">Email</label>
+              <v-text-field
+                v-model="email"
+                name="email"
+                type="text"
+                placeholder="VD: email@domain.com"
+                class="form-control"
+                :rules="[() => !!email || 'Email không được để trống!!!']"
+                required
+              ></v-text-field>
+              <span class="form-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="sdt" class="form-label">Số điện thoại</label>
+              <v-text-field
+                v-model="sdt"
+                name="sdt"
+                type="text"
+                placeholder="Nhập số điện thoại"
+                class="form-control"
+                :rules="[() => !!sdt || 'Số điện thoại không được để trống!!!']"
+                required
+              ></v-text-field>
+              <span class="form-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="password" class="form-label">Mật khẩu</label>
+              <v-text-field
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Nhập mật khẩu"
+                class="form-control"
+                v-model="password"
+                :rules="[() => password.length > 3 || 'Mật khẩu phải lớn hơn 4 ký tụ!!!']"
+                required
+              ></v-text-field>
+              <span class="form-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="password_confirmation" class="form-label">Nhập lại mật khẩu</label>
+              <v-text-field
+                v-model="password_confirmation"
+                name="password_confirmation"
+                placeholder="Nhập lại mật khẩu"
+                type="password"
+                class="form-control"
+                :rules="[() => password_confirmation == password || 'Mật khẩu không khớp!!!']"
+                required
+              ></v-text-field>
+              <span class="form-message"></span>
+              <span class="trick mt-3" v-on:click="moveLogin">Bạn đã có tài khoản?</span>
+            </div>
+            <h4 v-if="errors" class="error-messages">
+              <strong style="color:red; ">{{ errors }}</strong>
+            </h4>
+
+            <button @click="onSubmit()" class="form-submit">Đăng ký</button>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
 <script>
+import { mapState, mapGetters } from "vuex";
+import { REGISTER } from "@/store/actions.type";
+
 export default {
   name: "signup",
   data() {
     return {
-      email: "",
-      fullName: "",
-      password: ""
+      email: null,
+      hoTen: null,
+      password: null,
+      login: null,
+      password_confirmation: null,
+      sdt: null
     };
+  },
+  created() {
+    if (this.isAuthenticated) this.$router.push("/backend/thongkechung");
+  },
+  computed: {
+    ...mapState({
+      errors: state => state.auth.errorsSignup
+    }),
+    ...mapGetters(["isAuthenticated"])
   },
   methods: {
     moveLogin() {
+      this.errors = "";
       this.$router.push("/signin");
     },
-    submit() {
-      this.$store.dispatch("auth/signup", {
-        infoSignup: {
-          email: this.email,
-          fullName: this.fullName,
-          password: this.password
-        }
-      });
+    onSubmit() {
+      if (
+        this.login &&
+        this.hoTen &&
+        this.email &&
+        this.sdt &&
+        this.password_confirmation == this.password
+      ) {
+        this.$store
+          .dispatch(REGISTER, {
+            email: this.email,
+            password: this.password,
+            login: this.login,
+            password_confirmation: this.password_confirmation,
+            hoTen: this.hoTen,
+            sdt: this.sdt
+          })
+          .then(() => {
+            this.$swal("Đăng ký thành công!!!", "", "success"),
+              this.$router.push("/signin");
+          })
+          .catch();
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Poppins");
-
-html {
-  background-color: #56baed;
-}
-
-body {
-  font-family: "Poppins", sans-serif;
-  height: 100vh;
-}
-
-a {
-  color: #92badd;
-  display: inline-block;
-  text-decoration: none;
-  font-weight: 400;
-}
-
-h2 {
-  text-align: center;
-  font-size: 16px;
-  font-weight: 600;
-  text-transform: uppercase;
-  display: inline-block;
-  margin: 40px 8px 10px 8px;
-  color: #cccccc;
-}
-
-/* STRUCTURE */
-
-.wrapper {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  min-height: 100vh;
-  padding: 20px;
-}
-
-#formContent {
-  -webkit-border-radius: 10px 10px 10px 10px;
-  border-radius: 10px 10px 10px 10px;
-  background: #fff;
-  padding: 30px;
-  width: 90%;
-  max-width: 450px;
-  position: relative;
-  padding: 0px;
-  -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
-  box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
-  text-align: center;
-}
-
-#formFooter {
-  background-color: #f6f6f6;
-  border-top: 1px solid #dce8f1;
-  padding: 25px;
-  text-align: center;
-  -webkit-border-radius: 0 0 10px 10px;
-  border-radius: 0 0 10px 10px;
-}
-
-.cursor:hover {
+.trick {
   cursor: pointer;
 }
 
-/* TABS */
-
-h2.inactive {
-  color: #cccccc;
-}
-
-h2.active {
-  color: #0d0d0d;
-  border-bottom: 2px solid #5fbae9;
-}
-
-/* FORM TYPOGRAPHY*/
-
-input[type="button"],
-input[type="submit"],
-input[type="reset"] {
-  background-color: #56baed;
-  border: none;
-  color: white;
-  padding: 15px 80px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  text-transform: uppercase;
-  font-size: 13px;
-  -webkit-box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-  box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-  -webkit-border-radius: 5px 5px 5px 5px;
-  border-radius: 5px 5px 5px 5px;
-  margin: 5px 20px 40px 20px;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-
-input[type="button"]:hover,
-input[type="submit"]:hover,
-input[type="reset"]:hover {
-  background-color: #39ace7;
-}
-
-input[type="button"]:active,
-input[type="submit"]:active,
-input[type="reset"]:active {
-  -moz-transform: scale(0.95);
-  -webkit-transform: scale(0.95);
-  -o-transform: scale(0.95);
-  -ms-transform: scale(0.95);
-  transform: scale(0.95);
-}
-
-.btn-submit {
-  background-color: #56baed;
-  border: none;
-  color: white;
-  padding: 15px 80px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  text-transform: uppercase;
-  font-size: 13px;
-  -webkit-box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-  box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-  -webkit-border-radius: 5px 5px 5px 5px;
-  border-radius: 5px 5px 5px 5px;
-  margin: 5px 20px 40px 20px;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-
-.btn-submit:hover {
-  background-color: #39ace7;
-}
-
-.btn-submit:active {
-  -moz-transform: scale(0.95);
-  -webkit-transform: scale(0.95);
-  -o-transform: scale(0.95);
-  -ms-transform: scale(0.95);
-  transform: scale(0.95);
-}
-
-input[type="text"] {
-  background-color: #f6f6f6;
-  border: none;
-  color: #0d0d0d;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 5px;
-  width: 85%;
-  border: 2px solid #f6f6f6;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  -ms-transition: all 0.5s ease-in-out;
-  -o-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out;
-  -webkit-border-radius: 5px 5px 5px 5px;
-  border-radius: 5px 5px 5px 5px;
-}
-
-input[type="text"]:focus {
-  background-color: #fff;
-  border-bottom: 2px solid #5fbae9;
-}
-
-input[type="text"]:placeholder {
-  color: #cccccc;
-}
-
-/* ANIMATIONS */
-
-/* Simple CSS3 Fade-in-down Animation */
-.fadeInDown {
-  -webkit-animation-name: fadeInDown;
-  animation-name: fadeInDown;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
-@-webkit-keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
-}
-
-@keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
-}
-
-/* Simple CSS3 Fade-in Animation */
-@-webkit-keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@-moz-keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.fadeIn {
-  opacity: 0;
-  -webkit-animation: fadeIn ease-in 1;
-  -moz-animation: fadeIn ease-in 1;
-  animation: fadeIn ease-in 1;
-
-  -webkit-animation-fill-mode: forwards;
-  -moz-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-
-  -webkit-animation-duration: 1s;
-  -moz-animation-duration: 1s;
-  animation-duration: 1s;
-}
-
-.fadeIn.first {
-  -webkit-animation-delay: 0.4s;
-  -moz-animation-delay: 0.4s;
-  animation-delay: 0.4s;
-}
-
-.fadeIn.second {
-  -webkit-animation-delay: 0.6s;
-  -moz-animation-delay: 0.6s;
-  animation-delay: 0.6s;
-}
-
-.fadeIn.third {
-  -webkit-animation-delay: 0.8s;
-  -moz-animation-delay: 0.8s;
-  animation-delay: 0.8s;
-}
-
-.fadeIn.fourth {
-  -webkit-animation-delay: 1s;
-  -moz-animation-delay: 1s;
-  animation-delay: 1s;
-}
-
-/* Simple CSS3 Fade-in Animation */
-.underlineHover:after {
-  display: block;
-  left: 0;
-  bottom: -10px;
-  width: 0;
-  height: 2px;
-  background-color: #56baed;
-  content: "";
-  transition: width 0.2s;
-}
-
-.underlineHover:hover {
-  color: #0d0d0d;
-}
-
-.underlineHover:hover:after {
+.background-login {
   width: 100%;
+  max-height: 100vh;
 }
 
-/* OTHERS */
+html {
+  color: #333;
+  font-size: 62.5%;
+  font-family: "Open Sans", sans-serif;
+}
+.main {
+  background: #f1f1f1;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+.form {
+  width: 360px;
+  min-height: 100px;
+  padding: 32px 24px;
+  text-align: center;
+  background: #fff;
+  border-radius: 2px;
+  margin: 24px;
+  align-self: center;
+  box-shadow: 0 2px 5px 0 rgba(51, 62, 73, 0.1);
+}
+.form .heading {
+  font-size: 2rem;
+}
+.form .desc {
+  text-align: center;
+  color: #636d77;
+  font-size: 1.6rem;
+  font-weight: lighter;
+  line-height: 2rem;
+  margin-top: 16px;
+  font-weight: 300;
+}
 
-*:focus {
+.form-group {
+  display: flex;
+  margin-bottom: 16px;
+  flex-direction: column;
+}
+
+.form-label,
+.form-message {
+  text-align: left;
+}
+
+.form-label {
+  font-weight: 700;
+  padding-bottom: 6px;
+  line-height: 1.8rem;
+  font-size: 1rem;
+}
+
+.form-control {
+  height: 40px;
+  padding: 8px 12px;
+  border: 0px solid #b3b3b3;
+  border-radius: 3px;
   outline: none;
+  font-size: 1em;
 }
 
-#icon {
-  width: 60%;
+.form-control:hover {
+  border-color: #1dbfaf;
 }
 
-* {
-  box-sizing: border-box;
+.form-group.invalid .form-control {
+  border-color: #f33a58;
+}
+
+.form-group.invalid .form-message {
+  color: #f33a58;
+}
+
+.form-message {
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  padding: 4px 0 0;
+}
+
+.form-submit {
+  outline: none;
+  background-color: #1dbfaf;
+  margin-top: 12px;
+  padding: 12px 16px;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  width: 100%;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.form-submit:hover {
+  background-color: #1ac7b6;
+}
+
+.spacer {
+  margin-top: 36px;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .background-login {
+    display: none;
+  }
 }
 </style>

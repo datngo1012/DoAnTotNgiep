@@ -6,7 +6,7 @@
           <v-row class="fill-height" align="center" justify="center">
             <v-img
               :min-height="minHeight"
-              :src="require('@/assets/slide.jpg')"
+              :src="require('@/assets/'+slide+'.jpg')"
               class="white--text"
               gradient="to right, rgba(5, 11, 31, .8), rgba(5, 11, 31, .8)"
             >
@@ -17,9 +17,9 @@
                   max-width="700"
                   width="100%"
                 >
-                  <base-heading title="CHÀO MỪNG BẠN ĐẾN VỚI SNOW-CHINA" />
+                  <base-heading title="CHÀO MỪNG BẠN ĐẾN VỚI SNOW-SHOP" />
 
-                  <base-body>Vì sao bạn nên đặt hàng qua snow-china?</base-body>
+                  <base-body>Vì sao bạn nên đặt hàng qua snow-shop?</base-body>
 
                   <div
                     :class="
@@ -33,7 +33,13 @@
 
                     <span class="font-weight-bold ml-6 mr-4 my-4">hoặc</span>
 
-                    <base-btn :ripple="false" class="pa-1" height="auto" text>Đăng Ký Ngay</base-btn>
+                    <base-btn
+                      :ripple="false"
+                      class="pa-1"
+                      to="/signup"
+                      height="auto"
+                      text
+                    >Đăng Ký Ngay</base-btn>
                   </div>
                 </v-responsive>
               </v-container>
@@ -53,7 +59,7 @@ export default {
   },
   data() {
     return {
-      slides: ["First", "Second", "Third", "Fourth", "Fifth"]
+      slides: ["slide2", "slide1", "slide3", "slide4", "slide5"]
     };
   },
   computed: {

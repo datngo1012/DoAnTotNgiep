@@ -1,0 +1,73 @@
+entity NguoiDung {
+	hoTen String,
+    sdt String,
+    ngaySinh Integer,
+    thangSinh Integer,
+    namSinh Integer,
+    gioiTinh String,
+    diaChi String,
+    soDu Long,
+    trangThai Integer,
+    ngayTao LocalDate,
+    ngaySua LocalDate
+}
+
+entity DiaBan {
+	ma String,
+    ten String,
+    cap String,
+    maDiaBanCha String
+}
+
+// an ignored comment
+/** not an ignored comment */
+entity QuanLyGiaoDich {
+	soTienGiaoDich Long,
+	loaiGiaoDich String,
+	ngayGiaoDich LocalDate,
+	trangThai Integer
+}
+
+entity SanPham {
+	image String,
+    isDetailContent Boolean,
+    nam String,
+    productId Long,
+    rate Integer,
+    repurchaseRate Long,
+    sellPrice Long,
+    sellPriceDisplay Long,
+    startPriceVND Long,
+    stock Long,
+    transaction Long,
+    transalated Boolean
+}
+
+entity ChiTietSanPham {
+	soLuong Integer,
+    propetiesName String
+}
+
+entity GioHang {
+	
+}
+
+relationship OneToOne {
+	GioHang{nguoiDung} to NguoiDung
+}
+
+relationship OneToOne {
+	ChiTietSanPham{sanPham} to SanPham
+}
+
+relationship OneToOne {
+	NguoiDung{user} to User
+}
+
+dto * with mapstruct
+
+service all with serviceImpl except NguoiDung, DiaBan, QuanLyGiaoDich, SanPham, ChiTietSanPham, GioHang
+/**
+ * Task entity.
+ * @author The JHipster team.
+ */

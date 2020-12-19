@@ -2,7 +2,7 @@
   <div>
     <v-app-bar id="home-app-bar" app color="white" elevation="1" height="80">
       <base-img
-        :src="require('@/assets/logo.svg')"
+        :src="require('@/assets/logo-snow3.png')"
         class="mr-3 hidden-xs-only"
         contain
         max-width="52"
@@ -16,28 +16,20 @@
           <v-tab
             v-for="(item, i) in items"
             :key="i"
-            :to="{ item,link }"
             :exact="name === 'Home'"
             :ripple="false"
             active-class="text--primary"
             class="font-weight-bold"
             min-width="96"
             text
-          >
-            {{ item.name }}
-          </v-tab>
+            @click="link(i)"
+          >{{ item }}</v-tab>
         </v-tabs>
       </div>
-      <v-app-bar-nav-icon
-        class="hidden-md-and-up"
-        @click="drawer = !drawer"
-      />
+      <v-app-bar-nav-icon class="hidden-md-and-up" @click="drawer = !drawer" />
     </v-app-bar>
 
-    <home-drawer
-      v-model="drawer"
-      :items="items"
-    />
+    <home-drawer v-model="drawer" :items="items" />
   </div>
 </template>
 
@@ -45,26 +37,19 @@
 export default {
   name: "HomeAppBar",
   components: {
-      HomeDrawer: () => import('./Drawer'),
-    },
+    HomeDrawer: () => import("./Drawer")
+  },
   data: () => ({
     drawer: null,
-    items: [
-      {
-        name:"GIỚI THIỆU",
-        link: ""
-      },
-      {
-        name:"BIỂU PHÍ",
-        link: "bieuphi"
-      },
-      {
-        name:"CÔNG CỤ ĐẶT HÀNG",
-        link: "congcu"
-      }
-    ]
-    // items: ["GIỚI THIỆU", "BIỂU PHÍ", "CÔNG CỤ ĐẶT HÀNG"],
+    items: ["TRANG CHỦ", "CÔNG CỤ ĐẶT HÀNG"]
   }),
+  methods: {
+    link(index) {
+      if (index == 0) {
+        this.$router.push("/");
+      } else this.$router.push("/congcudathang");
+    }
+  }
 };
 </script>
 

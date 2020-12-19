@@ -1,8 +1,6 @@
 <template>
   <base-section id="theme-features">
-    <base-section-heading
-      title="Quy trình nhập hàng qua Snow-China"
-    >Đơn giản, nhanh chóng và uy tín.</base-section-heading>
+    <base-section-heading title="Quy trình nhập hàng qua Snow-Shop">Đơn giản, nhanh chóng và uy tín.</base-section-heading>
 
     <v-container>
       <v-row>
@@ -24,42 +22,42 @@ export default {
         color: "primary",
         dark: true,
         title: "Bước 1:",
-        icon: "mdi-fountain-pen-tip",
+        icon: "fas fa-sign-in-alt",
         content: "Đăng nhập vào hệ thống"
       },
       {
         color: "primary",
         dark: true,
         title: "Bước 2:",
-        icon: "mdi-fountain-pen-tip",
+        icon: "fas fa-hand-pointer",
         content: "Chọn hàng tại các website Trung Quốc bằng extension"
       },
       {
         color: "primary",
         dark: true,
         title: "Bước 3:",
-        icon: "mdi-cellphone",
+        icon: "fas fa-file-alt",
         content: "Tạo đơn hàng trên website Naipot"
       },
       {
         color: "primary",
         dark: true,
         title: "Bước 4:",
-        icon: "mdi-pencil-box-outline",
+        icon: "fas fa-money-bill",
         content: "Đặt cọc 70% giá trị đơn hàng"
       },
       {
         color: "primary",
         dark: true,
         title: "Bước 5:",
-        icon: "mdi-image-size-select-actual",
+        icon: "fas fa-truck",
         content: "Vận chuyển từ Trung Quốc về kho Việt Nam"
       },
       {
         color: "primary",
         dark: true,
         title: "Bước 6:",
-        icon: "mdi-ice-pop",
+        icon: "fas fa-hand-holding",
         content: "Nhận hàng tại nhà hoặc Chuyển thẳng tới người mua"
       }
     ]

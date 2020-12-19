@@ -1,7 +1,9 @@
 package com.datngo.web.rest;
 
 import com.datngo.config.Constants;
+import com.datngo.domain.NguoiDung;
 import com.datngo.domain.User;
+import com.datngo.repository.NguoiDungRepository;
 import com.datngo.repository.UserRepository;
 import com.datngo.security.AuthoritiesConstants;
 import com.datngo.service.MailService;
@@ -10,13 +12,12 @@ import com.datngo.service.dto.UserDTO;
 import com.datngo.web.rest.errors.BadRequestAlertException;
 import com.datngo.web.rest.errors.EmailAlreadyUsedException;
 import com.datngo.web.rest.errors.LoginAlreadyUsedException;
-
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +31,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.security.Principal;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * REST controller for managing users.
@@ -64,6 +68,9 @@ public class UserResource {
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
+
+    @Autowired
+    private NguoiDungRepository nguoiDungRepository;
 
     private final UserService userService;
 
@@ -186,5 +193,25 @@ public class UserResource {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUser(login);
         return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName,  "userManagement.deleted", login)).build();
+    }
+
+    @GetMapping("/all-users")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public List<NguoiDung> getTatCaUser() {
+        return nguoiDungRepository.findAll();
+    }
+
+    @PostMapping("/users/deactive")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public void deactive(@RequestBody Map<String, Object> thongTin) {
+        Long userid = Long.valueOf(thongTin.get("userid").toString());
+        userService.deactive(userid);
+    }
+
+    @PostMapping("/users/active")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public void active(@RequestBody Map<String, Object> thongTin) {
+        Long userid = Long.valueOf(thongTin.get("userid").toString());
+        userService.active(userid);
     }
 }

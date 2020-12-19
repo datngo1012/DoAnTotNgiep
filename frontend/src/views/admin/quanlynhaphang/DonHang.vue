@@ -1,0 +1,174 @@
+<template>
+  <v-app>
+    <v-container>
+      <v-app-bar>
+        <h4>ĐƠN HÀNG ĐANG ORDER</h4>
+      </v-app-bar>
+      <div id="app">
+        <v-row>
+          <v-col cols="12">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tên sản phẩm</th>
+                  <th>Số lượng</th>
+                  <th>Họ tên</th>
+                  <th>Địa chỉ nhận hàng</th>
+                  <th>Thời gian</th>
+                  <th>Số tiền</th>
+                  <th>Số tiền còn thiếu</th>
+                  <th>Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in order" :key="item.id">
+                  <td style="width: 250px;"><a v-bind:href='item.link'>{{item.tenSanPham}}</a></td>
+                  <td>{{item.soLuong}}</td>
+                  <td>{{item.hoTen}}</td>
+                  <td style="width: 300px;">{{item.diaChi}}-{{item.xaPhuong}}-{{item.quanHuyen}}-{{item.tinhThanh}}</td>
+                  <td>{{item.ngayMua}}</td>
+                  <td>{{item.soTien}}</td>
+                  <td>{{item.soTienDangThieu}}</td>
+                  <td style="text-align: center; width: 200px">
+                    <v-select
+                      @change="changeTrangThai(item.trangThai, item.id, item.nguoiDungId, item.tenSanPham)"
+                      v-model="item.trangThai"
+                      :items="trangthais"
+                      color="yellow"
+                      label="Trạng thái"
+                    ></v-select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </v-col>
+        </v-row>
+      </div>
+    </v-container>
+  </v-app>
+</template>
+
+<script>
+import { ORDER, TRANGTHAI } from "@/store/actions.type";
+import { mapGetters } from "vuex";
+export default {
+  name: "Naptien",
+  data() {
+    return {
+      soTien: 0,
+      trangthais: ["Đang chờ lấy hàng", "Đã nhận hàng", "Hết hàng"]
+    };
+  },
+  computed: {
+    ...mapGetters(["order", "countOrder"])
+  },
+  methods: {
+    changeTrangThai(trangThai, id, ndId, sp) {
+      this.$store
+        .dispatch(TRANGTHAI, {
+          donHangId: id,
+          trangThai: trangThai,
+          nguoiDungId: ndId,
+          tenSP: sp
+        })
+        .then(() => {})
+        .catch(() => {});
+    }
+  },
+  created() {
+    this.$store.dispatch(ORDER).catch();
+  }
+};
+</script>
+
+<style scoped>
+a {
+  text-decoration: none !important;
+}
+
+a:active {
+  text-decoration: none !important;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 50px 10px;
+}
+
+/* Zebra striping */
+tr:nth-of-type(odd) {
+  background: #eee;
+}
+
+th {
+  background: #3498db;
+  color: white;
+  font-weight: bold;
+}
+
+td,
+th {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+  font-size: 18px;
+}
+
+/* 
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media only screen and (max-width: 760px),
+  (min-device-width: 768px) and (max-device-width: 1024px) {
+  table {
+    width: 100%;
+  }
+
+  /* Force table to not be like tables anymore */
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr {
+    border: 1px solid #ccc;
+  }
+
+  td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    /* Label the data */
+    content: attr(data-column);
+
+    color: #000;
+    font-weight: bold;
+  }
+}
+</style>

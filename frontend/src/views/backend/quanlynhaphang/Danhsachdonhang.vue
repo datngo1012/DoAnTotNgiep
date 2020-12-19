@@ -10,7 +10,7 @@
         <h6>Danh sách đơn hàng</h6>
       </v-app-bar>
 
-      <v-banner>
+      <!-- <v-banner>
         <v-row>
           <v-col cols="12" md="3" sm="6">
             <v-text-field label="Mã đơn hàng"></v-text-field>
@@ -73,8 +73,8 @@
             </v-menu>
           </v-col>
         </v-row>
-      </v-banner>
-      <v-chip-group
+      </v-banner>-->
+      <!-- <v-chip-group
         v-model="selection"
         active-class="deep-purple--text text--accent-4"
         column="true"
@@ -93,31 +93,25 @@
         <v-chip>Đã nhận hàng</v-chip>
         <v-chip>Đơn hàng hủy</v-chip>
         <v-chip>Thất lạc</v-chip>
-      </v-chip-group>
+      </v-chip-group>-->
       <hr />
 
       <v-data-table
         v-model="selected"
         :headers="headers"
-        :items="desserts"
+        :items="donhang"
         single-select="false"
         item-key="name"
         class="elevation-1"
       >
-        <template v-slot:item.name="{ item }">
-          <v-chip color="primary" dark>{{ item.name }}</v-chip>
+        <template v-slot:item.tenSanPham="{ item }">
+          <v-chip color="primary" dark>{{ item.tenSanPham }}</v-chip>
         </template>
-        <template v-slot:item.trangthai="{ item }">
-          <v-chip color="deep-purple darken-4" dark>{{ item.trangthai }}</v-chip>
+        <template v-slot:item.trangThai="{ item }">
+          <v-chip color="deep-purple darken-4" dark>{{ item.trangThai }}</v-chip>
         </template>
-        <template v-slot:item.sotien="{ item }">
-          <v-chip color="green" dark>{{ item.sotien }}</v-chip>
-        </template>
-        <template v-slot:item.sotiendangthieu="{ item }">
-          <v-chip color="red" dark>{{ item.sotiendangthieu }}</v-chip>
-        </template>
-        <template v-slot:item.thaotac="{ item }">
-          <v-icon color="red" small @click="deleteItem(item)">mdi-delete</v-icon>
+        <template v-slot:item.soLuong="{ item }">
+          <v-chip color="green" dark>{{ item.soLuong }}</v-chip>
         </template>
       </v-data-table>
     </v-container>
@@ -125,6 +119,8 @@
 </template>
 
 <script>
+import { DONHANG } from "@/store/actions.type";
+import { mapGetters } from "vuex";
 export default {
   name: "Danhsachdonhang",
   data: () => ({
@@ -136,50 +132,25 @@ export default {
     selected: [],
     headers: [
       {
-        text: "Mã đơn hàng",
-        align: "start",
-        sortable: false,
-        value: "name"
+        text: "Tên mặt hàng",
+        value: "tenSanPham"
       },
-      { text: "Thông tin sản phầm", value: "thongtin" },
-      { text: "Trạng thái", value: "trangthai" },
-      { text: "Số tiền (VND)", value: "sotien" },
-      { text: "Số tiền đang thiếu (VND)", value: "sotiendangthieu" },
-      { text: "Thao tác", value: "thaotac" }
-    ],
-    desserts: [
-      {
-        name: "Frozen Yogurt",
-        thongtin: 159,
-        sotien: 4.0,
-        trangthai: "Đang chờ lấy hàng",
-        sotiendangthieu: 6.0,
-        thaotac: "1%"
-      },
-      {
-        name: "Ice cream sandwich",
-        thongtin: 237,
-        trangthai: "Đang chờ lấy hàng",
-        sotien: 4.3,
-        sotiendangthieu: 6.0,
-        thaotac: "1%"
-      },
-      {
-        name: "Eclair",
-        thongtin: 262,
-        trangthai: "Đang chờ lấy hàng",
-        sotien: 6.0,
-        sotiendangthieu: 6.0,
-        thaotac: "7%"
-      }
+      { text: "Số lượng", value: "soLuong" },
+      { text: "Trạng thái", value: "trangThai" }
     ]
   }),
-  methods: {
-    deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("Bạn có chắc chắn muốn xóa đơn hàng này?") &&
-        this.desserts.splice(index, 1);
-    }
+  computed: {
+    ...mapGetters(["donhang"])
+  },
+  created() {
+    this.$store.dispatch(DONHANG).catch();
   }
 };
 </script>
+
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap");
+* {
+  font-family: "Roboto", sans-serif;
+}
+</style>

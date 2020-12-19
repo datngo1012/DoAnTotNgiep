@@ -1,0 +1,64 @@
+{
+    "name": "SanPham",
+    "fields": [
+        {
+            "fieldName": "image",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "isDetailContent",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "nam",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "productId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "rate",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "repurchaseRate",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "sellPrice",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "sellPriceDisplay",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "startPriceVND",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "stock",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "transaction",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "transalated",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20200905095823",
+    "entityTableName": "san_pham",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

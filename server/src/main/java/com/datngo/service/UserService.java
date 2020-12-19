@@ -2,17 +2,23 @@ package com.datngo.service;
 
 import com.datngo.config.Constants;
 import com.datngo.domain.Authority;
+import com.datngo.domain.ChiTietSanPham;
+import com.datngo.domain.NguoiDung;
 import com.datngo.domain.User;
 import com.datngo.repository.AuthorityRepository;
+import com.datngo.repository.NguoiDungRepository;
 import com.datngo.repository.UserRepository;
 import com.datngo.security.AuthoritiesConstants;
 import com.datngo.security.SecurityUtils;
+import com.datngo.service.dto.GioHangDTO;
 import com.datngo.service.dto.UserDTO;
 
+import com.datngo.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.security.RandomUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -43,11 +50,17 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    private final NguoiDungRepository nguoiDungRepository;
+
+    @Autowired
+    private GioHangService gioHangService;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager,NguoiDungRepository nguoiDungRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.nguoiDungRepository = nguoiDungRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -91,13 +104,13 @@ public class UserService {
         userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
-                throw new UsernameAlreadyUsedException();
+                throw new BadRequestAlertException("Tên đăng nhập đã tồn tại", "AccountOrPasswordErr", "not existed");
             }
         });
         userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
-                throw new EmailAlreadyUsedException();
+                throw new BadRequestAlertException("Email đăng ký đã được sử dụng", "AccountOrPasswordErr", "not existed");
             }
         });
         User newUser = new User();
@@ -113,13 +126,28 @@ public class UserService {
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setLangKey(userDTO.getLangKey());
         // new user is not active
-        newUser.setActivated(false);
+        //newUser.setActivated(false);
+        newUser.setActivated(true);
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
+
+        NguoiDung nguoiDung = new NguoiDung();
+        nguoiDung.setHoTen(userDTO.getHoTen());
+        nguoiDung.setSdt(userDTO.getSdt());
+        nguoiDung.setSoDu(0L);
+        nguoiDung.setNgayTao(LocalDate.now());
+        nguoiDung.setUser(newUser);
+        nguoiDung.setEmail(userDTO.getEmail());
+        NguoiDung nguoiDungNew = nguoiDungRepository.save(nguoiDung);
+
+        GioHangDTO gioHangDTO = new GioHangDTO();
+        gioHangDTO.setNguoiDungId(nguoiDungNew.getId());
+        GioHangDTO gioHangDTONew = gioHangService.save(gioHangDTO);
+
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
@@ -302,5 +330,17 @@ public class UserService {
         if (user.getEmail() != null) {
             Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
         }
+    }
+
+    public void deactive(Long userid) {
+        User user = userRepository.findById(userid).get();
+        user.setActivated(false);
+        userRepository.save(user);
+    }
+
+    public void active(Long userid) {
+        User user = userRepository.findById(userid).get();
+        user.setActivated(true);
+        userRepository.save(user);
     }
 }

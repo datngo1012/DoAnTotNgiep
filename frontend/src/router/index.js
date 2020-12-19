@@ -14,6 +14,11 @@ const routes = [
         component: () => import("@/views/home/Index.vue"),
       },
       {
+        path: "congcudathang",
+        name: "CongCuDatHang",
+        component: () => import("@/views/home/Congcudathang.vue"),
+      },
+      {
         path: "signin",
         name: "SignIn",
         component: () => import("@/views/signin/SignIn.vue"),
@@ -35,11 +40,6 @@ const routes = [
         component: () => import("@/views/contact-us/Index.vue"),
         meta: { src: require("@/assets/contact.jpg") },
       },
-      // {
-      //   path: '*',
-      //   name: 'FourOhFour',
-      //   component: () => import('@/views/404/Index.vue'),
-      // },
     ],
   },
   {
@@ -52,16 +52,15 @@ const routes = [
         component: () => import("@/views/backend/Thongkechung.vue"),
       },
       {
+        path: "giohang",
+        name: "Giohang",
+        component: () => import("@/views/backend/quanlynhaphang/Giohang.vue"),
+      },
+      {
         path: "danhsachdonhang",
         name: "Danhsachdonhang",
         component: () =>
           import("@/views/backend/quanlynhaphang/Danhsachdonhang.vue"),
-      },
-      {
-        path: "timkiemsanpham",
-        name: "Timkiemsanpham",
-        component: () =>
-          import("@/views/backend/quanlynhaphang/Timkiemsanpham.vue"),
       },
       {
         path: "thongtincanhan",
@@ -85,6 +84,62 @@ const routes = [
         component: () => import("@/views/backend/quanlyvitien/Giaodich.vue"),
       },
     ],
+  },
+  {
+    path: "/admin",
+    component: () => import("@/layouts/admin/Index.vue"),
+    children: [
+      {
+        path: "thongkechung",
+        name: "ThongkechungAdmin",
+        component: () => import("@/views/admin/Thongkechung.vue"),
+      },
+      {
+        path: "danhsachdonhang",
+        name: "DanhsachdonhangAdmin",
+        component: () =>
+          import("@/views/admin/quanlynhaphang/Danhsachdonhang.vue"),
+      },
+      {
+        path: "thongtincanhan",
+        name: "ThongtincanhanAdmin",
+        component: () =>
+          import("@/views/admin/quanlycanhan/Thongtincanhan.vue"),
+      },
+      {
+        path: "doimatkhau",
+        name: "DoimatkhauAdmin",
+        component: () => import("@/views/admin/quanlycanhan/Doimatkhau.vue"),
+      },
+      {
+        path: "naptien",
+        name: "NaptienAdmin",
+        component: () => import("@/views/admin/quanlyvitien/Naptien.vue"),
+      },
+      {
+        path: "danhsachnguoidung",
+        name: "DanhSachNguoiDung",
+        component: () =>
+          import("@/views/admin/quanlynhaphang/Danhsachnguoidung.vue"),
+      },
+      {
+        path: "quanlynguoidung/:id",
+        name: "Quanlynguoidung",
+        component: () =>
+          import("@/views/admin/quanlynhaphang/Quanlynguoidung.vue"),
+      },
+      {
+        path: "donhang",
+        name: "QuanlyOrder",
+        component: () =>
+          import("@/views/admin/quanlynhaphang/DonHang.vue"),
+      },
+    ],
+  },
+  {
+    path: "*",
+    name: "FourOhFour",
+    component: () => import("@/views/404/Index.vue"),
   },
 ];
 

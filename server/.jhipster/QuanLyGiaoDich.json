@@ -1,0 +1,33 @@
+{
+    "name": "QuanLyGiaoDich",
+    "fields": [
+        {
+            "fieldName": "soTienGiaoDich",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "loaiGiaoDich",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "ngayGiaoDich",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "trangThai",
+            "fieldType": "Integer"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20200905095822",
+    "javadoc": "not an ignored comment",
+    "entityTableName": "quan_ly_giao_dich",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

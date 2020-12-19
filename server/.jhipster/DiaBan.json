@@ -1,0 +1,32 @@
+{
+    "name": "DiaBan",
+    "fields": [
+        {
+            "fieldName": "ma",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "ten",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "cap",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "maDiaBanCha",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20200905095821",
+    "entityTableName": "dia_ban",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

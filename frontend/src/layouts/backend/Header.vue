@@ -13,8 +13,8 @@
                 </v-list-item-avatar>
 
                 <v-list-item-content>
-                  <h4>Đạt Ngô</h4>
-                  <h6>Hòa Khánh Bắc, Liên Chiểu, Đà Nẵng</h6>
+                  <h4>{{nguoidung.hoTen}}</h4>
+                  <h6>{{nguoidung.sdt}}</h6>
                 </v-list-item-content>
               </v-list-item>
             </v-list-item>
@@ -22,7 +22,7 @@
 
           <v-list-item link to="/backend/thongkechung">
             <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
+              <v-icon class="fas fa-home"></v-icon>
             </v-list-item-icon>
 
             <v-list-item-title>
@@ -39,7 +39,7 @@
           >
             <v-list-tile slot="activator">
               <v-list-item-content>
-                <v-list-item-action>
+                <v-list-item-action class="mt-1">
                   <h5>{{ item.title }}</h5>
                 </v-list-item-action>
               </v-list-item-content>
@@ -59,7 +59,7 @@
           </v-list-group>
           <v-list-item link>
             <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
+              <v-icon>fas fa-phone</v-icon>
             </v-list-item-icon>
 
             <v-list-item-content>
@@ -160,7 +160,7 @@
       <v-app-bar app color="primary" dark>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <base-img
-          :src="require('@/assets/logo.svg')"
+          :src="require('@/assets/logo-snow4.png')"
           class="mr-3 hidden-xs-only"
           contain
           max-width="52"
@@ -168,11 +168,39 @@
         />
         <b>KÊNH MUA BÁN HÀNG TQ</b>
         <v-spacer />
-        <div class="header_giohang">
-          <v-badge :content="amount" color="green" overlap>
-            <v-icon large>mdi-cart</v-icon>
-          </v-badge>
-        </div>
+        <!-- <div class="header_giohang">
+          <v-btn text color="primary" to="/backend/giohang">
+            <v-badge :content="amount>0?amount:'O'" color="green" overlap>
+              <v-icon large color="white">mdi-cart</v-icon>
+            </v-badge>
+          </v-btn>
+        </div>-->
+        <v-toolbar-items class="hidden-sm-and-down">
+          <!-- <v-btn flat>Link One</v-btn>
+          <v-btn flat>Link Two</v-btn>-->
+          <v-btn text color="primary" to="/backend/giohang">
+            <v-badge :content="amount>0?amount:'O'" color="green" overlap>
+              <v-icon large color="white">mdi-cart</v-icon>
+            </v-badge>
+          </v-btn>
+          <v-menu offset-y>
+            <template v-slot:activator="{ on }">
+              <v-btn dark icon v-on="on">
+                <i style="fontSize: 30px;" class="fas fa-bell"></i>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-list dense>
+                <v-list-item
+                  v-for="notification in thongbao"
+                  :key="`notification-key-${notification.id}`"
+                >
+                  <v-list-item-title>{{ notification.noiDung }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </v-menu>
+        </v-toolbar-items>
         <div>
           <v-menu bottom offset-y>
             <template v-slot:activator="{ on, attrs }">
@@ -184,7 +212,7 @@
                 </v-list-item-avatar>
 
                 <v-list-item-content>
-                  <h4>Đạt Ngô</h4>
+                  <h4>{{nguoidung.hoTen}}</h4>
                 </v-list-item-content>
               </v-list-item>
             </template>
@@ -192,7 +220,7 @@
               <v-list-item to="/backend/giaodich">
                 <v-list-item-title>Số dư:</v-list-item-title>
                 <div class="my-2">
-                  <v-btn small color="green darken-2" dark>{{sotien}} VND</v-btn>
+                  <v-btn small color="green darken-2" dark>{{nguoidung.soDu}} VND</v-btn>
                 </div>
                 <!-- <v-chip color="green" v-text="`${sotien}`"></v-chip> -->
               </v-list-item>
@@ -223,33 +251,36 @@
 </template>
 
 <script>
+import { LOGOUT ,} from "@/store/actions.type";
+import { mapGetters } from "vuex";
+import JwtService from "@/common/jwt.service";
+import NguoiDungService from "@/common/nguoidung.service";
+import { GIOHANG, GET_NGUOIDUNG,THONGBAO } from "@/store/actions.type";
+
 export default {
   name: "BackendHeader",
   components: {},
 
   data: () => ({
-    sotien: 3000000,
+    currentUser: JwtService.getToken(),
+    nguoidungCurrent: NguoiDungService.getToken(),
     activeHotline: true,
     activeInfo: true,
     drawer: null,
     miniVariant: false,
-    amount: 1,
     items: [
       {
-        action: "mdi-email",
+        action: "fas fa-file-import",
         title: "Quản lý nhập hàng",
         active: false,
         items: [
           { title: "Danh sách đơn hàng", link: "danhsachdonhang" },
-          { title: "Tìm kiếm sản phẩm", link: "timkiemsanpham" },
-          { title: "Sản phẩm xu hướng" },
           { title: "Công cụ đặt hàng" },
-          { title: "Danh sách kiện hàng" },
           { title: "Danh sách khiếu nại" }
         ]
       },
       {
-        action: "mdi-email",
+        action: "fas fa-file-export",
         title: "Quản lý giao hàng",
         active: false,
         items: [
@@ -258,7 +289,7 @@ export default {
         ]
       },
       {
-        action: "mdi-email",
+        action: "fas fa-coins",
         title: "Quản lý ví tiền",
         active: false,
         items: [
@@ -269,17 +300,16 @@ export default {
         ]
       },
       {
-        action: "mdi-email",
+        action: "fas fa-user",
         title: "Quản lý cá nhân",
         active: false,
         items: [
           { title: "Thông tin cá nhân", link: "thongtincanhan" },
-          { title: "Đổi mật khẩu", link: "doimatkhau" },
-          { title: "Sản phẩm đã lưu" }
+          { title: "Đổi mật khẩu", link: "doimatkhau" }
         ]
       },
       {
-        action: "mdi-email",
+        action: "fas fa-info-circle",
         title: "Góc thông tin shop",
         active: false,
         items: [
@@ -288,8 +318,35 @@ export default {
           { title: "Hướng dẫn nhập hàng" }
         ]
       }
+    ],
+    notifications: [
+      { id: 1, title: "Click Me" },
+      { id: 2, title: "Click Me" },
+      { id: 3, title: "Click Me" },
+      { id: 4, title: "Click Me 2" }
     ]
   }),
+  created() {
+    if (!this.isAuthenticated) {
+      this.$swal("Bạn chưa đăng nhập! Vui lòng đăng nhập để tiếp tục.");
+      this.$router.push("/signin");
+    }
+    if (this.currentUser.is_admin) {
+      this.$router.push("/admin/thongkechung");
+    }
+    this.$store
+      .dispatch(GIOHANG, { nguoiDungId: this.currentUser.user_info.id })
+      .catch();
+    this.$store
+      .dispatch(GET_NGUOIDUNG, {
+        userId: JwtService.getToken().user_info.user.id
+      })
+      .catch();
+    this.getThongBao();
+    setInterval(() => {
+       this.getThongBao();
+    }, 10000);
+  },
   methods: {
     close() {
       this.items.forEach(item => {
@@ -302,8 +359,19 @@ export default {
       });
     },
     logout() {
-      this.$router.push("/");
+      this.$store.dispatch(LOGOUT).then(() => {
+        this.$router.push("/");
+      });
+    }, 
+    getThongBao() {
+      this.$store
+        .dispatch(THONGBAO)
+        .then(() => {})
+        .catch(() => {});
     }
+  },
+  computed: {
+    ...mapGetters(["isAuthenticated", "amount", "nguoidung","thongbao"])
   }
 };
 </script>
