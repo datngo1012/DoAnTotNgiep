@@ -14,6 +14,7 @@
                   <th>Số lượng</th>
                   <th>Họ tên</th>
                   <th>Địa chỉ nhận hàng</th>
+                  <th>Số điện thoại</th>
                   <th>Thời gian</th>
                   <th>Số tiền</th>
                   <th>Số tiền còn thiếu</th>
@@ -22,10 +23,15 @@
               </thead>
               <tbody>
                 <tr v-for="item in order" :key="item.id">
-                  <td style="width: 250px;"><a v-bind:href='item.link'>{{item.tenSanPham}}</a></td>
+                  <td style="width: 250px;">
+                    <a v-bind:href="item.link">{{item.tenSanPham}}</a>
+                  </td>
                   <td>{{item.soLuong}}</td>
                   <td>{{item.hoTen}}</td>
-                  <td style="width: 300px;">{{item.diaChi}}-{{item.xaPhuong}}-{{item.quanHuyen}}-{{item.tinhThanh}}</td>
+                  <td
+                    style="width: 300px;"
+                  >{{item.diaChi}}-{{item.xaPhuong}}-{{item.quanHuyen}}-{{item.tinhThanh}}</td>
+                  <td>{{item.sdt}}</td>
                   <td>{{item.ngayMua}}</td>
                   <td>{{item.soTien}}</td>
                   <td>{{item.soTienDangThieu}}</td>

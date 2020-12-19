@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ThongBaoRepository extends JpaRepository<ThongBao, Long> {
 
-    List<ThongBao> findByNguoiDungId(Long id);
+    List<ThongBao> findByNguoiDungIdOrderByIdDesc(Long id);
 }

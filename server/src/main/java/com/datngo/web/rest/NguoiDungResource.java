@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -152,6 +153,11 @@ public class NguoiDungResource {
     public void nopTien(@RequestBody Map<String, Object> thongTin) {
         Long userid = Long.valueOf(thongTin.get("userid").toString());
         Long soTien = Long.valueOf(thongTin.get("soTien").toString());
+        ThongBao thongBao = new ThongBao();
+        thongBao.setNgayTao(LocalDateTime.now());
+        thongBao.setNguoiDungId(userid);
+        thongBao.setNoiDung("Quý khách đã nộp "+ soTien +" vào tài khoản");
+        thongBaoRepository.save(thongBao);
         nguoiDungService.nopTien(userid, soTien);
     }
 
@@ -159,6 +165,6 @@ public class NguoiDungResource {
     public List<ThongBao> getDonHang(Principal principal) {
         User user = userRepository.findOneByLogin(principal.getName()).get();
         NguoiDung nguoiDung = nguoiDungRepository.findOneByUserId(user.getId()).get();
-        return thongBaoRepository.findByNguoiDungId(nguoiDung.getId());
+        return thongBaoRepository.findByNguoiDungIdOrderByIdDesc(nguoiDung.getId());
     }
 }

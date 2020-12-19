@@ -254,15 +254,15 @@ export default {
     nguoiDungCurrent: NguoiDungService.getToken()
   }),
   created() {
+    this.getGioHang();
+    setInterval(() => {
+      this.getGioHang();
+    }, 10000);
     this.$store
-      .dispatch(GIOHANG, { nguoiDungId: this.currentUser.user_info.id })
+      .dispatch(GET_NGUOIDUNG, {
+        userId: JwtService.getToken().user_info.user.id
+      })
       .catch();
-    this.$store
-            .dispatch(GET_NGUOIDUNG, {
-              userId: JwtService.getToken().user_info.user.id
-            })
-            .catch();
-
   },
   computed: {
     ...mapGetters(["isAuthenticated", "giohang", "nguoidung"]),
@@ -303,6 +303,11 @@ export default {
         "warning"
       ),
         this.$router.push("/backend/naptien");
+    },
+    getGioHang() {
+      this.$store
+        .dispatch(GIOHANG, { nguoiDungId: this.currentUser.user_info.id })
+        .catch();
     }
   }
 };

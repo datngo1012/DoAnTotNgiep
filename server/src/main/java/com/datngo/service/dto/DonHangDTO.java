@@ -29,6 +29,16 @@ public class DonHangDTO {
 
     private String hoTen;
 
+    private String sdt;
+
+    public String getSdt() {
+        return sdt;
+    }
+
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
+    }
+
     public String getHoTen() {
         return hoTen;
     }
@@ -147,7 +157,7 @@ public class DonHangDTO {
     }
 
     public DonHangDTO(Long id, String tenSanPham, Long soLuong, long soTien, Long soTienDangThieu, String trangThai
-        , String diaChi, String xaPhuong, String quanHuyen, String link, String tinhThanh, String ngayMua, Long nguoiDungId, String hoTen) {
+        , String diaChi, String xaPhuong, String quanHuyen, String link, String tinhThanh, String ngayMua, Long nguoiDungId, String hoTen, String sdt) {
         this.id = id;
         this.tenSanPham = tenSanPham;
         this.soLuong = soLuong;
@@ -162,5 +172,6 @@ public class DonHangDTO {
         this.tinhThanh = tinhThanh;
         this.link  =link;
         this.hoTen = hoTen;
+        this.sdt = sdt;
     }
 }

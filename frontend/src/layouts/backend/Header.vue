@@ -186,7 +186,9 @@
           <v-menu offset-y>
             <template v-slot:activator="{ on }">
               <v-btn dark icon v-on="on">
-                <i style="fontSize: 30px;" class="fas fa-bell"></i>
+                <v-badge :content="thongbao.length" color="green" overlap>
+                  <i style="fontSize: 30px;" class="fas fa-bell"></i>
+                </v-badge>
               </v-btn>
             </template>
             <v-card>
@@ -251,11 +253,11 @@
 </template>
 
 <script>
-import { LOGOUT ,} from "@/store/actions.type";
+import { LOGOUT } from "@/store/actions.type";
 import { mapGetters } from "vuex";
 import JwtService from "@/common/jwt.service";
 import NguoiDungService from "@/common/nguoidung.service";
-import { GIOHANG, GET_NGUOIDUNG,THONGBAO } from "@/store/actions.type";
+import { GIOHANG, GET_NGUOIDUNG, THONGBAO } from "@/store/actions.type";
 
 export default {
   name: "BackendHeader",
@@ -344,7 +346,12 @@ export default {
       .catch();
     this.getThongBao();
     setInterval(() => {
-       this.getThongBao();
+      this.getThongBao();
+      this.$store
+        .dispatch(GET_NGUOIDUNG, {
+          userId: JwtService.getToken().user_info.user.id
+        })
+        .catch();
     }, 10000);
   },
   methods: {
@@ -362,7 +369,7 @@ export default {
       this.$store.dispatch(LOGOUT).then(() => {
         this.$router.push("/");
       });
-    }, 
+    },
     getThongBao() {
       this.$store
         .dispatch(THONGBAO)
@@ -371,7 +378,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["isAuthenticated", "amount", "nguoidung","thongbao"])
+    ...mapGetters(["isAuthenticated", "amount", "nguoidung", "thongbao"])
   }
 };
 </script>
