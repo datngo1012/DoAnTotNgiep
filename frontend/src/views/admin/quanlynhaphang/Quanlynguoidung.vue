@@ -37,7 +37,7 @@
                   <td>{{nguoidung.diaChi}}-{{nguoidung.xaPhuong}}-{{nguoidung.quanHuyen}}-{{nguoidung.tinhThanh}}</td>
                   <td style="text-align: center">
                     <v-select
-                      @change="changeTrangThai(item.trangThai, item.id)"
+                      @change="changeTrangThai(item.trangThai, item.id, nguoidung.id, item.tenSanPham)"
                       v-model="item.trangThai"
                       :items="trangthais"
                       color="yellow"
@@ -86,11 +86,13 @@ export default {
       this.$router.push("/admin/danhsachnguoidung");
       this.soTien = 0;
     },
-    changeTrangThai(trangThai, id) {
+    changeTrangThai(trangThai, id, ndId, sp) {
       this.$store
         .dispatch(TRANGTHAI, {
           donHangId: id,
-          trangThai: trangThai
+          trangThai: trangThai,
+          nguoiDungId: ndId,
+          tenSP: sp
         })
         .then(() => {})
         .catch(() => {});
